@@ -1020,7 +1020,7 @@ const updateHistory = (/*type: 'stage'*/) => {
     global.debug.historyStage = player.stage.resets;
 };
 
-export const format = (input: number /*| overlimit*/, settings = {} as { digits?: number, type?: 'number' | 'input' | 'time' | 'income', padding?: boolean }): string => {
+export const format = (input: number /*| overlimit*/, settings = {} as { digits?: number; type?: 'number' | 'input' | 'time' | 'income'; padding?: boolean }): string => {
     //if (typeof input !== 'number') { return Limit(input).format(settings as any); }
     const type = settings.type !== undefined ? settings.type : 'number';
 

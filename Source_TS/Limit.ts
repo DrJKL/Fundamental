@@ -124,7 +124,7 @@ export const overlimit = {
 
                 return this;
             },
-            format: (settings = {} as { digits?: number, type?: 'number' | 'input', padding?: boolean }): string => technical.format(result, settings),
+            format: (settings = {} as { digits?: number; type?: 'number' | 'input'; padding?: boolean }): string => technical.format(result, settings),
             toNumber: (): number => Number(technical.convertBack(result)),
             toString: (): string => technical.convertBack(result),
             toArray: (): [number, number] => technical.prepare(result)
@@ -453,7 +453,7 @@ export const overlimit = {
 
             return left;
         },
-        format: (left: [number, number], settings: { digits?: number, type?: 'number' | 'input', padding?: boolean }): string => {
+        format: (left: [number, number], settings: { digits?: number; type?: 'number' | 'input'; padding?: boolean }): string => {
             const [base, power] = left;
             if (!isFinite(base) || !isFinite(power)) { return overlimit.technical.convertBack(left); }
 

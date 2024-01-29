@@ -73,7 +73,16 @@
         "@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "as", "objectLiteralTypeAssertions": "allow" }],
         "@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": false }],
         "@typescript-eslint/no-confusing-void-expression": "off", //Honestly this is just stupid
-        "@typescript-eslint/no-dynamic-delete": "off"
-        //"@typescript-eslint/array-type": ["error", { "default": "array" }] //I rather to turn it off
+        "@typescript-eslint/no-dynamic-delete": "off",
+        "@typescript-eslint/member-delimiter-style": ["error", {
+            "multiline": {
+                "delimiter": "semi",
+                "requireLast": true
+            },
+            "singleline": {
+                "delimiter": "semi"
+            }
+        }],
+        "@typescript-eslint/array-type": ["error", { "default": "array-simple" }] //I rather to turn it off
     }
 }
