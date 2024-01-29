@@ -3,6 +3,7 @@
   "description": "Explore the Universe with this idle-game",
   "version": "0.1.7",
   "main": "Code.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/awWhy/Fundamental.git"
@@ -16,20 +17,22 @@
   "homepage": "https://github.com/awWhy/Fundamental#readme",
   "scripts": {
     "lint": "npx eslint Source_TS/*.ts",
-    "fix": "npx eslint Source_TS/*.ts --fix",
+    "fix": "pnpm lint --fix",
     "build": "npx esbuild Source_TS/Main.ts --bundle --minify --target=chrome63,firefox57,safari14,edge41,opera50 --outfile=Code.js",
-    "watch": "npx esbuild Source_TS/Main.ts --bundle --minify --target=chrome63,firefox57,safari14,edge41,opera50 --outfile=Code.js --watch",
+    "watch": "pnpm build --watch",
     "build:map": "npx esbuild Source_TS/Main.ts --sourcemap --bundle --minify --target=chrome63,firefox57,safari14,edge41,opera50 --outfile=Code.js",
-    "watch:map": "npx esbuild Source_TS/Main.ts --sourcemap --bundle --minify --target=chrome63,firefox57,safari14,edge41,opera50 --outfile=Code.js --watch"
+    "watch:map": "pnpm build:map --watch"
   },
   "devDependencies": {
+    "@types/eslint": "^8.56.2",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "esbuild": "^0.19.12",
-    "eslint": "^8.56.0",
+    "eslint": "npm:eslint-ts-patch@8.56.0-0",
     "eslint-config-standard-with-typescript": "^39.1.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
+    "eslint-ts-patch": "8.56.0-0",
     "prettier": "^3.2.4",
     "typescript": "^5.3.3"
   }
