@@ -3,11 +3,14 @@
         "browser": true,
         "es2021": true
     },
-    "extends": "standard-with-typescript",
-    "overrides": [
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/strict",
+        "plugin:@typescript-eslint/stylistic"
     ],
+    "overrides": [],
     "parserOptions": {
-        "project": ["./tsconfig.json"],
+        "project": true,
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
@@ -37,12 +40,10 @@
         "no-sparse-arrays": "off",
         "operator-assignment": "warn",
         "operator-linebreak": ["error", "after"],
-        //"no-return-assign": "off", //return (a = b), if intentional
         "eqeqeq": "warn",
         "no-loop-func": "warn",
         "prefer-object-has-own": "warn", //No 'in' as well
         "no-labels": "off",
-        //Function forEach() is also banned
 
         "@typescript-eslint/indent": "off", //Buggy
         "@typescript-eslint/semi": ["error", "always"],
@@ -56,7 +57,7 @@
         "@typescript-eslint/await-thenable": "error",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/unified-signatures": ["error", { "ignoreDifferentlyNamedParameters": true}],
-        //"@typescript-eslint/no-unnecessary-condition": "warn", //Objects can be undefined, even without proper type (TS will annoy if turn it on)
+        "@typescript-eslint/no-unnecessary-condition": "warn", //Objects can be undefined, even without proper type (TS will annoy if turn it on)
         "@typescript-eslint/no-unnecessary-type-constraint": "warn",
         "@typescript-eslint/no-unnecessary-type-arguments": "warn",
         "@typescript-eslint/no-require-imports": "warn",
@@ -74,15 +75,7 @@
         "@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": false }],
         "@typescript-eslint/no-confusing-void-expression": "off", //Honestly this is just stupid
         "@typescript-eslint/no-dynamic-delete": "off",
-        "@typescript-eslint/member-delimiter-style": ["error", {
-            "multiline": {
-                "delimiter": "semi",
-                "requireLast": true
-            },
-            "singleline": {
-                "delimiter": "semi"
-            }
-        }],
+        
         "@typescript-eslint/array-type": ["error", { "default": "array-simple" }] //I rather to turn it off
     }
 }

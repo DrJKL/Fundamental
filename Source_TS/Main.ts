@@ -6,50 +6,55 @@ import { detectHotkey } from './Hotkeys';
 import { prepareVacuum, switchVacuum } from './Vacuum';
 
 /* This is how much I like to non stop write that element is not null */
-export const getId = (id: string, cacheIn = true): HTMLElement => {
-    if (!cacheIn) { return document.getElementById(id) as HTMLElement; }
+export function getId(id: string): HTMLElement {
     const test = specialHTML.cache.idMap.get(id);
-    if (test === undefined) {
-        const store = document.getElementById(id);
-        if (store === null) {
-            if (global.debug.errorID) {
-                global.debug.errorID = false;
-                Notify(`Error encountered, ID - '${id}' doesn't exist`);
-                setTimeout(() => { global.debug.errorID = true; }, 6e4);
-            }
-            throw new ReferenceError(`ID - '${id}' doesn't exist`);
-        }
-        specialHTML.cache.idMap.set(id, store);
-        return store;
+    if (test !== undefined) {
+        return test;
     }
-    return test;
-};
-export const getClass = (idCollection: string): HTMLCollectionOf<HTMLElement> => {
+    const store = document.getElementById(id);
+    if (store === null) {
+        if (global.debug.errorID) {
+            global.debug.errorID = false;
+            Notify(`Error encountered, ID - '${id}' doesn't exist`);
+            setTimeout(() => { global.debug.errorID = true; }, 6e4);
+        }
+        throw new ReferenceError(`ID - '${id}' doesn't exist`);
+    }
+    specialHTML.cache.idMap.set(id, store);
+    return store;
+}
+function isHTMLElement(element: Element): element is HTMLElement {
+    return element instanceof HTMLElement;
+}
+
+export const getClass = (idCollection: string): HTMLElement[] => {
     //Might require to remove old values: 'specialHTML.cache.classMap.delete(oldValue)'
     const test = specialHTML.cache.classMap.get(idCollection);
-    if (test === undefined) {
-        const store = document.getElementsByClassName(idCollection) as HTMLCollectionOf<HTMLElement>;
-        specialHTML.cache.classMap.set(idCollection, store);
-        return store;
+    if (test !== undefined) {
+        return test;
     }
-    return test;
+    const store = document.getElementsByClassName(idCollection);
+    const store2 = Array.from(store);
+    const onlyHTML = store2.filter(isHTMLElement);
+    specialHTML.cache.classMap.set(idCollection, onlyHTML);
+    return onlyHTML;
 };
 export const getQuery = (query: string): HTMLElement => {
     const test = specialHTML.cache.queryMap.get(query);
-    if (test === undefined) {
-        const store = document.querySelector(query) as HTMLElement;
-        if (store === null) {
-            if (global.debug.errorQuery) {
-                global.debug.errorQuery = false;
-                Notify(`Error encountered, Query - '${query}' failed to find anything`);
-                setTimeout(() => { global.debug.errorQuery = true; }, 6e4);
-            }
-            throw new ReferenceError(`Query - '${query}' failed`);
-        }
-        specialHTML.cache.queryMap.set(query, store);
-        return store;
+    if (test !== undefined) {
+        return test;
     }
-    return test;
+    const store = document.querySelector(query);
+    if (store === null || !isHTMLElement(store)) {
+        if (global.debug.errorQuery) {
+            global.debug.errorQuery = false;
+            Notify(`Error encountered, Query - '${query}' failed to find anything`);
+            setTimeout(() => { global.debug.errorQuery = true; }, 6e4);
+        }
+        throw new ReferenceError(`Query - '${query}' failed`);
+    }
+    specialHTML.cache.queryMap.set(query, store);
+    return store;
 };
 
 const handleOfflineTime = (): number => {
@@ -160,7 +165,7 @@ const saveConsole = async() => {
         Notify(`${global.elementsInfo.effectText[0]().replace('this', 'Elements')}`);
     } else {
         if (value.length < 20) { return void Alert(`Input '${value}' doesn't match anything`); }
-        if (!await Confirm("Press 'Confirm' to load input as a save file\n(Input is too long to be displayed)")) { return; }
+        if (!(await Confirm("Press 'Confirm' to load input as a save file\n(Input is too long to be displayed)"))) { return; }
         loadGame(value);
     }
 };
@@ -342,7 +347,7 @@ try { //Start everything
             global.mobileDevice = true;
             const styleSheet = 'input[type = "image"], img { -webkit-touch-callout: none; }'; //Safari junk to disable image hold menu
 
-            getId('MDMessage1', false).remove();
+            document.getElementById('MDMessage1')?.remove();
             (getId('file') as HTMLInputElement).accept = ''; //Accept for unknown reason not properly supported on phones
 
             const pages = document.createElement('div');
@@ -355,7 +360,7 @@ try { //Start everything
             getId('MDLi').after(MDToggle0);
 
             getId('MDToggle0').addEventListener('click', async() => {
-                if (!await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)')) { return; }
+                if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
                 hangleToggle(0, 'MD');
                 window.location.reload();
             });
@@ -367,7 +372,7 @@ try { //Start everything
             SRToggle.style.borderColor = 'crimson';
             global.screenReader = true;
 
-            getId('SRMessage1', false).remove();
+            document.getElementById('SRMessage1')?.remove();
 
             const SRMainDiv = document.createElement('article');
             SRMainDiv.innerHTML = '<h3>Information for Screen reader</h3><p id="SRTab" aria-live="polite"></p><p id="SRStage" aria-live="polite"></p><p id="SRMain" aria-live="assertive"></p>';
@@ -431,14 +436,18 @@ try { //Start everything
     }
 
     if (player.toggles.normal[1]) {
-        const elementsArea = getId('upgradeSubtabElements', false);
-        elementsArea.id = 'ElementsTab';
-        getId('upgradeTab').after(elementsArea);
+        const elementsArea = document.getElementById('upgradeSubtabElements');
+        if (elementsArea && elementsArea instanceof HTMLElement){
+            elementsArea.id = 'ElementsTab';
+            getId('upgradeTab').after(elementsArea);
+        }
 
-        const elementsButton = getId('upgradeSubtabBtnElements', false);
-        elementsButton.id = 'ElementsTabBtn';
-        elementsButton.classList.add('stage4Include');
-        getId('upgradeTabBtn').after(elementsButton);
+        const elementsButton = document.getElementById('upgradeSubtabBtnElements');
+        if (elementsButton && elementsButton instanceof HTMLElement){
+            elementsButton.id = 'ElementsTabBtn';
+            elementsButton.classList.add('stage4Include');
+            getId('upgradeTabBtn').after(elementsButton);
+        }
 
         const tabList = global.tabList;
         tabList.upgradeSubtabs.splice(tabList.upgradeSubtabs.indexOf('Elements'), 1);
@@ -657,13 +666,13 @@ try { //Start everything
     getId('thousandSeparator').addEventListener('change', () => changeFormat(false));
     getId('decimalPoint').addEventListener('change', () => changeFormat(true));
     getId('MDMainToggle').addEventListener('click', async() => {
-        if (!await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)')) { return; }
+        if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
         const support = localStorage.getItem('support');
         support !== null && support[0] === 'M' ? localStorage.removeItem('support') : localStorage.setItem('support', 'MT');
         window.location.reload();
     });
     getId('SRMainToggle').addEventListener('click', async() => {
-        if (!await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)')) { return; }
+        if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
         const support = localStorage.getItem('support');
         support !== null && support[0] === 'S' ? localStorage.removeItem('support') : localStorage.setItem('support', 'STT');
         window.location.reload();
@@ -729,7 +738,7 @@ try { //Start everything
         a.click();
     });
     getId('deleteError').addEventListener('click', async() => {
-        if (!exported && !await Confirm("Recommended to export save file first\nPress 'Confirm' to confirm and delete your save file")) { return; }
+        if (!exported && !(await Confirm("Recommended to export save file first\nPress 'Confirm' to confirm and delete your save file"))) { return; }
         localStorage.removeItem('save');
         window.location.reload();
         void Alert('Awaiting page refresh');

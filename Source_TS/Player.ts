@@ -1351,13 +1351,37 @@ Object.assign(player.toggles, {
 //player.example = playerStart.example; Is not allowed (if example is an array or object), instead iterate or create clone
 export const playerStart = deepClone(player);
 
-export const updatePlayer = (load: playerType): string => {
-    if (load['player' as keyof unknown] !== undefined) { load = load['player' as keyof unknown]; }
+function isPlayerType(toCheck: unknown): toCheck is playerType {
+    if (!toCheck || typeof toCheck !== 'object') { return false; }
+    const maybeLoadData: Partial<playerType> = toCheck;
+    if (!maybeLoadData.vaporization) {return false;}
+    if (!maybeLoadData.stage) {return false;}
+    if (!maybeLoadData.strangeness) {return false;}
+    if (!maybeLoadData.discharge) {return false; }
+    if (!maybeLoadData.collapse) {return false; }
+    if (!maybeLoadData.buildings) {return false; }
+    if (!maybeLoadData.time) {return false; }
+    if (!maybeLoadData.inflation) {return false; }
+    if (!maybeLoadData.milestones) {return false; }
+    if (!maybeLoadData.toggles) {return false; }
+    if (!maybeLoadData.upgrades) {return false; }
+    if (!maybeLoadData.researches) {return false; }
+    if (!maybeLoadData.researchesExtra) {return false; }
+    if (!maybeLoadData.researchesAuto) {return false; }
+    if (!maybeLoadData.ASR) {return false; }
+    if (!maybeLoadData.elements) {return false; }
+    if (!maybeLoadData.intervals) {return false; }
+    return true;
+}
+
+export const updatePlayer = (load: Partial<playerType>): string => {
+    if ('player' in load) { load = load['player'] as Partial<playerType>; }
     if (load.vaporization === undefined) { throw new ReferenceError('This save file is not from this game or too old'); }
-    if (load.version === undefined) { load.version = '0.0.0'; }
+    load.version ??= '0.0.0';
     prepareVacuum(Boolean(load.inflation?.vacuum)); //Only to set starting buildings values
 
     const oldVersion = load.version;
+    if (!isPlayerType(load)) {throw new ReferenceError('This save file is invalid, no stage data'); }
     if (oldVersion !== playerStart.version) {
         if (load.version === '0.0.0') {
             load.version = 'v0.0.1';
@@ -1430,7 +1454,8 @@ export const updatePlayer = (load: playerType): string => {
                 
             }
             load.vaporization.clouds = Limit(load.vaporization.clouds).toArray();
-            if (load.strange[0]['true' as keyof unknown] !== undefined) { load.strange[0].current = load.strange[0]['true' as 'current']; }
+            const firstStrange = load.strange[0];
+            if ('true' in firstStrange) { firstStrange.current = firstStrange['true'] as number; }
             load.strange[0].total = load.strange[0].current;
             load.inflation = deepClone(playerStart.inflation);
             delete load.vaporization['current' as keyof unknown];
@@ -1477,7 +1502,7 @@ export const updatePlayer = (load: playerType): string => {
             load.version = 'v0.1.7';
             load.intervals = deepClone(playerStart.intervals);
             if (load.buildings[5].length > 4) { load.buildings[5].length = 4; }
-            if (load['saveUpdate016' as keyof unknown] !== undefined) {
+            if ('saveUpdate016' in load) {
                 load.strangeness[2].splice(6, 1);
                 load.strangeness[4].splice(8, 1);
             }
@@ -1679,7 +1704,7 @@ export const updatePlayer = (load: playerType): string => {
 };
 
 export const buildVersionInfo = () => {
-    if (getId('versionText', false) !== null) { return; }
+    if (document.getElementById('versionText') !== null) { return; }
 
     getId('versionInfo').innerHTML = `<div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: clamp(42vw, 36em, 80vw); height: clamp(26vh, 36em, 90vh); background-color: var(--window-color); border: 3px solid var(--window-border); border-radius: 12px; padding: 1em 1em 0.8em; row-gap: 1em;">
         <div id="versionText" style="width: 100%; overflow-y: auto;">

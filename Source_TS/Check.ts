@@ -1,7 +1,7 @@
 import Limit from './Limit';
 import { global, player } from './Player';
 
-export const checkTab = (tab: string, subtab = null as null | string): boolean => {
+export const checkTab = (tab: string, subtab: string | null = null): boolean => {
     switch (tab) {
         case 'stage':
             if (subtab === 'Advanced') { return player.inflation.vacuum || global.strangeInfo.instability > 0; }

@@ -182,7 +182,7 @@ export const specialHTML = { //First values for images from here must be from tr
     cache: {
         imagesDiv: document.createElement('div'),
         idMap: new Map<string, HTMLElement>(),
-        classMap: new Map<string, HTMLCollectionOf<HTMLElement>>(),
+        classMap: new Map<string, HTMLElement[]>(),
         queryMap: new Map<string, HTMLElement>()
     }
 };

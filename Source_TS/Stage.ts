@@ -753,7 +753,7 @@ export const buyUpgrades = (upgrade: number, stageIndex: number, type: 'upgrades
                     calculateMaxLevel(0, 4, 'researches', true);
                 }
             }
-        } else if (type === 'researchesExtra') {
+        } else {
             if (stageIndex === 1) {
                 if (upgrade === 2) {
                     if (player.stage.current < 4) { player.stage.current = player.researchesExtra[1][2] > 1 ? 2 : 3; }
@@ -781,7 +781,7 @@ export const buyUpgrades = (upgrade: number, stageIndex: number, type: 'upgrades
 
         /* Special cases */
         if (!auto && global.screenReader) { getId('SRMain').textContent = `Research '${type === 'ASR' ? pointer.name : pointer.name[upgrade]}' level increased, it is now ${level[upgrade]} ${level[upgrade] >= pointer.max[upgrade] ? 'maxed' : ''}`; }
-    } else if (type === 'elements') {
+    } else {
         let level = player.elements[upgrade];
         if (level >= 1) { return false; }
 
@@ -855,99 +855,97 @@ export const buyUpgrades = (upgrade: number, stageIndex: number, type: 'upgrades
 export const buyStrangeness = (upgrade: number, stageIndex: number, type: 'strangeness', auto = false): boolean => {
     if (!auto && !checkUpgrade(upgrade, stageIndex, type)) { return false; }
 
-    if (type === 'strangeness') {
-        const pointer = global.strangenessInfo[stageIndex];
+    const pointer = global.strangenessInfo[stageIndex];
 
-        if (player.strangeness[stageIndex][upgrade] >= pointer.max[upgrade]) { return false; }
-        if (player.strange[0].current < global.strangenessInfo[stageIndex].cost[upgrade]) { return false; }
+    if (player.strangeness[stageIndex][upgrade] >= pointer.max[upgrade]) { return false; }
+    if (player.strange[0].current < global.strangenessInfo[stageIndex].cost[upgrade]) { return false; }
 
-        player.strangeness[stageIndex][upgrade]++;
-        player.strange[0].current -= pointer.cost[upgrade];
+    player.strangeness[stageIndex][upgrade]++;
+    player.strange[0].current -= pointer.cost[upgrade];
 
-        /* Special cases */
-        if (stageIndex === 1) {
-            if (upgrade === 4) {
-                assignEnergy();
-            } else if (upgrade === 6) {
-                player.ASR[1] = Math.max(player.strangeness[1][6], player.ASR[1]);
-                calculateMaxLevel(0, 1, 'ASR', true);
-            } else if (upgrade === 7) {
-                player.researchesAuto[1] = 1;
-                calculateMaxLevel(1, 0, 'researchesAuto', true);
-            } else if (upgrade === 11) {
-                assignEnergy();
-                calculateMaxLevel(4, 2, 'strangeness', true);
-                calculateMaxLevel(4, 3, 'strangeness', true);
-                calculateMaxLevel(5, 4, 'strangeness', true);
+    /* Special cases */
+    if (stageIndex === 1) {
+        if (upgrade === 4) {
+            assignEnergy();
+        } else if (upgrade === 6) {
+            player.ASR[1] = Math.max(player.strangeness[1][6], player.ASR[1]);
+            calculateMaxLevel(0, 1, 'ASR', true);
+        } else if (upgrade === 7) {
+            player.researchesAuto[1] = 1;
+            calculateMaxLevel(1, 0, 'researchesAuto', true);
+        } else if (upgrade === 11) {
+            assignEnergy();
+            calculateMaxLevel(4, 2, 'strangeness', true);
+            calculateMaxLevel(4, 3, 'strangeness', true);
+            calculateMaxLevel(5, 4, 'strangeness', true);
+        }
+    } else if (stageIndex === 2) {
+        if (upgrade === 2) {
+            calculateMaxLevel(4, 2, 'researches', true);
+            calculateMaxLevel(5, 2, 'researches', true);
+        } else if (upgrade === 5) {
+            player.ASR[2] = Math.max(player.strangeness[2][5], player.ASR[2]);
+            calculateMaxLevel(0, 2, 'ASR', true);
+        } else if (upgrade === 8) {
+            calculateMaxLevel(0, 2, 'ASR', true);
+            calculateMaxLevel(5, 2, 'strangeness', true);
+        } else if (upgrade === 10) {
+            calculateMaxLevel(2, 2, 'researches', true);
+            calculateMaxLevel(3, 2, 'researches', true);
+        }
+    } else if (stageIndex === 3) {
+        if (upgrade === 2) {
+            calculateMaxLevel(0, 3, 'researchesExtra', true);
+            calculateMaxLevel(1, 3, 'researchesExtra', true);
+        } else if (upgrade === 5) {
+            player.ASR[3] = Math.max(player.strangeness[3][5], player.ASR[3]);
+            calculateMaxLevel(0, 3, 'ASR', true);
+        } else if (upgrade === 6) {
+            player.researchesAuto[0] = Math.max(player.strangeness[3][6], player.researchesAuto[0]);
+            calculateMaxLevel(0, 0, 'researchesAuto', true);
+        } else if (upgrade === 8) {
+            calculateMaxLevel(0, 3, 'ASR', true);
+            calculateMaxLevel(5, 3, 'strangeness', true);
+        }
+    } else if (stageIndex === 4) {
+        if (upgrade === 4) {
+            for (let i = 1; i < player.elements.length; i++) {
+                if (player.elements[i] === 0.5) { buyUpgrades(i, 4, 'elements', true); }
             }
-        } else if (stageIndex === 2) {
-            if (upgrade === 2) {
-                calculateMaxLevel(4, 2, 'researches', true);
-                calculateMaxLevel(5, 2, 'researches', true);
-            } else if (upgrade === 5) {
-                player.ASR[2] = Math.max(player.strangeness[2][5], player.ASR[2]);
-                calculateMaxLevel(0, 2, 'ASR', true);
-            } else if (upgrade === 8) {
-                calculateMaxLevel(0, 2, 'ASR', true);
-                calculateMaxLevel(5, 2, 'strangeness', true);
-            } else if (upgrade === 10) {
-                calculateMaxLevel(2, 2, 'researches', true);
-                calculateMaxLevel(3, 2, 'researches', true);
-            }
-        } else if (stageIndex === 3) {
-            if (upgrade === 2) {
-                calculateMaxLevel(0, 3, 'researchesExtra', true);
-                calculateMaxLevel(1, 3, 'researchesExtra', true);
-            } else if (upgrade === 5) {
-                player.ASR[3] = Math.max(player.strangeness[3][5], player.ASR[3]);
-                calculateMaxLevel(0, 3, 'ASR', true);
-            } else if (upgrade === 6) {
-                player.researchesAuto[0] = Math.max(player.strangeness[3][6], player.researchesAuto[0]);
-                calculateMaxLevel(0, 0, 'researchesAuto', true);
-            } else if (upgrade === 8) {
-                calculateMaxLevel(0, 3, 'ASR', true);
-                calculateMaxLevel(5, 3, 'strangeness', true);
-            }
-        } else if (stageIndex === 4) {
-            if (upgrade === 4) {
-                for (let i = 1; i < player.elements.length; i++) {
-                    if (player.elements[i] === 0.5) { buyUpgrades(i, 4, 'elements', true); }
-                }
-            } else if (upgrade === 6) {
-                player.ASR[4] = Math.max(player.strangeness[4][6], player.ASR[4]);
-                calculateMaxLevel(0, 4, 'ASR', true);
-            } else if (upgrade === 9) {
-                calculateMaxLevel(0, 4, 'ASR', true);
-                calculateMaxLevel(6, 4, 'strangeness', true);
-            } else if (upgrade === 10) {
-                if (player.elements[0] !== 1) {
-                    player.elements[0] = 1;
-                    visualUpdateUpgrades(0, 4, 'elements');
-                }
-            }
-        } else if (stageIndex === 5) {
-            if (upgrade === 0) {
-                if (!player.inflation.vacuum) { stageUpdate('soft'); }
-            } else if (upgrade === 5) {
-                if (player.inflation.vacuum) { stageUpdate('soft'); }
-            } else if (upgrade === 6 || upgrade === 7) {
-                player.ASR[5] = player.strangeness[5][7];
-                if (player.strangeness[5][6] >= 2) { player.ASR[5]++; }
-                calculateMaxLevel(0, 5, 'ASR', true);
-            } else if (upgrade === 8) {
-                if (player.inflation.vacuum && global.tab === 'strangeness') { switchTab('strangeness'); }
-            } else if (upgrade === 10) {
-                const strange = player.strange;
-                const level = player.strangeness[5][10];
-                strange[level - 1].total -= strange[level - 1].current;
-                strange[level].current = strange[level - 1].current / 1e12;
-                strange[level].total = strange[level].current;
-                strange[level - 1].current = 0;
+        } else if (upgrade === 6) {
+            player.ASR[4] = Math.max(player.strangeness[4][6], player.ASR[4]);
+            calculateMaxLevel(0, 4, 'ASR', true);
+        } else if (upgrade === 9) {
+            calculateMaxLevel(0, 4, 'ASR', true);
+            calculateMaxLevel(6, 4, 'strangeness', true);
+        } else if (upgrade === 10) {
+            if (player.elements[0] !== 1) {
+                player.elements[0] = 1;
+                visualUpdateUpgrades(0, 4, 'elements');
             }
         }
-        assignStrangeBoost();
-        if (!auto && global.screenReader) { getId('SRMain').textContent = `Strangeness of '${pointer.name[upgrade]}' for ${global.stageInfo.word[stageIndex]} Stage is increased, level is now ${player.strangeness[stageIndex][upgrade]}${player.strangeness[stageIndex][upgrade] >= pointer.max[upgrade] ? 'maxed' : ''}`; }
+    } else if (stageIndex === 5) {
+        if (upgrade === 0) {
+            if (!player.inflation.vacuum) { stageUpdate('soft'); }
+        } else if (upgrade === 5) {
+            if (player.inflation.vacuum) { stageUpdate('soft'); }
+        } else if (upgrade === 6 || upgrade === 7) {
+            player.ASR[5] = player.strangeness[5][7];
+            if (player.strangeness[5][6] >= 2) { player.ASR[5]++; }
+            calculateMaxLevel(0, 5, 'ASR', true);
+        } else if (upgrade === 8) {
+            if (player.inflation.vacuum && global.tab === 'strangeness') { switchTab('strangeness'); }
+        } else if (upgrade === 10) {
+            const strange = player.strange;
+            const level = player.strangeness[5][10];
+            strange[level - 1].total -= strange[level - 1].current;
+            strange[level].current = strange[level - 1].current / 1e12;
+            strange[level].total = strange[level].current;
+            strange[level - 1].current = 0;
+        }
     }
+    assignStrangeBoost();
+    if (!auto && global.screenReader) { getId('SRMain').textContent = `Strangeness of '${pointer.name[upgrade]}' for ${global.stageInfo.word[stageIndex]} Stage is increased, level is now ${player.strangeness[stageIndex][upgrade]}${player.strangeness[stageIndex][upgrade] >= pointer.max[upgrade] ? 'maxed' : ''}`; }
 
     assignBuildingInformation();
     calculateResearchCost(upgrade, stageIndex, type);
@@ -964,7 +962,7 @@ export const calculateResearchCost = (research: number, stageIndex: number, type
         pointer.cost[research] = stageIndex === 1 ?
             pointer.startCost[research] + pointer.scaling[research] * player[type][stageIndex][research] :
             pointer.startCost[research] * pointer.scaling[research] ** player[type][stageIndex][research];
-    } else if (type === 'strangeness') {
+    } else {
         global.strangenessInfo[stageIndex].cost[research] = player.inflation.vacuum ?
             Math.floor(Math.round((global.strangenessInfo[stageIndex].startCost[research] * global.strangenessInfo[stageIndex].scaling[research] ** player.strangeness[stageIndex][research]) * 100) / 100) :
             Math.floor(Math.round((global.strangenessInfo[stageIndex].startCost[research] + global.strangenessInfo[stageIndex].scaling[research] * player.strangeness[stageIndex][research]) * 100) / 100);

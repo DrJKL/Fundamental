@@ -235,7 +235,7 @@ export const numbersUpdate = () => {
             }
             if (active === 1) {
                 assignDischargeInformation();
-                const effect = getId('dischargeBase', false);
+                const effect = document.getElementById('dischargeBase');
                 if (effect !== null) { effect.textContent = format(global.dischargeInfo.base); }
                 getId('reset1Button').textContent = `Next goal is ${format(global.dischargeInfo.next)} Energy`;
                 getId('tritiumEffect').textContent = Limit(global.dischargeInfo.tritium).format({ padding: true });
@@ -371,7 +371,7 @@ export const numbersUpdate = () => {
                     const gamma = calculateEffects.S4Research4(true) / calculateEffects.S4Research4();
                     getId('gammaRayAfter').textContent = `x${format(gamma, { padding: true })}`;
                     getId('starTotal').textContent = `x${format(mass * star0 * star1 * star2 * gamma, { padding: true })}`;
-                } else if (active === 5) {
+                } else {
                     getId('starsStatTrue').textContent = format(global.collapseInfo.trueStars);
                     const stars = player.buildings[4];
 
@@ -420,7 +420,7 @@ export const visualUpdate = () => {
     }
 
     if (global.footer) {
-        const elementsTab = getId('ElementsTabBtn', false);
+        const elementsTab = document.getElementById('ElementsTabBtn');
         if (elementsTab !== null) { elementsTab.style.display = player.upgrades[4][1] === 1 ? '' : 'none'; }
         if (active === 1) {
             if (player.stage.resets < 1) {
@@ -820,7 +820,7 @@ export const getUpgradeDescription = (index: number, type: 'upgrades' | 'researc
             getId('upgradeCost').textContent = !(autoStage === stageIndex || (stageIndex === 5 && autoStage === 4)) ? `This level can only be created while inside '${global.stageInfo.word[autoStage]}'.` :
                 `${format(pointer.costRange[index][level])} ${costName}.`;
         }
-    } else if (type === 'ASR') {
+    } else {
         const pointer = global.ASRInfo;
         const level = player.ASR[stageIndex];
 
@@ -915,7 +915,7 @@ export const visualUpdateUpgrades = (index: number, stageIndex: number, type: 'u
             image.tabIndex = global.supportSettings[0] ? -1 : 0;
         } else { image.tabIndex = 0; }
         image.style.backgroundColor = color;
-    } else if (type === 'elements') {
+    } else {
         const image = getId(`element${index}`);
         if (player.elements[index] >= 1) {
             image.classList.remove('awaiting');
@@ -987,15 +987,21 @@ export const visualUpdateResearches = (index: number, stageIndex: number, type: 
 const updateRankInfo = () => {
     const rank = player.accretion.rank;
     if (global.debug.rankUpdated === rank) { return; }
-    const name = getId('rankName', false);
+    const name = document.getElementById('rankName');
     if (name === null) { return; }
     const rankInfo = global.accretionInfo;
 
-    getId('rankMessage', false).textContent = rank === 0 ?
-        'Might need more than just water... Increase Rank with Mass.' :
-        `Increase it with Mass. (Return back to ${player.inflation.vacuum ? 'Preons' : 'Dust'}, but unlock something new)`;
+    const rankMessage = document.getElementById('rankMessage');
+    if (rankMessage) {
+        rankMessage.textContent = rank === 0 ?
+            'Might need more than just water... Increase Rank with Mass.' :
+            `Increase it with Mass. (Return back to ${player.inflation.vacuum ? 'Preons' : 'Dust'}, but unlock something new)`;
+    }
     getId('reset1Button').textContent = rankInfo.rankCost[rank] === 0 ? 'Max Rank achieved' : `Next Rank is ${format(rankInfo.rankCost[rank])} Mass`;
-    (getId('rankImage', false) as HTMLImageElement).src = `Used_art/${rankInfo.rankImage[rank]}`;
+    const rankImage = document.getElementById('rankImage');
+    if (rankImage && rankImage instanceof HTMLImageElement) {
+        rankImage.src = `Used_art/${rankInfo.rankImage[rank]}`;
+    }
     name.textContent = rankInfo.rankName[rank];
     name.style.color = `var(--${rankInfo.rankColor[rank]}-text)`;
     global.debug.rankUpdated = rank;

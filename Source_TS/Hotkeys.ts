@@ -9,8 +9,11 @@ export const detectHotkey = (check: KeyboardEvent) => {
         document.body.classList.add('outlineOnFocus');
         return;
     } else {
-        const activeType = (document.activeElement as HTMLInputElement).type;
-        if (activeType === 'text' || activeType === 'number') { return; }
+        const {activeElement} = document;
+        if (activeElement instanceof HTMLInputElement) {
+            const activeType = activeElement.type;
+            if (activeType === 'text' || activeType === 'number') { return; }
+        }
         document.body.classList.remove('outlineOnFocus');
     }
     if (global.paused || check.ctrlKey || check.altKey) { return; }
