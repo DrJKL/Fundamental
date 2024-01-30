@@ -1,5 +1,5 @@
 import { getId, getQuery } from './Main';
-import { cloneArray, global, player, playerStart } from './Player';
+import {  global, player, playerStart } from './Player';
 import { resetVacuum } from './Reset';
 import { Alert, Confirm, playEvent, specialHTML } from './Special';
 
@@ -223,9 +223,9 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
 
     for (let s = 1; s <= 3; s++) {
         const newValue = buildings[s][0].current;
-        buildings[s][0].total = cloneArray(newValue);
-        buildings[s][0].trueTotal = cloneArray(newValue);
-        buildings[s][0].highest = cloneArray(newValue);
+        buildings[s][0].total = [...newValue];
+        buildings[s][0].trueTotal = [...newValue];
+        buildings[s][0].highest = [...newValue];
     }
 };
 

@@ -1248,9 +1248,6 @@ export const global: globalType = { //For information that doesn't need to be sa
 //Math.log extension for any base
 export const logAny = (number: number, base: number) => Math.log(number) / Math.log(base);
 
-//Not for deep copy. Actual type is any[], it's because TS is dumb
-export const cloneArray = <ArrayClone extends Array<number | string | boolean | null | undefined>>(array: ArrayClone) => array.slice(0) as ArrayClone; //[...array] is better when >10000 keys
-
 //For non deep clone use { ...object } or cloneArray when possible
 export const deepClone = <CloneType>(toClone: CloneType): CloneType => {
     if (typeof toClone !== 'object' || toClone === null) { return toClone; }
@@ -1276,14 +1273,14 @@ const createArray = <startValue>(amount: number, value: startValue) => {
 };
 
 for (let s = 0; s < global.buildingsInfo.startCost.length; s++) {
-    global.buildingsInfo.firstCost[s] = cloneArray(global.buildingsInfo.startCost[s]);
+    global.buildingsInfo.firstCost[s] = [...global.buildingsInfo.startCost[s]];
     global.buildingsInfo.producing[s] = Array.from({length: global.buildingsInfo.startCost[s].length}, () => [0,0]);
     // 
 }
 for (const upgradeType of ['researches', 'researchesExtra', 'strangeness'] as const) {
     const pointer = global[`${upgradeType}Info`];
     for (let s = 1; s < pointer.length; s++) {
-        pointer[s].cost = cloneArray(pointer[s].startCost);
+        pointer[s].cost = [...pointer[s].startCost];
     }
 }
 
@@ -1402,13 +1399,13 @@ export const updatePlayer = (load: Partial<playerType>): string => {
         }
         if (load.version === 'v0.0.4') {
             load.version = 'v0.0.5';
-            load.elements = cloneArray(playerStart.elements);
+            load.elements = [...playerStart.elements];
             load.collapse = deepClone(playerStart.collapse);
         }
         if (load.version === 'v0.0.5' || load.version === 'v0.0.6') {
             load.version = 'v0.0.7';
             load.fileName = playerStart.fileName;
-            load.separator = cloneArray(playerStart.separator);
+            load.separator = [...playerStart.separator];
             load.strange = deepClone(playerStart.strange);
             load.strangeness = deepClone(playerStart.strangeness);
             load.vaporization.input = 3;
@@ -1432,7 +1429,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
             load.researchesExtra = deepClone(playerStart.researchesExtra);
             load.researchesExtra[a] = oldE;
             if (load.strangeness.length < 5) { load.strangeness.unshift([]); }
-            load.ASR = cloneArray(playerStart.ASR);
+            load.ASR = [...playerStart.ASR];
             load.milestones = deepClone(playerStart.milestones);
         }
         if (load.version === 'v0.0.9' || load.version === 'v0.1.0') {
@@ -1468,7 +1465,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
             load.stage.time = 0;
             load.inflation.age = 0;
             load.discharge.energyMax = load.discharge.energy;
-            load.vaporization.cloudsMax = cloneArray(load.vaporization.clouds);
+            load.vaporization.cloudsMax = [...load.vaporization.clouds];
         }
         if (load.version === 'v0.1.3') {
             load.version = 'v0.1.4';
@@ -1527,10 +1524,10 @@ export const updatePlayer = (load: Partial<playerType>): string => {
         if (load.version === 'v0.1.8') {
             load.version = 'v0.1.9';
             //load.toggles = deepClone(playerStart.toggles);
-            load.toggles.normal = cloneArray(playerStart.toggles.normal);
-            load.toggles.hover = cloneArray(playerStart.toggles.hover);
-            load.toggles.max = cloneArray(playerStart.toggles.max);
-            load.researchesAuto = cloneArray(playerStart.researchesAuto);
+            load.toggles.normal = [...playerStart.toggles.normal];
+            load.toggles.hover = [...playerStart.toggles.hover];
+            load.toggles.max = [...playerStart.toggles.max];
+            load.researchesAuto = [...playerStart.researchesAuto];
             delete load.discharge['bonus' as keyof unknown];
         }
 

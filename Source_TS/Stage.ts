@@ -1,7 +1,7 @@
 import { checkBuilding, checkUpgrade, milestoneCheck } from './Check';
 import Limit from './Limit';
 import { getId } from './Main';
-import { cloneArray, global, logAny, player } from './Player';
+import {  global, logAny, player } from './Player';
 import { reset, resetStage } from './Reset';
 import { Alert, Confirm, Notify } from './Special';
 import type { overlimit } from './Types';
@@ -465,7 +465,7 @@ export const buyBuilding = (index: number, stageIndex = player.stage.active, aut
     building.current = Limit(building.current).plus(afford).toArray();
     building.total = Limit(building.total).plus(afford).toArray();
     building.trueTotal = Limit(building.trueTotal).plus(afford).toArray();
-    if (Limit(building.highest).lessThan(building.current)) { building.highest = cloneArray(building.current); }
+    if (Limit(building.highest).lessThan(building.current)) { building.highest = [...building.current]; }
 
     if (special === 'Galaxy') {
         reset('galaxy', player.inflation.vacuum ? [1, 2, 3, 4, 5] : [4, 5]);
@@ -634,7 +634,7 @@ export const gainBuildings = (get: number, stageIndex: number, time: number) => 
     building.current = Limit(building.current).plus(add).toArray();
     building.total = Limit(building.total).plus(add).toArray();
     building.trueTotal = Limit(building.trueTotal).plus(add).toArray();
-    if (Limit(building.highest).lessThan(building.current)) { building.highest = cloneArray(building.current); }
+    if (Limit(building.highest).lessThan(building.current)) { building.highest = [...building.current]; }
 
     if (stageIndex === 1) {
         if (player.inflation.vacuum) {
@@ -1584,7 +1584,7 @@ const vaporizationReset = (autoClouds = 0) => {
     const vaporization = player.vaporization;
 
     vaporization.clouds = Limit(global.vaporizationInfo.get).multiply(autoClouds > 0 ? autoClouds / 5 : '1').plus(vaporization.clouds).toArray();
-    if (Limit(vaporization.cloudsMax).lessThan(vaporization.clouds)) { vaporization.cloudsMax = cloneArray(vaporization.clouds); }
+    if (Limit(vaporization.cloudsMax).lessThan(vaporization.clouds)) { vaporization.cloudsMax = [...vaporization.clouds]; }
     awardMilestone(0, 2);
     awardVoidReward(2);
     if (autoClouds <= 0) { reset('vaporization', player.inflation.vacuum ? [1, 2, 3, 4, 5] : [2]); }

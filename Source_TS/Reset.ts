@@ -1,5 +1,5 @@
 import { allowedToBeReset } from './Check';
-import { cloneArray, global, player, playerStart } from './Player';
+import {  global, player, playerStart } from './Player';
 import { autoResearchesSet, autoUpgradesSet, calculateMaxLevel, calculateResearchCost, assignBuildingInformation, autoElementsSet, assignEnergy, calculateMilestoneInformation, assignStrangeBoost } from './Stage';
 import { numbersUpdate, stageUpdate, visualUpdate, visualUpdateResearches, visualUpdateUpgrades } from './Update';
 
@@ -28,8 +28,8 @@ export const reset = (type: 'discharge' | 'vaporization' | 'rank' | 'collapse' |
         }
 
         const buildings = player.buildings[s];
-        buildings[0].current = cloneArray(playerStart.buildings[s][0].current);
-        buildings[0].total = cloneArray(playerStart.buildings[s][0].total);
+        buildings[0].current = [...playerStart.buildings[s][0].current];
+        buildings[0].total = [...playerStart.buildings[s][0].total];
         for (let i = 1; i < global.buildingsInfo.maxActive[s]; i++) {
             if (!allowedToBeReset(i, s, 'structures')) { continue; }
 
@@ -98,13 +98,13 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
             buildings[i].total = [0, 0];
             buildings[i].trueTotal = [0, 0];
         }
-        buildings[0].current = cloneArray(buildingsStart[0].current);
-        buildings[0].total = cloneArray(buildingsStart[0].total);
-        buildings[0].trueTotal = cloneArray(buildingsStart[0].trueTotal);
+        buildings[0].current = [...buildingsStart[0].current];
+        buildings[0].total = [...buildingsStart[0].total];
+        buildings[0].trueTotal = [...buildingsStart[0].trueTotal];
 
-        player.upgrades[s] = cloneArray(playerStart.upgrades[s]);
-        player.researches[s] = cloneArray(playerStart.researches[s]);
-        player.researchesExtra[s] = cloneArray(playerStart.researchesExtra[s]);
+        player.upgrades[s] = [...playerStart.upgrades[s]];
+        player.researches[s] = [...playerStart.researches[s]];
+        player.researchesExtra[s] = [...playerStart.researchesExtra[s]];
         player.ASR[s] = player.strangeness[s][[6, 5, 5, 6, 7][s - 1]];
         autoUpgradesSet(s);
 
@@ -128,7 +128,7 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
             global.collapseInfo.trueStars = 0;
             player.collapse.mass = 0.01235;
             player.collapse.stars = [0, 0, 0];
-            player.elements = cloneArray(playerStart.elements);
+            player.elements = [...playerStart.elements];
             player.elements[0] = player.strangeness[4][10] >= 1 ? 1 : 0;
             autoElementsSet();
             for (let i = 0; i < player.elements.length; i++) { visualUpdateUpgrades(i, 4, 'elements'); }
@@ -173,16 +173,16 @@ export const resetVacuum = () => {
             buildings[i].trueTotal = [0, 0];
             buildings[i].highest = [0, 0];
         }
-        buildings[0].current = cloneArray(buildingsStart[0].current);
-        buildings[0].total = cloneArray(buildingsStart[0].total);
-        buildings[0].trueTotal = cloneArray(buildingsStart[0].trueTotal);
-        buildings[0].highest = cloneArray(buildingsStart[0].highest);
+        buildings[0].current = [...buildingsStart[0].current];
+        buildings[0].total = [...buildingsStart[0].total];
+        buildings[0].trueTotal = [...buildingsStart[0].trueTotal];
+        buildings[0].highest = [...buildingsStart[0].highest];
 
-        player.upgrades[s] = cloneArray(playerStart.upgrades[s]);
-        player.researches[s] = cloneArray(playerStart.researches[s]);
-        player.researchesExtra[s] = cloneArray(playerStart.researchesExtra[s]);
-        player.strangeness[s] = cloneArray(playerStart.strangeness[s]);
-        player.milestones[s] = cloneArray(playerStart.milestones[s]);
+        player.upgrades[s] = [...playerStart.upgrades[s]];
+        player.researches[s] = [...playerStart.researches[s]];
+        player.researchesExtra[s] = [...playerStart.researchesExtra[s]];
+        player.strangeness[s] = [...playerStart.strangeness[s]];
+        player.milestones[s] = [...playerStart.milestones[s]];
         player.ASR[s] = 0;
     }
     for (let i = 0; i < playerStart.researchesAuto.length; i++) {
@@ -216,7 +216,7 @@ export const resetVacuum = () => {
     player.collapse.massMax = 0.01235;
     player.collapse.stars = [0, 0, 0];
     player.collapse.show = 0;
-    player.elements = cloneArray(playerStart.elements);
+    player.elements = [...playerStart.elements];
 
     //Stage 5 and rest
     global.historyStorage.stage = [];
