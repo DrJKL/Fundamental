@@ -24,6 +24,7 @@
     "watch:map": "pnpm build:map --watch"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^1.5.4",
     "@types/eslint": "^8.56.2",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "esbuild": "^0.19.12",
