@@ -444,7 +444,7 @@ export const Alert = async(text: string): Promise<void> => {
         blocker.style.display = '';
         confirm.focus();
 
-        const key = async(button: KeyboardEvent) => {
+        const key = (button: KeyboardEvent) => {
             if (button.key === 'Escape' || button.key === 'Enter' || button.key === ' ') {
                 button.preventDefault();
                 close();

@@ -4,6 +4,7 @@ import { assignStrangeBoost, autoElementsSet, autoResearchesSet, autoUpgradesSet
 import { Alert, hideFooter, Prompt, setTheme, changeFontSize, changeFormat, specialHTML, replayEvent, Confirm, preventImageUnload, Notify, MDStrangenessPage } from './Special';
 import { detectHotkey } from './Hotkeys';
 import { prepareVacuum, switchVacuum } from './Vacuum';
+import { playerType } from './Types';
 
 /* This is how much I like to non stop write that element is not null */
 export function getId(id: string): HTMLElement {
@@ -82,7 +83,7 @@ const changeIntervals = () => {
     intervalsId.autoSave = paused ? undefined : setInterval(saveGame, intervals.autoSave);
 };
 
-const saveGame = async(saveOnly = false): Promise<string | null> => {
+const saveGame = (saveOnly = false): string | null => {
     if (global.paused) {
         Notify('No saving while game is paused');
         return null;
@@ -107,7 +108,7 @@ const loadGame = (save: string) => {
     global.paused = true;
     changeIntervals();
     try {
-        const versionCheck = updatePlayer(JSON.parse(atob(save)));
+        const versionCheck = updatePlayer(JSON.parse(atob(save)) as unknown as Partial<playerType>);
 
         global.lastSave = handleOfflineTime();
         Notify(`This save is ${format(global.lastSave, { type: 'time', padding: false })} old. Save file version is ${versionCheck}`);
@@ -116,7 +117,7 @@ const loadGame = (save: string) => {
     global.paused = false;
     changeIntervals();
 };
-const exportFileGame = async() => {
+const exportFileGame = () => {
     if (player.strange[0].total > 0 && player.stage.export > 0) {
         const rewardType = player.strangeness[5][10];
         const multiplier = exportMultiplier();
@@ -134,7 +135,7 @@ const exportFileGame = async() => {
         if (rewardType === 0) { assignStrangeBoost(); }
     }
 
-    const save = await saveGame(true);
+    const save = saveGame(true);
     if (save === null) { return; }
     const a = document.createElement('a');
     a.href = `data:text/plain,${save}`;
@@ -147,7 +148,7 @@ const saveConsole = async() => {
     const lower = value.toLowerCase();
 
     if (lower === 'copy') {
-        const save = await saveGame(true);
+        const save = saveGame(true);
         if (save !== null) { void navigator.clipboard.writeText(save); }
     } else if (lower === 'delete' || lower === 'clear') {
         global.paused = true;
@@ -162,7 +163,7 @@ const saveConsole = async() => {
     } else if (lower === 'slow' || lower === 'free') {
         Notify('Game speed was increased by 1x');
     } else if (lower === 'neutronium' || lower === 'element0') {
-        Notify(`${global.elementsInfo.effectText[0]().replace('this', 'Elements')}`);
+        Notify(global.elementsInfo.effectText[0]().replace('this', 'Elements'));
     } else {
         if (value.length < 20) { return void Alert(`Input '${value}' doesn't match anything`); }
         if (!(await Confirm("Press 'Confirm' to load input as a save file\n(Input is too long to be displayed)"))) { return; }
@@ -197,7 +198,7 @@ const replaceSaveFileSpecials = (): string => {
         global.stageInfo.word[player.stage.active],
         global.stageInfo.word[player.stage.true],
         `${global.strangeInfo.gain(player.stage.active)}`,
-        `${global.strangeInfo.name[player.strangeness[5][10]]}`,
+        global.strangeInfo.name[player.strangeness[5][10]],
         `${player.inflation.vacuum}`,
         getDate('dateDMY'),
         getDate('timeHMS')
@@ -425,7 +426,7 @@ try { //Start everything
     let alertText;
     const save = localStorage.getItem('save');
     if (save !== null) {
-        const load = JSON.parse(atob(save));
+        const load = JSON.parse(atob(save)) as unknown as Partial<playerType>;
         const versionCheck = updatePlayer(load);
         global.lastSave = handleOfflineTime();
         alertText = `Welcome back, you were away for ${format(global.lastSave, { type: 'time', padding: false })}\n${versionCheck !== player.version ? `Game have been updated from ${versionCheck} to ${player.version}` : `Current version is ${player.version}`}`;
@@ -623,7 +624,7 @@ try { //Start everything
         loadGame(await (id.files as FileList)[0].text());
         id.value = '';
     });
-    getId('export').addEventListener('click', () => { void exportFileGame(); });
+    getId('export').addEventListener('click', () => { exportFileGame(); });
     getId('saveConsole').addEventListener('click', () => { void saveConsole(); });
     getId('switchTheme0').addEventListener('click', () => setTheme(null));
     for (let i = 1; i < global.stageInfo.word.length; i++) {
