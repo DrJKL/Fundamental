@@ -225,9 +225,9 @@ export const resetVacuum = () => {
     player.stage.best = 0;
     player.stage.time = 0;
     player.time.stage = 0;
-    for (let i = 0; i < player.strange.length; i++) {
-        player.strange[i].current = 0;
-        player.strange[i].total = 0;
+    for (const strangeCounts of player.strange) {
+        strangeCounts.current = 0;
+        strangeCounts.total = 0;
     }
 
     assignStrangeBoost();

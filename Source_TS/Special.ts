@@ -199,17 +199,17 @@ export const preventImageUnload = () => {
             } else if (s === 5 && i < 2) { continue; } //Solar mass and Elements
             images += `<img src="Used_art/${footer[s][i][0]}" loading="lazy">`;
         }
-        for (let i = 0; i < build[s].length; i++) {
-            images += `<img src="Used_art/${build[s][i]}" loading="lazy">`;
+        for (const artSrc of build[s]) {
+            images += `<img src="Used_art/${artSrc}" loading="lazy">`;            
         }
-        for (let i = 0; i < upgrade[s].length; i++) {
-            images += `<img src="Used_art/${upgrade[s][i][0]}" loading="lazy">`;
+        for (const upgradeSrc of upgrade[s]) {
+            images += `<img src="Used_art/${upgradeSrc[0]}" loading="lazy">`;
         }
-        for (let i = 0; i < research[s].length; i++) {
-            images += `<img src="Used_art/${research[s][i][0]}" loading="lazy">`;
+        for (const artSrc of research[s]) {
+            images += `<img src="Used_art/${artSrc[0]}" loading="lazy">`;
         }
-        for (let i = 0; i < extra[s].length; i++) {
-            images += `<img src="Used_art/${extra[s][i][0]}" loading="lazy">`;
+        for (const artSrc of extra[s]) {
+            images += `<img src="Used_art/${artSrc[0]}" loading="lazy">`;
         }
         if (extraDiv[s].length > 0) { images += `<img src="Used_art/${extraDiv[s][0]}" loading="lazy">`; }
         images += `<img src="Used_art/Stage${s}%20border.png" loading="lazy">`;

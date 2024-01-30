@@ -1255,10 +1255,11 @@ export const cloneArray = <ArrayClone extends Array<number | string | boolean | 
 export const deepClone = <CloneType>(toClone: CloneType): CloneType => {
     if (typeof toClone !== 'object' || toClone === null) { return toClone; }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any 
     let value: any;
     if (Array.isArray(toClone)) {
         value = []; //Faster this way
-        for (let i = 0; i < toClone.length; i++) { value.push(deepClone(toClone[i])); }
+        for (const el of toClone) { value.push(deepClone(el)); }
     } else {
         value = {};
         for (const check in toClone) { value[check] = deepClone(toClone[check]); }
@@ -1276,10 +1277,8 @@ const createArray = <startValue>(amount: number, value: startValue) => {
 
 for (let s = 0; s < global.buildingsInfo.startCost.length; s++) {
     global.buildingsInfo.firstCost[s] = cloneArray(global.buildingsInfo.startCost[s]);
-    global.buildingsInfo.producing[s] = [];
-    for (let i = 0; i < global.buildingsInfo.startCost[s].length; i++) {
-        global.buildingsInfo.producing[s].push([0, 0]);
-    }
+    global.buildingsInfo.producing[s] = Array.from({length: global.buildingsInfo.startCost[s].length}, () => [0,0]);
+    // 
 }
 for (const upgradeType of ['researches', 'researchesExtra', 'strangeness'] as const) {
     const pointer = global[`${upgradeType}Info`];
@@ -1422,12 +1421,13 @@ export const updatePlayer = (load: playerType): string => {
             load.version = 'v0.1.2';
             for (let s = 1; s < load.buildings.length; s++) {
                 const buildings = load.buildings[s];
-                for (let i = 0; i < buildings.length; i++) {
-                    buildings[i].current = Limit(buildings[i].current).toArray();
-                    buildings[i].total = Limit(buildings[i].total).toArray();
-                    buildings[i].trueTotal = Limit(buildings[i].total).toArray(); //Intentional
-                    buildings[i].highest = [0, 0];
+                for (const building of buildings) {
+                    building.current = Limit(building.current).toArray();
+                    building.total = Limit(building.total).toArray();
+                    building.trueTotal = Limit(building.total).toArray(); //Intentional
+                    building.highest = [0, 0];
                 }
+                
             }
             load.vaporization.clouds = Limit(load.vaporization.clouds).toArray();
             if (load.strange[0]['true' as keyof unknown] !== undefined) { load.strange[0].current = load.strange[0]['true' as 'current']; }

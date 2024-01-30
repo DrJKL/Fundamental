@@ -1007,9 +1007,9 @@ const updateHistory = (/*type: 'stage'*/) => {
 
     let text = '';
     if (list.length > 0) {
-        for (let i = 0; i < list.length; i++) {
-            const converted = list[i][0] / 1e12 ** list[i][2];
-            text += `<li class="whiteText"><span class="greenText">${format(converted)} ${global.strangeInfo.name[list[i][2]]}</span>, <span class="blueText">${format(list[i][1], { type: 'time' })}</span>, <span class="darkorchidText">${format(converted / list[i][1], { type: 'income', padding: true })}</span></li>`;
+        for (const stageData of list) {
+            const converted = stageData[0] / 1e12 ** stageData[2];
+            text += `<li class="whiteText"><span class="greenText">${format(converted)} ${global.strangeInfo.name[stageData[2]]}</span>, <span class="blueText">${format(stageData[1], { type: 'time' })}</span>, <span class="darkorchidText">${format(converted / stageData[1], { type: 'income', padding: true })}</span></li>`;
         }
     } else { text = '<li class="redText">Reference list is empty</li>'; }
     getId('stageResetsList').innerHTML = text;

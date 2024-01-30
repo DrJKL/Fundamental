@@ -11,8 +11,8 @@ export const overlimit = {
                 if (numbers.length < 1) { return this; }
                 const array = technical.convertAll(numbers);
 
-                for (let i = 0; i < array.length; i++) {
-                    result = technical.add(result, array[i]);
+                for (const el of array) { // Reduce
+                    result = technical.add(result, el);
                 }
 
                 return this;
@@ -21,8 +21,8 @@ export const overlimit = {
                 if (numbers.length < 1) { return this; }
                 const array = technical.convertAll(numbers);
 
-                for (let i = 0; i < array.length; i++) {
-                    result = technical.sub(result, array[i]);
+                for (const el of array) {
+                    result = technical.sub(result, el);
                 }
 
                 return this;
@@ -31,8 +31,8 @@ export const overlimit = {
                 if (numbers.length < 1) { return this; }
                 const array = technical.convertAll(numbers);
 
-                for (let i = 0; i < array.length; i++) {
-                    result = technical.mult(result, array[i]);
+                for (const el of array) {
+                    result = technical.mult(result, el);
                 }
 
                 return this;
@@ -41,8 +41,8 @@ export const overlimit = {
                 if (numbers.length < 1) { return this; }
                 const array = technical.convertAll(numbers);
 
-                for (let i = 0; i < array.length; i++) {
-                    result = technical.div(result, array[i]);
+                for (const el of array) {
+                    result = technical.div(result, el);
                 }
 
                 return this;
@@ -98,13 +98,13 @@ export const overlimit = {
                 if (compare.length < 1) { return this; }
                 const array = technical.convertAll(compare);
 
-                for (let i = 0; i < array.length; i++) {
-                    if (isNaN(array[i][0])) {
+                for (const el of array) {
+                    if (isNaN(el[0])) {
                         result = [NaN, NaN];
                         break;
                     }
 
-                    if (technical.less(result, array[i])) { result = array[i]; }
+                    if (technical.less(result, el)) { result = el; }
                 }
 
                 return this;
@@ -113,13 +113,13 @@ export const overlimit = {
                 if (compare.length < 1) { return this; }
                 const array = technical.convertAll(compare);
 
-                for (let i = 0; i < array.length; i++) {
-                    if (isNaN(array[i][0])) {
+                for (const el of array) {
+                    if (isNaN(el[0])) {
                         result = [NaN, NaN];
                         break;
                     }
 
-                    if (technical.more(result, array[i])) { result = array[i]; }
+                    if (technical.more(result, el)) { result = el; }
                 }
 
                 return this;
