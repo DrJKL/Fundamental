@@ -22,7 +22,6 @@
         "curly": ["error", "all"],
         "eqeqeq": "warn",
         "generator-star-spacing": "error",
-        "indent": ["error", 4, { "SwitchCase": 1, "flatTernaryExpressions": true }],
         "max-statements-per-line": ["error", { "max": 2 }], //Because brace-style isn't working. So only allowed for cases like 'if (condition) { do this; }'
         "multiline-ternary": "off",
         "no-extra-label": "warn",
@@ -61,6 +60,8 @@
         "@typescript-eslint/restrict-plus-operands": "warn",
         "@typescript-eslint/restrict-template-expressions": "off", //Doesn't work with Errors
         "space-before-function-paren": "off", //Already in @typescript
-        "@typescript-eslint/space-before-function-paren": ["error", "never"]
+        "@typescript-eslint/space-before-function-paren": ["error", "never"],
+
+        "@stylistic/indent": ["error", 2, {"flatTernaryExpressions": true}]
     }
 }
