@@ -36,8 +36,6 @@
         "@typescript-eslint/array-type": ["error", { "default": "array-simple" }], //I rather to turn it off
         "@typescript-eslint/await-thenable": "error",
         "@typescript-eslint/default-param-last": "error",
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-confusing-void-expression": "off", //Honestly this is just stupid
         "@typescript-eslint/no-dynamic-delete": "off",
         "@typescript-eslint/no-extra-semi": "error",
         "@typescript-eslint/no-inferrable-types": "warn",
@@ -50,17 +48,14 @@
         "@typescript-eslint/no-unnecessary-type-arguments": "warn",
         "@typescript-eslint/no-unnecessary-type-constraint": "warn",
         "@typescript-eslint/prefer-namespace-keyword": "warn",
-        "@typescript-eslint/prefer-nullish-coalescing": "off", //It can't tell apart undefined from null
         "@typescript-eslint/restrict-plus-operands": "warn",
-        "@typescript-eslint/restrict-template-expressions": "off", //Doesn't work with Errors
-        "space-before-function-paren": "off", //Already in @typescript
-        "@typescript-eslint/space-before-function-paren": ["error", "never"],
 
         "@stylistic/brace-style": ["error", "1tbs", {"allowSingleLine": true}],
         "@stylistic/comma-dangle": ["warn", "always-multiline"],
         "@stylistic/generator-star-spacing": "error",
         "@stylistic/indent": ["error", 2, {"flatTernaryExpressions": true}],
         "@stylistic/operator-linebreak": ["error", "after"], // Maybe change
+        "@stylistic/space-before-function-paren": ["error", "never"],
         "@stylistic/spaced-comment": "error",
         "@stylistic/switch-colon-spacing": "error"
     }
