@@ -43,17 +43,17 @@ export const detectHotkey = (check: KeyboardEvent) => {
     } else {
       if (stringKey === 'w') {
         check.preventDefault();
-        timeWarp();
+        void timeWarp();
       } else if (stringKey === 's') {
-        stageAsyncReset();
+        void stageAsyncReset();
       } else if (stringKey === 'd') {
-        if (global.stageInfo.activeAll.includes(1)) { dischargeAsyncReset(); }
+        if (global.stageInfo.activeAll.includes(1)) { void dischargeAsyncReset(); }
       } else if (stringKey === 'v') {
-        if (global.stageInfo.activeAll.includes(2)) { vaporizationAsyncReset(); }
+        if (global.stageInfo.activeAll.includes(2)) { void vaporizationAsyncReset(); }
       } else if (stringKey === 'r') {
-        if (global.stageInfo.activeAll.includes(3)) { rankAsyncReset(); }
+        if (global.stageInfo.activeAll.includes(3)) { void rankAsyncReset(); }
       } else if (stringKey === 'c') {
-        if (global.stageInfo.activeAll.includes(4)) { collapseAsyncReset(); }
+        if (global.stageInfo.activeAll.includes(4)) { void collapseAsyncReset(); }
       }
     }
   } else if (key === 'ArrowLeft' || key === 'ArrowRight') {

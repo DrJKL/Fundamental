@@ -405,17 +405,17 @@ export const visualUpdate = () => {
   if (!player.event) {
     if (player.stage.true === 5) {
       if (player.strange[0].total > 0) {
-        if (player.buildings[5][3].true >= 1) { playEvent(6); }
-      } else if (active === 5) { playEvent(5); }
+        if (player.buildings[5][3].true >= 1) { void playEvent(6); }
+      } else if (active === 5) { void playEvent(5); }
     } else if (player.stage.true === 4) {
-      if (player.elements.includes(0.5)) { playEvent(4); }
+      if (player.elements.includes(0.5)) { void playEvent(4); }
     } else if (player.stage.true === 3) {
-      if (Limit(player.buildings[3][0].current).moreOrEqual('5e29')) { playEvent(3); }
+      if (Limit(player.buildings[3][0].current).moreOrEqual('5e29')) { void playEvent(3); }
     } else if (player.stage.true === 2) {
       assignVaporizationInformation();
-      if (Limit(global.vaporizationInfo.get).plus(player.vaporization.clouds).moreThan('1e4')) { playEvent(2); }
+      if (Limit(global.vaporizationInfo.get).plus(player.vaporization.clouds).moreThan('1e4')) { void playEvent(2); }
     } else if (player.stage.true === 1) {
-      if (player.upgrades[1][5] === 1) { playEvent(1); }
+      if (player.upgrades[1][5] === 1) { void playEvent(1); }
     }
   }
 

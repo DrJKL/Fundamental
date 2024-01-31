@@ -431,7 +431,7 @@ export const switchTheme = () => {
 };
 
 export const Alert = async(text: string): Promise<void> => {
-  return await new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     const blocker = getId('blocker');
     if (blocker.style.display !== 'none') {
       resolve();
@@ -677,7 +677,7 @@ export const replayEvent = async() => {
   const event = Number(await Prompt(text, `${last}`));
   if (event > last) { return; }
 
-  playEvent(event, false);
+  void playEvent(event, false);
 };
 
 export const playEvent = async(event: number, award = true) => {

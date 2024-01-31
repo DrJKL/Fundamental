@@ -5,8 +5,7 @@
     },
     "extends": [
         "eslint:recommended",
-        // "plugin:@typescript-eslint/strict-type-checked",
-        "plugin:@typescript-eslint/strict",
+        "plugin:@typescript-eslint/strict-type-checked",
         "plugin:@typescript-eslint/stylistic"
     ],
     "plugins": ["@stylistic/eslint-plugin"],
@@ -28,7 +27,6 @@
         "no-unused-private-class-members": "warn",
         "no-useless-concat": "warn",
         "no-var": "warn",
-        "no-void": "error",
         "object-shorthand": ["warn", "consistent-as-needed"],
         "operator-assignment": "warn",
         "prefer-object-has-own": "warn", //No 'in' as well
@@ -55,6 +53,7 @@
         "@stylistic/generator-star-spacing": "error",
         "@stylistic/indent": ["error", 2, {"flatTernaryExpressions": true}],
         "@stylistic/operator-linebreak": ["error", "after"], // Maybe change
+        "@stylistic/semi": "error",
         "@stylistic/space-before-function-paren": ["error", "never"],
         "@stylistic/spaced-comment": "error",
         "@stylistic/switch-colon-spacing": "error"

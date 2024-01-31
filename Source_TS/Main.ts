@@ -100,11 +100,19 @@ const saveGame = (saveOnly = false): string | null => {
       global.lastSave = 0;
     }
     return save;
-  } catch (error) { Alert(`Failed to save game\nFull error: '${error}'`); }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      void Alert(`Failed to save game\nFull error: '${error.message}'`); 
+    } 
+  }
   return null;
 };
 const loadGame = (save: string) => {
-  if (global.paused) { return Notify('No loading while game is paused'); }
+  if (global.paused) {
+    Notify('No loading while game is paused');
+    return; 
+  }
   global.paused = true;
   changeIntervals();
   try {
@@ -113,7 +121,12 @@ const loadGame = (save: string) => {
     global.lastSave = handleOfflineTime();
     Notify(`This save is ${format(global.lastSave, { type: 'time', padding: false })} old. Save file version is ${versionCheck}`);
     stageUpdate('reload');
-  } catch (error) { Alert(`Incorrect save file format\nFull error: '${error}'`); }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      void Alert(`Incorrect save file format\nFull error: '${error.message}'`); 
+    }
+  }
   global.paused = false;
   changeIntervals();
 };
@@ -149,7 +162,7 @@ const saveConsole = async() => {
 
   if (lower === 'copy') {
     const save = saveGame(true);
-    if (save !== null) { navigator.clipboard.writeText(save); }
+    if (save !== null) { void navigator.clipboard.writeText(save); }
   } else if (lower === 'delete' || lower === 'clear') {
     global.paused = true;
     changeIntervals();
@@ -157,7 +170,7 @@ const saveConsole = async() => {
       localStorage.removeItem('save');
     } else { localStorage.clear(); }
     window.location.reload();
-    Alert('Awaiting page refresh');
+    void Alert('Awaiting page refresh');
   } else if (lower === 'achievement') {
     Notify('Unlocked a new Achievement');
   } else if (lower === 'slow' || lower === 'free') {
@@ -180,7 +193,10 @@ const changeSaveFileName = () => {
     player.fileName = newValue;
     input.value = newValue;
   } catch (error) {
-    Alert(`Save file name is not allowed\nFull error: '${error}'`);
+    if (error instanceof Error) {
+      console.error(error);
+      void Alert(`Save file name is not allowed\nFull error: '${error.message}'`);
+    }  
   }
 };
 const replaceSaveFileSpecials = (): string => {
@@ -248,7 +264,10 @@ const hoverChallenge = (index: number, type: 'challenge' | 'reward') => {
 };
 
 export const timeWarp = async() => {
-  if (global.paused) { return Notify('No warping while game is paused'); }
+  if (global.paused) { 
+    Notify('No warping while game is paused');
+    return; 
+  }
   const offline = player.time.offline;
   if (offline < 60) { return Alert('Need at least 1 minute in Offline storage to Warp'); }
   const improved = player.strangeness[2][6] >= 1;
@@ -278,8 +297,10 @@ const warpMain = (warpTime: number, tick: number, start = warpTime) => {
     timeUpdate(time, tick);
   } catch (error) {
     warpEnd();
-    Alert(`Warp failed due to Error:\n${error}`);
-    return;
+    if (error instanceof Error) {
+      console.error(error);
+      void Alert(`Warp failed due to Error:\n${error.message}`);
+    }    return;
   }
   if (warpTime > 0) {
     setTimeout(warpMain, 0, warpTime, tick, start);
@@ -300,7 +321,10 @@ const warpEnd = () => {
 };
 
 const pauseGame = async() => {
-  if (global.paused) { return Notify('Game is already paused'); }
+  if (global.paused) {
+    Notify('Game is already paused');
+    return; 
+  }
   global.paused = true;
   changeIntervals();
   await Alert("Game is currently paused. Press 'confirm' to unpause it. Time spent here will be moved into Offline storage");
@@ -460,50 +484,50 @@ try { // Start everything
   /* Global */
   const { mobileDevice: MD, screenReader: SR } = global;
   const PC = !MD || (supportType as string)[1] === 'F';
-  document.addEventListener('keydown', (key: KeyboardEvent) => detectHotkey(key));
+  document.addEventListener('keydown', (key: KeyboardEvent) => { detectHotkey(key); });
   for (let i = 0; i < playerStart.toggles.normal.length; i++) {
     getId(`toggleNormal${i}`).addEventListener('click', () => {
       toggleSwap(i, 'normal', true);
-      if (i === 1) { Alert('Changes will come into effect after page reload\n(Game will need to be saved first)'); }
+      if (i === 1) { void Alert('Changes will come into effect after page reload\n(Game will need to be saved first)'); }
     });
   }
   for (let i = 0; i < playerStart.toggles.confirm.length; i++) {
-    getId(`toggleConfirm${i}`).addEventListener('click', () => toggleConfirm(i, true));
+    getId(`toggleConfirm${i}`).addEventListener('click', () => { toggleConfirm(i, true); });
   }
   for (let i = 0; i < specialHTML.longestBuilding; i++) {
-    getId(`toggleBuilding${i}`).addEventListener('click', () => toggleSwap(i, 'buildings', true));
+    getId(`toggleBuilding${i}`).addEventListener('click', () => { toggleSwap(i, 'buildings', true); });
   }
   for (let i = 0; i < playerStart.toggles.hover.length; i++) {
-    getId(`toggleHover${i}`).addEventListener('click', () => toggleSwap(i, 'hover', true));
+    getId(`toggleHover${i}`).addEventListener('click', () => { toggleSwap(i, 'hover', true); });
   }
   for (let i = 0; i < playerStart.toggles.max.length; i++) {
-    getId(`toggleMax${i}`).addEventListener('click', () => toggleSwap(i, 'max', true));
+    getId(`toggleMax${i}`).addEventListener('click', () => { toggleSwap(i, 'max', true); });
   }
   for (let i = 0; i < playerStart.toggles.auto.length; i++) {
-    getId(`toggleAuto${i}`).addEventListener('click', () => toggleSwap(i, 'auto', true));
+    getId(`toggleAuto${i}`).addEventListener('click', () => { toggleSwap(i, 'auto', true); });
   }
 
   /* Stage tab */
   for (let i = 1; i < specialHTML.longestBuilding; i++) {
-    getId(`building${i}Btn`).addEventListener('click', () => buyBuilding(i));
+    getId(`building${i}Btn`).addEventListener('click', () => { buyBuilding(i); });
   }
-  getId('stageReset').addEventListener('click', () => { stageAsyncReset(); });
+  getId('stageReset').addEventListener('click', () => { void stageAsyncReset(); });
   getId('reset1Button').addEventListener('click', () => {
     const active = player.stage.active;
     if (active === 1) {
-      dischargeAsyncReset();
+      void dischargeAsyncReset();
     } else if (active === 2) {
-      vaporizationAsyncReset();
+      void vaporizationAsyncReset();
     } else if (active === 3) {
-      rankAsyncReset();
+      void rankAsyncReset();
     } else if (active === 4) {
-      collapseAsyncReset();
+      void collapseAsyncReset();
     }
   });
-  getId('buy1x').addEventListener('click', () => toggleBuy('1'));
-  getId('buyAny').addEventListener('click', () => toggleBuy('any'));
-  getId('buyMax').addEventListener('click', () => toggleBuy('max'));
-  getId('buyAnyInput').addEventListener('change', () => toggleBuy('any'));
+  getId('buy1x').addEventListener('click', () => { toggleBuy('1'); });
+  getId('buyAny').addEventListener('click', () => { toggleBuy('any'); });
+  getId('buyMax').addEventListener('click', () => { toggleBuy('max'); });
+  getId('buyAnyInput').addEventListener('change', () => { toggleBuy('any'); });
   getId('autoWaitInput').addEventListener('change', () => {
     const input = getId('autoWaitInput') as HTMLInputElement;
     let value = Math.max(Number(input.value), 1);
@@ -514,15 +538,29 @@ try { // Start everything
 
   for (let i = -1; i < global.challengesInfo.name.length; i++) {
     const image = getId(`challenge${i + 1}`);
-    if (PC) { image.addEventListener('mouseover', () => hoverChallenge(i, 'challenge')); }
-    if (MD) { image.addEventListener('touchstart', () => hoverChallenge(i, 'challenge')); }
-    if (SR) { image.addEventListener('focus', () => hoverChallenge(i, 'challenge')); }
-    image.addEventListener('click', i === -1 ? switchVacuum : () => { enterExitChallenge(i); });
+    if (PC) {
+      image.addEventListener('mouseover', () => { 
+        hoverChallenge(i, 'challenge'); 
+      }); 
+    }
+    if (MD) {
+      image.addEventListener('touchstart', () => { 
+        hoverChallenge(i, 'challenge'); 
+      }); 
+    }
+    if (SR) {
+      image.addEventListener('focus', () => { 
+        hoverChallenge(i, 'challenge'); 
+      }); 
+    }
+    image.addEventListener('click', i === -1 ? switchVacuum : () => { 
+      void enterExitChallenge(i); 
+    });
   }
   for (let i = 1; i < global.challengesInfo.rewardText[0].length; i++) {
     if (i === 5) { continue; } // Missing for now
     const image = getId(`voidReward${global.stageInfo.word[i]}`);
-    image.addEventListener('click', () => hoverChallenge(i, 'reward'));
+    image.addEventListener('click', () => { hoverChallenge(i, 'reward'); });
     if (MD) { // Safari bugs with no focus events
       image.addEventListener('click', () => { getId('voidRewardsDiv').style.display = 'block'; });
     }
@@ -534,68 +572,168 @@ try { // Start everything
   /* Upgrade tab */
   for (let i = 0; i < specialHTML.longestUpgrade; i++) {
     const image = getId(`upgrade${i + 1}`);
-    if (PC) { image.addEventListener('mouseover', () => hoverUpgrades(i, 'upgrades')); }
-    if (MD) { image.addEventListener('touchstart', () => hoverUpgrades(i, 'upgrades')); }
-    if (SR) { image.addEventListener('focus', () => hoverUpgrades(i, 'upgrades')); }
+    if (PC) {
+      image.addEventListener('mouseover', () => { 
+        hoverUpgrades(i, 'upgrades'); 
+      }); 
+    }
+    if (MD) {
+      image.addEventListener('touchstart', () => { 
+        hoverUpgrades(i, 'upgrades'); 
+      }); 
+    }
+    if (SR) {
+      image.addEventListener('focus', () => { 
+        hoverUpgrades(i, 'upgrades'); 
+      }); 
+    }
     image.addEventListener('click', () => buyUpgrades(i, player.stage.active, 'upgrades'));
   }
   for (let i = 0; i < specialHTML.longestResearch; i++) {
     const image = getId(`research${i + 1}Image`);
-    if (PC) { image.addEventListener('mouseover', () => hoverUpgrades(i, 'researches')); }
-    if (MD) { image.addEventListener('touchstart', () => hoverUpgrades(i, 'researches')); }
-    if (SR) { image.addEventListener('focus', () => hoverUpgrades(i, 'researches')); }
+    if (PC) {
+      image.addEventListener('mouseover', () => {
+        hoverUpgrades(i, 'researches'); 
+      }); 
+    }
+    if (MD) {
+      image.addEventListener('touchstart', () => { 
+        hoverUpgrades(i, 'researches'); 
+      }); 
+    }
+    if (SR) {
+      image.addEventListener('focus', () => {
+        hoverUpgrades(i, 'researches'); 
+      }); 
+    }
     image.addEventListener('click', () => buyUpgrades(i, player.stage.active, 'researches'));
   }
   for (let i = 0; i < specialHTML.longestResearchExtra; i++) {
     const image = getId(`researchExtra${i + 1}Image`);
-    if (PC) { image.addEventListener('mouseover', () => hoverUpgrades(i, 'researchesExtra')); }
-    if (MD) { image.addEventListener('touchstart', () => hoverUpgrades(i, 'researchesExtra')); }
-    if (SR) { image.addEventListener('focus', () => hoverUpgrades(i, 'researchesExtra')); }
+    if (PC) {
+      image.addEventListener('mouseover', () => { 
+        hoverUpgrades(i, 'researchesExtra'); 
+      }); 
+    }
+    if (MD) {
+      image.addEventListener('touchstart', () => { 
+        hoverUpgrades(i, 'researchesExtra'); 
+      }); 
+    }
+    if (SR) {
+      image.addEventListener('focus', () => { 
+        hoverUpgrades(i, 'researchesExtra'); 
+      }); 
+    }
     image.addEventListener('click', () => buyUpgrades(i, player.stage.active, 'researchesExtra'));
   }
   for (let i = 0; i < global.researchesAutoInfo.costRange.length; i++) {
     const image = getId(`researchAuto${i + 1}Image`);
-    if (PC) { image.addEventListener('mouseover', () => hoverUpgrades(i, 'researchesAuto')); }
-    if (MD) { image.addEventListener('touchstart', () => hoverUpgrades(i, 'researchesAuto')); }
-    if (SR) { image.addEventListener('focus', () => hoverUpgrades(i, 'researchesAuto')); }
+    if (PC) {
+      image.addEventListener('mouseover', () => {
+        hoverUpgrades(i, 'researchesAuto'); 
+      }); 
+    }
+    if (MD) {
+      image.addEventListener('touchstart', () => { 
+        hoverUpgrades(i, 'researchesAuto'); 
+      }); 
+    }
+    if (SR) {
+      image.addEventListener('focus', () => {
+        hoverUpgrades(i, 'researchesAuto'); 
+      }); 
+    }
     image.addEventListener('click', () => buyUpgrades(i, player.stage.active, 'researchesAuto'));
   }
   {
     const image = getId('ASRImage');
-    if (PC) { image.addEventListener('mouseover', () => hoverUpgrades(0, 'ASR')); }
-    if (MD) { image.addEventListener('touchstart', () => hoverUpgrades(0, 'ASR')); }
-    if (SR) { image.addEventListener('focus', () => hoverUpgrades(0, 'ASR')); }
+    if (PC) {
+      image.addEventListener('mouseover', () => {
+        hoverUpgrades(0, 'ASR'); 
+      }); 
+    }
+    if (MD) {
+      image.addEventListener('touchstart', () => {
+        hoverUpgrades(0, 'ASR'); 
+      }); 
+    }
+    if (SR) {
+      image.addEventListener('focus', () => {
+        hoverUpgrades(0, 'ASR'); 
+      }); 
+    }
     image.addEventListener('click', () => buyUpgrades(player.stage.active, player.stage.active, 'ASR'));
   }
 
-  if (PC) { getId('element0').addEventListener('dblclick', () => getUpgradeDescription(0, 'elements')); }
+  if (PC) {
+    getId('element0').addEventListener('dblclick', () => { 
+      getUpgradeDescription(0, 'elements'); 
+    }); 
+  }
   for (let i = 1; i < global.elementsInfo.startCost.length; i++) {
     const image = getId(`element${i}`);
-    if (PC) { image.addEventListener('mouseover', () => hoverUpgrades(i, 'elements')); }
-    if (MD) { image.addEventListener('touchstart', () => hoverUpgrades(i, 'elements')); }
-    if (SR) { image.addEventListener('focus', () => hoverUpgrades(i, 'elements')); }
+    if (PC) {
+      image.addEventListener('mouseover', () => { 
+        hoverUpgrades(i, 'elements'); 
+      }); 
+    }
+    if (MD) {
+      image.addEventListener('touchstart', () => {
+        hoverUpgrades(i, 'elements'); 
+      }); 
+    }
+    if (SR) {
+      image.addEventListener('focus', () => { 
+        hoverUpgrades(i, 'elements'); 
+      }); 
+    }
     image.addEventListener('click', () => buyUpgrades(i, 4, 'elements'));
   }
 
   /* Strangeness tab */
   for (let s = 1; s < global.strangenessInfo.length; s++) {
-    if (MD) { getId(`strangenessPage${s}`).addEventListener('click', () => MDStrangenessPage(s)); }
+    if (MD) {
+      getId(`strangenessPage${s}`).addEventListener('click', () => { 
+        MDStrangenessPage(s); 
+      }); 
+    }
     for (let i = 0; i < global.strangenessInfo[s].startCost.length; i++) {
       const image = getId(`strange${i + 1}Stage${s}Image`);
-      if (PC) { image.addEventListener('mouseover', () => hoverStrangeness(i, s, 'strangeness')); }
+      if (PC) {
+        image.addEventListener('mouseover', () => { 
+          hoverStrangeness(i, s, 'strangeness'); 
+        }); 
+      }
       if (MD) {
-        image.addEventListener('touchstart', () => hoverStrangeness(i, s, 'strangeness'));
+        image.addEventListener('touchstart', () => { hoverStrangeness(i, s, 'strangeness'); });
       } else { image.addEventListener('click', () => buyStrangeness(i, s, 'strangeness')); }
-      if (SR) { image.addEventListener('focus', () => hoverStrangeness(i, s, 'strangeness')); }
+      if (SR) {
+        image.addEventListener('focus', () => { 
+          hoverStrangeness(i, s, 'strangeness'); 
+        }); 
+      }
     }
   }
   if (MD) { getId('strangenessCreate').addEventListener('click', () => buyStrangeness(global.lastStrangeness[0], global.lastStrangeness[1], 'strangeness')); }
   for (let s = 1; s < global.milestonesInfo.length; s++) {
     for (let i = 0; i < global.milestonesInfo[s].need.length; i++) {
       const image = getQuery(`#milestone${i + 1}Stage${s}Div > img`);
-      if (PC) { image.addEventListener('mouseover', () => hoverStrangeness(i, s, 'milestones')); }
-      if (MD) { image.addEventListener('touchstart', () => hoverStrangeness(i, s, 'milestones')); }
-      if (SR) { image.addEventListener('focus', () => hoverStrangeness(i, s, 'milestones')); }
+      if (PC) {
+        image.addEventListener('mouseover', () => { 
+          hoverStrangeness(i, s, 'milestones'); 
+        }); 
+      }
+      if (MD) {
+        image.addEventListener('touchstart', () => { 
+          hoverStrangeness(i, s, 'milestones'); 
+        }); 
+      }
+      if (SR) {
+        image.addEventListener('focus', () => { 
+          hoverStrangeness(i, s, 'milestones'); 
+        }); 
+      }
     }
   }
 
@@ -626,16 +764,16 @@ try { // Start everything
     id.value = '';
   });
   getId('export').addEventListener('click', () => { exportFileGame(); });
-  getId('saveConsole').addEventListener('click', () => { saveConsole(); });
-  getId('switchTheme0').addEventListener('click', () => setTheme(null));
+  getId('saveConsole').addEventListener('click', () => { void saveConsole(); });
+  getId('switchTheme0').addEventListener('click', () => { setTheme(null); });
   for (let i = 1; i < global.stageInfo.word.length; i++) {
-    getId(`switchTheme${i}`).addEventListener('click', () => setTheme(i));
+    getId(`switchTheme${i}`).addEventListener('click', () => { setTheme(i); });
   }
-  getId('toggleAuto8').addEventListener('click', () => autoElementsSet());
-  getId('toggleAuto5').addEventListener('click', () => autoUpgradesSet('all'));
-  getId('toggleAuto6').addEventListener('click', () => autoResearchesSet('researches', 'all'));
-  getId('toggleAuto7').addEventListener('click', () => autoResearchesSet('researchesExtra', 'all'));
-  getId('saveFileNameInput').addEventListener('change', () => changeSaveFileName());
+  getId('toggleAuto8').addEventListener('click', () => { autoElementsSet(); });
+  getId('toggleAuto5').addEventListener('click', () => { autoUpgradesSet('all'); });
+  getId('toggleAuto6').addEventListener('click', () => { autoResearchesSet('researches', 'all'); });
+  getId('toggleAuto7').addEventListener('click', () => { autoResearchesSet('researchesExtra', 'all'); });
+  getId('saveFileNameInput').addEventListener('change', () => { changeSaveFileName(); });
   {
     const button = getId('saveFileHoverButton');
     button.addEventListener('mouseover', () => (getId('saveFileNamePreview').textContent = replaceSaveFileSpecials()));
@@ -665,8 +803,8 @@ try { // Start everything
     autoSaveInput.value = `${player.intervals.autoSave / 1000}`;
     changeIntervals();
   });
-  getId('thousandSeparator').addEventListener('change', () => changeFormat(false));
-  getId('decimalPoint').addEventListener('change', () => changeFormat(true));
+  getId('thousandSeparator').addEventListener('change', () => { changeFormat(false); });
+  getId('decimalPoint').addEventListener('change', () => { changeFormat(true); });
   getId('MDMainToggle').addEventListener('click', async() => {
     if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
     const support = localStorage.getItem('support');
@@ -679,10 +817,10 @@ try { // Start everything
     support !== null && support[0] === 'S' ? localStorage.removeItem('support') : localStorage.setItem('support', 'STT');
     window.location.reload();
   });
-  getId('pauseGame').addEventListener('click', () => { pauseGame(); });
-  getId('reviewEvents').addEventListener('click', () => { replayEvent(); });
-  getId('offlineWarp').addEventListener('click', () => { timeWarp(); });
-  getId('customFontSize').addEventListener('change', () => changeFontSize(true));
+  getId('pauseGame').addEventListener('click', () => { void pauseGame(); });
+  getId('reviewEvents').addEventListener('click', () => { void replayEvent(); });
+  getId('offlineWarp').addEventListener('click', () => { void timeWarp(); });
+  getId('customFontSize').addEventListener('change', () => { changeFontSize(true); });
 
   getId('stageResetsSave').addEventListener('change', () => {
     const inputID = getId('stageResetsSave') as HTMLInputElement;
@@ -704,15 +842,15 @@ try { // Start everything
   /* Footer */
   getId('hideToggle').addEventListener('click', hideFooter);
   for (const tabText of global.tabList.tabs) {
-    getId(`${tabText}TabBtn`).addEventListener('click', () => switchTab(tabText));
+    getId(`${tabText}TabBtn`).addEventListener('click', () => { switchTab(tabText); });
     const tabList = global.tabList[`${tabText}Subtabs` as keyof unknown] as string[] | undefined;
     if (tabList === undefined) { continue; }
     for (const subtabText of tabList) {
-      getId(`${tabText}SubtabBtn${subtabText}`).addEventListener('click', () => switchTab(tabText, subtabText));
+      getId(`${tabText}SubtabBtn${subtabText}`).addEventListener('click', () => { switchTab(tabText, subtabText); });
     }
   }
   for (let i = 1; i < global.stageInfo.word.length; i++) {
-    getId(`${global.stageInfo.word[i]}Switch`).addEventListener('click', () => switchStage(i));
+    getId(`${global.stageInfo.word[i]}Switch`).addEventListener('click', () => { switchStage(i); });
   }
 
   /* Post */
@@ -722,9 +860,12 @@ try { // Start everything
   global.paused = false;
   changeIntervals();
   document.title = `Fundamental ${playerStart.version}`;
-  Alert(alertText + `\n(Game loaded after ${format((Date.now() - playerStart.time.started) / 1000, { type: 'time', padding: false })})`);
+  void Alert(alertText + `\n(Game loaded after ${format((Date.now() - playerStart.time.started) / 1000, { type: 'time', padding: false })})`);
 } catch (error) {
-  Alert(`Game failed to load\nFull error: '${error}'`);
+  if (error instanceof Error) {
+    console.log(error);
+    void Alert(`Game failed to load\nFull error: '${error.message}'`);
+  }
   const buttonDiv = document.createElement('div');
   buttonDiv.innerHTML = '<button type="button" id="exportError" style="width: 7em;">Export save</button><button type="button" id="deleteError" style="width: 7em;">Delete save</button>';
   buttonDiv.style.cssText = 'display: flex; column-gap: 0.6em; margin-top: 0.4em;';
@@ -734,7 +875,7 @@ try { // Start everything
     exported = true;
     const save = localStorage.getItem('save');
     if (save === null) {
-      Alert('No save file detected'); 
+      void Alert('No save file detected'); 
       return;
     }
     const a = document.createElement('a');
@@ -746,6 +887,6 @@ try { // Start everything
     if (!exported && !(await Confirm("Recommended to export save file first\nPress 'Confirm' to confirm and delete your save file"))) { return; }
     localStorage.removeItem('save');
     window.location.reload();
-    Alert('Awaiting page refresh');
+    void Alert('Awaiting page refresh');
   });
 }

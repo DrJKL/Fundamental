@@ -780,7 +780,10 @@ export const buyUpgrades = (upgrade: number, stageIndex: number, type: 'upgrades
     if (!free) { currency = Limit(currency).minus(cost).toArray(); }
 
     /* Special cases */
-    if (!auto && global.screenReader) { getId('SRMain').textContent = `Research '${type === 'ASR' ? pointer.name : pointer.name[upgrade]}' level increased, it is now ${level[upgrade]} ${level[upgrade] >= pointer.max[upgrade] ? 'maxed' : ''}`; }
+    if (!auto && global.screenReader) {
+      const pointerName = typeof pointer.name === 'string' ? pointer.name : pointer.name[upgrade];
+      getId('SRMain').textContent = `Research '${pointerName}' level increased, it is now ${level[upgrade]} ${level[upgrade] >= pointer.max[upgrade] ? 'maxed' : ''}`; 
+    }
   } else {
     let level = player.elements[upgrade];
     if (level >= 1) { return false; }
@@ -1394,7 +1397,10 @@ export const stageAsyncReset = async() => {
           text = 'Ready to enter next Stage? Next one will be harder than current';
         }
         if (!await Confirm(text)) { return; }
-        if (!stageResetCheck(active)) { return Notify('Stage reset canceled, requirements are no longer met'); }
+        if (!stageResetCheck(active)) {
+          Notify('Stage reset canceled, requirements are no longer met'); 
+          return; 
+        }
       }
     }
     stageResetReward(active);
@@ -1513,7 +1519,10 @@ export const dischargeAsyncReset = async() => {
   if (player.toggles.confirm[1] !== 'None') {
     if (player.toggles.confirm[1] !== 'Safe' || player.stage.active !== 1) {
       if (!await Confirm(`Reset Structures and Energy to ${energy >= info.next ? 'gain boost from a new goal' : `regain ${format(info.energyTrue - energy)} spent Energy`}?`)) { return; }
-      if (!dischargeResetCheck()) { return Notify('Discharge canceled, requirements are no longer met'); }
+      if (!dischargeResetCheck()) {
+        Notify('Discharge canceled, requirements are no longer met');
+        return; 
+      }
     }
   }
 
@@ -1572,7 +1581,10 @@ export const vaporizationAsyncReset = async() => {
     const rainNow = calculateEffects.S2Extra1_2();
     if (player.toggles.confirm[2] !== 'Safe' || player.stage.active !== 2 || Limit(calculateEffects.clouds(true)).divide(info.strength, rainNow[0], rainNow[1]).multiply(rainPost[0], rainPost[1]).lessThan('2')) {
       if (!await Confirm(`Reset Structures and Upgrades for ${Limit(info.get).format()} (+${Limit(increase).format()}%) Clouds?`)) { return; }
-      if (!vaporizationResetCheck()) { return Notify('Vaporization canceled, requirements are no longer met'); }
+      if (!vaporizationResetCheck()) {
+        Notify('Vaporization canceled, requirements are no longer met'); 
+        return; 
+      }
     }
   }
 
@@ -1611,7 +1623,10 @@ export const rankAsyncReset = async() => {
   if (player.toggles.confirm[3] !== 'None' && player.accretion.rank !== 0) {
     if (player.toggles.confirm[3] !== 'Safe' || player.stage.active !== 3) {
       if (!await Confirm('Reset Structures, Upgrades and Stage Researches to increase current Rank?')) { return; }
-      if (!rankResetCheck()) { return Notify('Rank increase canceled, requirements are no longer met'); }
+      if (!rankResetCheck()) {
+        Notify('Rank increase canceled, requirements are no longer met'); 
+        return; 
+      }
     }
   }
 
@@ -1725,7 +1740,10 @@ export const collapseAsyncReset = async() => {
       }
 
       if (!await Confirm(message + '\nContinue?')) { return; }
-      if (!collapseResetCheck()) { return Notify('Collapse canceled, requirements are no longer met'); }
+      if (!collapseResetCheck()) {
+        Notify('Collapse canceled, requirements are no longer met'); 
+        return;
+      }
     }
   }
 

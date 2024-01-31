@@ -1256,11 +1256,14 @@ export const deepClone = <CloneType>(toClone: CloneType): CloneType => {
   let value: any;
   if (Array.isArray(toClone)) {
     value = []; // Faster this way
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     for (const el of toClone) { value.push(deepClone(el)); }
   } else {
     value = {};
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     for (const check in toClone) { value[check] = deepClone(toClone[check]); }
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return value;
 };
 
