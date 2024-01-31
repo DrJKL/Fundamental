@@ -192,7 +192,7 @@ const replaceSaveFileSpecials = (): string => {
     '[matter]',
     '[vacuum]',
     '[date]',
-    '[time]'
+    '[time]',
   ];
   const replaceWith = [
     global.stageInfo.word[player.stage.active],
@@ -201,7 +201,7 @@ const replaceSaveFileSpecials = (): string => {
     global.strangeInfo.name[player.strangeness[5][10]],
     `${player.inflation.vacuum}`,
     getDate('dateDMY'),
-    getDate('timeHMS')
+    getDate('timeHMS'),
   ];
   for (let i = 0; i < special.length; i++) {
     realName = realName.replaceAll(special[i], replaceWith[i]);

@@ -10,7 +10,7 @@ export const specialHTML = { // First values for images from here must be from t
     '<span class="bigWord grayText">Vaporization</span>. Structures, Upgrades, will be reset. But in return gain <span class="grayText">Clouds</span>. It takes a lot to form more than one.',
     '<img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false" id="rankImage">Current <span class="bigWord darkorchidText">Rank</span> is: <span id="rankName"></span>. <span id="rankMessage"></span>',
     '<span class="bigWord orchidText">Collapse</span> - everything will be lost, but at same time gained. Even remnants have their own unique strength and effects.',
-    ''
+    '',
   ],
   longestBuilding: 7, // +1
   buildingHTML: [ // outerHTML is slow
@@ -19,7 +19,7 @@ export const specialHTML = { // First values for images from here must be from t
     ['Drop.png', 'Puddle.png', 'Pond.png', 'Lake.png', 'Sea.png', 'Ocean.png'],
     ['Cosmic%20dust.png', 'Planetesimal.png', 'Protoplanet.png', 'Natural%20satellite.png', 'Subsatellite.png'],
     ['Brown%20dwarf.png', 'Orange%20dwarf.png', 'Red%20supergiant.png', 'Blue%20hypergiant.png', 'Quasi%20star.png'],
-    ['Nebula.png', 'Star%20cluster.png', 'Galaxy.png']
+    ['Nebula.png', 'Star%20cluster.png', 'Galaxy.png'],
   ],
   longestUpgrade: 13,
   upgradeHTML: [
@@ -34,7 +34,7 @@ export const specialHTML = { // First values for images from here must be from t
       ['UpgradeQ7.png', 'Protium'],
       ['UpgradeQ8.png', 'Deuterium'],
       ['UpgradeQ9.png', 'Tritium'],
-      ['UpgradeQ10.png', 'Fusion']
+      ['UpgradeQ10.png', 'Fusion'],
     ],
     [
       ['UpgradeW1.png', 'H2O'],
@@ -45,7 +45,7 @@ export const specialHTML = { // First values for images from here must be from t
       ['UpgradeW6.png', 'Stream'],
       ['UpgradeW7.png', 'River'],
       ['UpgradeW8.png', 'Tsunami'],
-      ['UpgradeW9.png', 'Tide']
+      ['UpgradeW9.png', 'Tide'],
     ],
     [
       ['UpgradeA1.png', 'Motion'],
@@ -60,19 +60,19 @@ export const specialHTML = { // First values for images from here must be from t
       ['UpgradeA10.png', 'Atmosphere'],
       ['UpgradeA11.png', 'Pebble'],
       ['UpgradeA12.png', 'Tidal force'],
-      ['UpgradeA13.png', 'Ring']
+      ['UpgradeA13.png', 'Ring'],
     ],
     [
       ['UpgradeS1.png', 'Collapse'],
       ['UpgradeS2.png', 'Reaction'],
       ['UpgradeS3.png', 'CNO'],
-      ['UpgradeS4.png', 'Helium fusion']
+      ['UpgradeS4.png', 'Helium fusion'],
     ],
     [
       ['UpgradeG1.png', 'Instability'],
       ['UpgradeG2.png', 'Super cluster'],
-      ['UpgradeG3.png', 'Quasar']
-    ]
+      ['UpgradeG3.png', 'Quasar'],
+    ],
   ],
   longestResearch: 9,
   researchHTML: [
@@ -83,7 +83,7 @@ export const specialHTML = { // First values for images from here must be from t
       ['ResearchQ3.png', 'Tritium+', 'stage1borderImage'],
       ['ResearchQ4.png', 'Discharge-', 'stage4borderImage'],
       ['ResearchQ5.png', 'Discharge+', 'stage4borderImage'],
-      ['ResearchQ6.png', 'Discharge++', 'stage4borderImage']
+      ['ResearchQ6.png', 'Discharge++', 'stage4borderImage'],
     ],
     [
       ['ResearchW1.png', 'H2O+', 'stage2borderImage'],
@@ -91,7 +91,7 @@ export const specialHTML = { // First values for images from here must be from t
       ['ResearchW3.png', 'Tension+', 'stage2borderImage'],
       ['ResearchW4.png', 'Stress+', 'stage2borderImage'],
       ['ResearchW5.png', 'Streams+', 'stage2borderImage'],
-      ['ResearchW6.png', 'Channel', 'stage2borderImage']
+      ['ResearchW6.png', 'Channel', 'stage2borderImage'],
     ],
     [
       ['ResearchA1.png', 'Mass+', 'stage3borderImage'],
@@ -102,19 +102,19 @@ export const specialHTML = { // First values for images from here must be from t
       ['ResearchA6.png', 'Binary', 'stage3borderImage'],
       ['ResearchA7.png', 'Gravity+', 'stage1borderImage'],
       ['ResearchA8.png', 'Layers', 'stage7borderImage'],
-      ['ResearchA9.png', 'Drag', 'stage1borderImage']
+      ['ResearchA9.png', 'Drag', 'stage1borderImage'],
     ],
     [
       ['ResearchS1.png', 'Orbit', 'stage5borderImage'],
       ['ResearchS2.png', '2 stars', 'stage5borderImage'],
       ['ResearchS3.png', 'Protodisc', 'stage7borderImage'],
       ['ResearchS4.png', 'Planetary nebula', 'stage5borderImage'],
-      ['ResearchS5.png', 'Gamma-rays', 'stage6borderImage']
+      ['ResearchS5.png', 'Gamma-rays', 'stage6borderImage'],
     ],
     [
       ['ResearchG1.png', 'Density', 'stage1borderImage'],
-      ['ResearchG2.png', 'Frequency', 'stage6borderImage']
-    ]
+      ['ResearchG2.png', 'Frequency', 'stage6borderImage'],
+    ],
   ],
   longestResearchExtra: 5,
   researchExtraDivHTML: [
@@ -123,7 +123,7 @@ export const specialHTML = { // First values for images from here must be from t
     ['Cloud%20Researches.png', 'stage2borderImage'],
     ['Rank%20Researches.png', 'stage6borderImage'],
     ['Collapse%20Researches.png', 'stage6borderImage'],
-    []
+    [],
   ],
   researchExtraHTML: [
     [],
@@ -132,59 +132,59 @@ export const specialHTML = { // First values for images from here must be from t
       ['ResearchEnergy2.png', 'Radiation+', 'stage5borderImage'],
       ['ResearchEnergy3.png', 'Accretion', 'stage3borderImage'],
       ['ResearchEnergy4.png', 'Preon Mass', 'stage1borderImage'],
-      ['ResearchEnergy5.png', 'Impulse', 'stage6borderImage']
+      ['ResearchEnergy5.png', 'Impulse', 'stage6borderImage'],
     ],
     [
       ['ResearchClouds1.png', 'Vaporization+', 'stage3borderImage'],
       ['ResearchClouds2.png', 'Rain', 'stage2borderImage'],
       ['ResearchClouds3.png', 'Storm', 'stage4borderImage'],
-      ['ResearchClouds4.png', 'Water Accretion', 'stage2borderImage']
+      ['ResearchClouds4.png', 'Water Accretion', 'stage2borderImage'],
     ],
     [
       ['ResearchRank1.png', 'Ocean', 'stage3borderImage'],
       ['ResearchRank2.png', 'Rank', 'stage3borderImage'],
       ['ResearchRank3.png', 'Weight', 'stage3borderImage'],
       ['ResearchRank4.png', 'Viscosity', 'stage2borderImage'],
-      ['ResearchRank5.png', 'Water Rank', 'stage2borderImage']
+      ['ResearchRank5.png', 'Water Rank', 'stage2borderImage'],
     ],
     [
       ['ResearchCollapse1.png', 'Supernova', 'stage6borderImage'],
       ['ResearchCollapse2.png', 'Mass transfer', 'stage7borderImage'],
-      ['ResearchCollapse3.png', 'White dwarf', 'stage1borderImage']
+      ['ResearchCollapse3.png', 'White dwarf', 'stage1borderImage'],
     ],
-    []
+    [],
   ],
   longestFooterStats: 3,
   footerStatsHTML: [
     [],
     [
       ['Energy%20mass.png', 'stage1borderImage cyanText', 'Mass'], // [2] === textcontent
-      ['Energy.png', 'stage4borderImage orangeText', 'Energy']
+      ['Energy.png', 'stage4borderImage orangeText', 'Energy'],
     ],
     [
       ['Clouds.png', 'stage3borderImage grayText', 'Clouds'],
       ['Water.png', 'stage2borderImage blueText', 'Moles'],
-      ['Drop.png', 'stage2borderImage blueText', 'Drops']
+      ['Drop.png', 'stage2borderImage blueText', 'Drops'],
     ],
     [
-      ['Mass.png', 'stage3borderImage grayText', 'Mass']
-    ],
-    [
-      ['Main_sequence%20mass.png', 'stage1borderImage cyanText', 'Mass'],
-      ['Elements.png', 'stage4borderImage orangeText', 'Elements']
+      ['Mass.png', 'stage3borderImage grayText', 'Mass'],
     ],
     [
       ['Main_sequence%20mass.png', 'stage1borderImage cyanText', 'Mass'],
       ['Elements.png', 'stage4borderImage orangeText', 'Elements'],
-      ['Stars.png', 'stage7borderImage redText', 'Stars']
-    ]
+    ],
+    [
+      ['Main_sequence%20mass.png', 'stage1borderImage cyanText', 'Mass'],
+      ['Elements.png', 'stage4borderImage orangeText', 'Elements'],
+      ['Stars.png', 'stage7borderImage redText', 'Stars'],
+    ],
   ],
   cache: {
     imagesDiv: document.createElement('div'),
     idMap: new Map<string, HTMLElement>(),
     classMap: new Map<string, HTMLElement[]>(),
-    queryMap: new Map<string, HTMLElement>()
-  }
+    queryMap: new Map<string, HTMLElement>(),
+  },
 };
 
 export const preventImageUnload = () => {

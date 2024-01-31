@@ -127,7 +127,7 @@ export const overlimit = {
       format: (settings = {} as { digits?: number; type?: 'number' | 'input'; padding?: boolean }): string => technical.format(result, settings),
       toNumber: (): number => Number(technical.convertBack(result)),
       toString: (): string => technical.convertBack(result),
-      toArray: (): [number, number] => technical.prepare(result)
+      toArray: (): [number, number] => technical.prepare(result),
     };
   },
   LimitAlt: {
@@ -200,7 +200,7 @@ export const overlimit = {
       for (let i = 0; i < clone.length; i++) {
         toSort.push(clone[main[i]]);
       }
-    }
+    },
   },
   technical: {
     add: (left: [number, number], right: [number, number]): [number, number] => {
@@ -541,8 +541,8 @@ export const overlimit = {
       number = overlimit.technical.prepare(number);
       if (!isFinite(number[0])) { return `${number[0]}`; }
       return number[1] === 0 ? `${number[0]}` : `${number[0]}e${number[1]}`;
-    }
-  }
+    },
+  },
 };
 
 export const { Limit, LimitAlt } = overlimit;

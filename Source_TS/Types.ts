@@ -62,7 +62,7 @@ export interface playerType {
       total: overlimit;
       trueTotal: overlimit;
       highest: overlimit;
-    }>
+    }>,
   ]>;
   strange: Array<{
     current: number;

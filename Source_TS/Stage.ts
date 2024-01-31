@@ -118,7 +118,7 @@ export const calculateEffects = {
 
       if (blackHoles < 1) { return 1; }
       return (blackHoles + 1) / logAny(blackHoles + 2, player.elements[18] >= minValue ? 3 : 2);
-    }
+    },
   ],
   S4Research0: (): number => {
     let effect = 1.3 + 0.15 * player.researches[4][2];
@@ -165,7 +165,7 @@ export const calculateEffects = {
   S2Strange9: (): number => {
     if (Limit(player.vaporization.clouds).lessOrEqual('1')) { return 1; }
     return Limit(player.vaporization.clouds).log(10).toNumber() / 50 + 1;
-  }
+  },
 };
 
 export const assignBuildingInformation = () => {
