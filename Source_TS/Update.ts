@@ -1028,7 +1028,7 @@ const updateHistory = (/* type: 'stage'*/) => {
 
 export const format = (input: number /* | overlimit*/, settings = {} as { digits?: number; type?: 'number' | 'input' | 'time' | 'income'; padding?: boolean }): string => {
   // if (typeof input !== 'number') { return Limit(input).format(settings as any); }
-  const type = settings.type !== undefined ? settings.type : 'number';
+  const type = settings.type ?? 'number';
 
   let extra;
   if (type === 'income') {
@@ -1101,7 +1101,7 @@ export const format = (input: number /* | overlimit*/, settings = {} as { digits
 
   const inputAbs = Math.abs(input);
   if (inputAbs >= 1e6 || (inputAbs < 1e-3 && inputAbs > 0)) {
-    const precision = settings.digits !== undefined ? settings.digits : 2;
+    const precision = settings.digits ?? 2;
     let digits = Math.floor(Math.log10(inputAbs));
     let result = Math.round(input / 10 ** (digits - precision)) / (10 ** precision);
     if (Math.abs(result) === 10) {
@@ -1115,7 +1115,7 @@ export const format = (input: number /* | overlimit*/, settings = {} as { digits
     return extra !== undefined ? `${formated} ${extra}` : formated;
   }
 
-  const precision = settings.digits !== undefined ? settings.digits : Math.max(4 - Math.floor(Math.log10(Math.max(inputAbs, 1))), 0);
+  const precision = settings.digits ?? Math.max(4 - Math.floor(Math.log10(Math.max(inputAbs, 1))), 0);
   const result = Math.round(input * 10 ** precision) / 10 ** precision;
 
   let formated = settings.padding === true ? result.toFixed(precision) : `${result}`;

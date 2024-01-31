@@ -131,7 +131,7 @@ export const overlimit = {
     };
   },
   LimitAlt: {
-    abs: (number: string): string => number[0] === '-' ? number.substring(1) : number,
+    abs: (number: string): string => number.startsWith('-') ? number.substring(1) : number,
     isNaN: (number: string): boolean => number.includes('NaN'),
     isFinite: (number: string): boolean => !number.includes('Infinity') && !number.includes('NaN'),
     clone: (number: [number, number]): [number, number] => [number[0], number[1]],
@@ -459,7 +459,7 @@ export const overlimit = {
 
       // 1.23ee123 (-1.23e-e123)
       if ((power >= 1e4 || power <= -1e4) && settings.type !== 'input') {
-        const digits = settings.digits !== undefined ? settings.digits : 2;
+        const digits = settings.digits ?? 2;
         let exponent = Math.floor(Math.log10(Math.abs(power)));
         let result = Math.abs(Math.round(power / 10 ** (exponent - digits)) / 10 ** digits);
         if (result === 10) {
@@ -472,7 +472,7 @@ export const overlimit = {
 
       // 1.23e123
       if (power >= 6 || power < -3) {
-        const digits = settings.digits !== undefined ? settings.digits : 2;
+        const digits = settings.digits ?? 2;
         let exponent = power;
         let result = Math.round(base * 10 ** digits) / 10 ** digits;
         if (Math.abs(result) === 10) {
@@ -485,7 +485,7 @@ export const overlimit = {
 
       // 12345
       // There is 1 known bug: number like 999999.9 will be converted into 1000000, which is above of maximum allowed
-      const digits = settings.digits !== undefined ? settings.digits : Math.max(4 - Math.max(power, 0), 0);
+      const digits = settings.digits ?? Math.max(4 - Math.max(power, 0), 0);
       const result = Math.round(base * 10 ** (digits + power)) / 10 ** digits;
       const formated = settings.padding === true ? result.toFixed(digits) : `${result}`;
       return settings.type === 'input' ? formated : result >= 1e3 ? formated.replace('.', player.separator[1]).replace(/\B(?=(\d{3})+(?!\d))/, player.separator[0]) : formated.replace('.', player.separator[1]);

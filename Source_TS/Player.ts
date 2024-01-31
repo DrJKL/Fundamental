@@ -1375,7 +1375,7 @@ function isPlayerType(toCheck: unknown): toCheck is playerType {
 }
 
 export const updatePlayer = (load: Partial<playerType>): string => {
-  if ('player' in load) { load = load['player'] as Partial<playerType>; }
+  if ('player' in load) { load = load.player as Partial<playerType>; }
   if (load.vaporization === undefined) { throw new ReferenceError('This save file is not from this game or too old'); }
   load.version ??= '0.0.0';
   prepareVacuum(Boolean(load.inflation?.vacuum)); // Only to set starting buildings values
@@ -1455,7 +1455,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
       }
       load.vaporization.clouds = Limit(load.vaporization.clouds).toArray();
       const firstStrange = load.strange[0];
-      if ('true' in firstStrange) { firstStrange.current = firstStrange['true'] as number; }
+      if ('true' in firstStrange) { firstStrange.current = firstStrange.true as number; }
       load.strange[0].total = load.strange[0].current;
       load.inflation = deepClone(playerStart.inflation);
       delete load.vaporization['current' as keyof unknown];

@@ -346,7 +346,8 @@ try { // Start everything
     const hangleToggle = (number: number, type: 'MD' | 'SR', reload = false) => {
       let state = false;
       if (!reload) {
-        const support = localStorage.getItem('support') as string;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const support = localStorage.getItem('support')!;
         state = support[number + 1] === 'F';
         localStorage.setItem('support', `${support.slice(0, number + 1)}${state ? 'T' : 'F'}${support.slice(number + 2, support.length)}`);
       }
@@ -365,7 +366,7 @@ try { // Start everything
       return state;
     };
 
-    if (supportType[0] === 'M') {
+    if (supportType.startsWith('M')) {
       const MDToggle = getId('MDMainToggle');
       MDToggle.textContent = 'ON';
       MDToggle.style.color = 'var(--red-text)';
@@ -391,7 +392,7 @@ try { // Start everything
         window.location.reload();
       });
       if (supportType[1] === 'F') { hangleToggle(0, 'MD', true); }
-    } else if (supportType[0] === 'S') {
+    } else if (supportType.startsWith('S')) {
       const SRToggle = getId('SRMainToggle');
       SRToggle.textContent = 'ON';
       SRToggle.style.color = 'var(--red-text)';
@@ -483,7 +484,7 @@ try { // Start everything
 
   /* Global */
   const { mobileDevice: MD, screenReader: SR } = global;
-  const PC = !MD || (supportType as string)[1] === 'F';
+  const PC = !MD || supportType?.[1] === 'F';
   document.addEventListener('keydown', (key: KeyboardEvent) => { detectHotkey(key); });
   for (let i = 0; i < playerStart.toggles.normal.length; i++) {
     getId(`toggleNormal${i}`).addEventListener('click', () => {
@@ -760,7 +761,7 @@ try { // Start everything
   getId('save').addEventListener('click', () => { saveGame(); });
   getId('file').addEventListener('change', async() => {
     const id = getId('file') as HTMLInputElement;
-    loadGame(await (id.files as FileList)[0].text());
+    loadGame(await id.files?.[0]?.text() ?? '');
     id.value = '';
   });
   getId('export').addEventListener('click', () => { exportFileGame(); });
@@ -808,13 +809,13 @@ try { // Start everything
   getId('MDMainToggle').addEventListener('click', async() => {
     if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
     const support = localStorage.getItem('support');
-    support !== null && support[0] === 'M' ? localStorage.removeItem('support') : localStorage.setItem('support', 'MT');
+    support !== null && support.startsWith('M') ? localStorage.removeItem('support') : localStorage.setItem('support', 'MT');
     window.location.reload();
   });
   getId('SRMainToggle').addEventListener('click', async() => {
     if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
     const support = localStorage.getItem('support');
-    support !== null && support[0] === 'S' ? localStorage.removeItem('support') : localStorage.setItem('support', 'STT');
+    support !== null && support.startsWith('S') ? localStorage.removeItem('support') : localStorage.setItem('support', 'STT');
     window.location.reload();
   });
   getId('pauseGame').addEventListener('click', () => { void pauseGame(); });
