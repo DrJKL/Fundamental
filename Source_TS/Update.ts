@@ -66,7 +66,7 @@ export const switchTab = (tab: string, subtab = null as null | string) => {
 export const maxOfflineTime = (): number => player.stage.true >= 6 ? 43200 : Math.min(3600 * player.stage.true + Math.max((player.stage.resets - 4) * 1800, 0), 43200);
 export const exportMultiplier = (): number => (1 + player.stage.best / 16) * (player.strangeness[4][7] + 1);
 
-export const timeUpdate = (timeWarp = 0, tick = 1) => { //Time based information
+export const timeUpdate = (timeWarp = 0, tick = 1) => { // Time based information
     const { time } = player;
     const { auto, buildings: autoBuy } = player.toggles;
     const { maxActive, type } = global.buildingsInfo;
@@ -134,9 +134,9 @@ export const timeUpdate = (timeWarp = 0, tick = 1) => { //Time based information
                 assignBuildingInformation();
             }
         }
-        if (s === 1) { //Molecules from Radiation
+        if (s === 1) { // Molecules from Radiation
             if (player.upgrades[1][8] === 1) { gainBuildings(5, 1, passedSeconds); }
-        } else if (s === 5) { //Stars from Nebulas
+        } else if (s === 5) { // Stars from Nebulas
             const research = player.researches[5][0];
 
             if (research >= 1) { gainBuildings(1, 5, passedSeconds); }
@@ -197,7 +197,7 @@ export const numbersUpdate = () => {
                 let costName: string;
                 let currency: number | overlimit;
                 let free = false;
-                if (active === 5 && i === 3) { //Galaxy
+                if (active === 5 && i === 3) { // Galaxy
                     costName = 'Mass';
                     currency = player.collapse.mass;
                 } else {
@@ -405,17 +405,17 @@ export const visualUpdate = () => {
     if (!player.event) {
         if (player.stage.true === 5) {
             if (player.strange[0].total > 0) {
-                if (player.buildings[5][3].true >= 1) { void playEvent(6); }
-            } else if (active === 5) { void playEvent(5); }
+                if (player.buildings[5][3].true >= 1) { playEvent(6); }
+            } else if (active === 5) { playEvent(5); }
         } else if (player.stage.true === 4) {
-            if (player.elements.includes(0.5)) { void playEvent(4); }
+            if (player.elements.includes(0.5)) { playEvent(4); }
         } else if (player.stage.true === 3) {
-            if (Limit(player.buildings[3][0].current).moreOrEqual('5e29')) { void playEvent(3); }
+            if (Limit(player.buildings[3][0].current).moreOrEqual('5e29')) { playEvent(3); }
         } else if (player.stage.true === 2) {
             assignVaporizationInformation();
-            if (Limit(global.vaporizationInfo.get).plus(player.vaporization.clouds).moreThan('1e4')) { void playEvent(2); }
+            if (Limit(global.vaporizationInfo.get).plus(player.vaporization.clouds).moreThan('1e4')) { playEvent(2); }
         } else if (player.stage.true === 1) {
-            if (player.upgrades[1][5] === 1) { void playEvent(1); }
+            if (player.upgrades[1][5] === 1) { playEvent(1); }
         }
     }
 
@@ -704,7 +704,7 @@ export const visualUpdate = () => {
             }
             if (trueStage < 7) { getId('switchTheme6').style.display = trueStage === 6 && strangeness[5][0] >= 1 ? '' : 'none'; }
         } else if (subtab.settingsCurrent === 'History') {
-            updateHistory(/*'stage'*/);
+            updateHistory(/* 'stage'*/);
         } else if (subtab.settingsCurrent === 'Stats') {
             const { strange, strangeness } = player;
             const buildings = player.buildings[active];
@@ -906,11 +906,11 @@ export const visualUpdateUpgrades = (index: number, stageIndex: number, type: 'u
             } else if (stageIndex === 2) {
                 color = 'darkgreen';
             } else if (stageIndex === 3) {
-                color = '#0000b1'; //Darker blue
+                color = '#0000b1'; // Darker blue
             } else if (stageIndex === 4) {
-                color = '#1f1f8f'; //Brigher midnightblue
+                color = '#1f1f8f'; // Brigher midnightblue
             } else if (stageIndex === 5) {
-                color = '#990000'; //Brigher maroon
+                color = '#990000'; // Brigher maroon
             }
             image.tabIndex = global.supportSettings[0] ? -1 : 0;
         } else { image.tabIndex = 0; }
@@ -962,7 +962,7 @@ export const visualUpdateResearches = (index: number, stageIndex: number, type: 
         upgradeHTML = getId('ASRLevel');
         getId('ASRMax').textContent = `${max}`;
         image = getId('ASRImage');
-    } else /*if (type === 'strangeness')*/ {
+    } else /* if (type === 'strangeness')*/ {
         max = global.strangenessInfo[stageIndex].max[index];
         level = player.strangeness[stageIndex][index];
 
@@ -976,7 +976,7 @@ export const visualUpdateResearches = (index: number, stageIndex: number, type: 
         upgradeHTML.style.color = 'var(--green-text)';
         image.tabIndex = global.supportSettings[0] ? -1 : 0;
     } else if (level === 0) {
-        upgradeHTML.style.color = ''; //Red
+        upgradeHTML.style.color = ''; // Red
         image.tabIndex = 0;
     } else {
         upgradeHTML.style.color = 'var(--orchid-text)';
@@ -1007,7 +1007,7 @@ const updateRankInfo = () => {
     global.debug.rankUpdated = rank;
 };
 
-const updateHistory = (/*type: 'stage'*/) => {
+const updateHistory = (/* type: 'stage'*/) => {
     if (global.debug.historyStage === player.stage.resets) { return; }
     const list = global.historyStorage.stage;
 
@@ -1026,8 +1026,8 @@ const updateHistory = (/*type: 'stage'*/) => {
     global.debug.historyStage = player.stage.resets;
 };
 
-export const format = (input: number /*| overlimit*/, settings = {} as { digits?: number; type?: 'number' | 'input' | 'time' | 'income'; padding?: boolean }): string => {
-    //if (typeof input !== 'number') { return Limit(input).format(settings as any); }
+export const format = (input: number /* | overlimit*/, settings = {} as { digits?: number; type?: 'number' | 'input' | 'time' | 'income'; padding?: boolean }): string => {
+    // if (typeof input !== 'number') { return Limit(input).format(settings as any); }
     const type = settings.type !== undefined ? settings.type : 'number';
 
     let extra;
@@ -1125,7 +1125,7 @@ export const format = (input: number /*| overlimit*/, settings = {} as { digits?
     return extra !== undefined ? `${formated} ${extra}` : formated;
 };
 
-//Soft means that Stage wasn't changed
+// Soft means that Stage wasn't changed
 export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload') => {
     const { stageInfo, buildingsInfo } = global;
     const { active, current, true: highest, resets } = player.stage;
@@ -1139,7 +1139,7 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload') =>
         if (player.researchesExtra[1][2] >= 1) { activeAll.push(3); }
         if (player.accretion.rank >= 6) {
             activeAll.push(4);
-            if (player.strangeness[5][5] >= 1 && (challenge !== 0 /*|| current >= 5*/)) { activeAll.push(5); }
+            if (player.strangeness[5][5] >= 1 && (challenge !== 0 /* || current >= 5*/)) { activeAll.push(5); }
         }
     } else {
         if (current === 4) {
@@ -1203,7 +1203,7 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload') =>
         numbersUpdate();
         visualUpdate();
         return;
-    } else if (global.screenReader) { //Firefox only recently (24.10.2023) added aria shortcuts (.ariaLabel)
+    } else if (global.screenReader) { // Firefox only recently (24.10.2023) added aria shortcuts (.ariaLabel)
         getId('reset1Main').setAttribute('aria-label', `${['', 'Discharge', 'Vaporization', 'Rank', 'Collapse', ''][active]} reset (hotkey ${['', 'D', 'V', 'R', 'C'][active]})`);
         for (let i = 1; i < buildingsInfo.maxActive[active]; i++) {
             getId(`building${i}`).setAttribute('aria-label', `${buildingsInfo.name[active][i]} (hotkey ${i})`);
@@ -1264,10 +1264,10 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload') =>
         getId(`footerStat${i + 1}`).style.display = 'none';
     }
 
-    const showU: number[] = []; //Upgrades
-    const showR: number[] = []; //Researches
-    const showRE: number[] = []; //ResearchesExtra
-    const showF: number[] = []; //Footer stats
+    const showU: number[] = []; // Upgrades
+    const showR: number[] = []; // Researches
+    const showRE: number[] = []; // ResearchesExtra
+    const showF: number[] = []; // Footer stats
     if (active === 1) {
         showU.push(3, 4, 5, 6);
         showR.push(1, 2, 3, 4, 5, 6);
@@ -1321,7 +1321,7 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload') =>
     getId('solarMassStats').style.display = active === 4 || active === 5 ? '' : 'none';
 
     (getId('autoWaitInput') as HTMLInputElement).value = format(player.toggles.shop.wait[active], { type: 'input' });
-    getId('reset1Text').innerHTML = specialHTML.resetHTML[active]; //New ID's inside
+    getId('reset1Text').innerHTML = specialHTML.resetHTML[active]; // New ID's inside
 
     const buildingHTML = specialHTML.buildingHTML[active];
     for (let i = 1; i < buildingsInfo.maxActive[active]; i++) {

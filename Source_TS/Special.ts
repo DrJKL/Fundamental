@@ -3,7 +3,7 @@ import { global, player } from './Player';
 import { calculateMaxLevel } from './Stage';
 import { numbersUpdate, visualUpdate } from './Update';
 
-export const specialHTML = { //First values for images from here must be from true vacuum
+export const specialHTML = { // First values for images from here must be from true vacuum
     resetHTML: [
         '',
         '<span class="bigWord orangeText">Discharge</span>. Reset current Structures and Energy. Will also boost production by <span id="dischargeBase" class="orangeText"></span>, if to reset with enough Energy.',
@@ -12,10 +12,10 @@ export const specialHTML = { //First values for images from here must be from tr
         '<span class="bigWord orchidText">Collapse</span> - everything will be lost, but at same time gained. Even remnants have their own unique strength and effects.',
         ''
     ],
-    longestBuilding: 7, //+1
-    buildingHTML: [ //outerHTML is slow
+    longestBuilding: 7, // +1
+    buildingHTML: [ // outerHTML is slow
         [],
-        ['Preon.png', 'Quarks.png', 'Particle.png', 'Atom.png', 'Molecule.png'], //[0] === src
+        ['Preon.png', 'Quarks.png', 'Particle.png', 'Atom.png', 'Molecule.png'], // [0] === src
         ['Drop.png', 'Puddle.png', 'Pond.png', 'Lake.png', 'Sea.png', 'Ocean.png'],
         ['Cosmic%20dust.png', 'Planetesimal.png', 'Protoplanet.png', 'Natural%20satellite.png', 'Subsatellite.png'],
         ['Brown%20dwarf.png', 'Orange%20dwarf.png', 'Red%20supergiant.png', 'Blue%20hypergiant.png', 'Quasi%20star.png'],
@@ -25,7 +25,7 @@ export const specialHTML = { //First values for images from here must be from tr
     upgradeHTML: [
         [],
         [
-            ['UpgradeQ1.png', 'Weak force'], //[1] === alt
+            ['UpgradeQ1.png', 'Weak force'], // [1] === alt
             ['UpgradeQ2.png', 'Strong force'],
             ['UpgradeQ3.png', 'Electron'],
             ['UpgradeQ4.png', 'Proton'],
@@ -78,7 +78,7 @@ export const specialHTML = { //First values for images from here must be from tr
     researchHTML: [
         [],
         [
-            ['ResearchQ1.png', 'Protium+', 'stage1borderImage'], //[2] === className
+            ['ResearchQ1.png', 'Protium+', 'stage1borderImage'], // [2] === className
             ['ResearchQ2.png', 'Deuterium+', 'stage1borderImage'],
             ['ResearchQ3.png', 'Tritium+', 'stage1borderImage'],
             ['ResearchQ4.png', 'Discharge-', 'stage4borderImage'],
@@ -158,7 +158,7 @@ export const specialHTML = { //First values for images from here must be from tr
     footerStatsHTML: [
         [],
         [
-            ['Energy%20mass.png', 'stage1borderImage cyanText', 'Mass'], //[2] === textcontent
+            ['Energy%20mass.png', 'stage1borderImage cyanText', 'Mass'], // [2] === textcontent
             ['Energy.png', 'stage4borderImage orangeText', 'Energy']
         ],
         [
@@ -189,14 +189,14 @@ export const specialHTML = { //First values for images from here must be from tr
 
 export const preventImageUnload = () => {
     const { footerStatsHTML: footer, buildingHTML: build, upgradeHTML: upgrade, researchHTML: research, researchExtraHTML: extra, researchExtraDivHTML: extraDiv } = specialHTML;
-    //Duplicates are ignored, unless they are from Strangeness, because duplicates from there could become unique in future
+    // Duplicates are ignored, unless they are from Strangeness, because duplicates from there could become unique in future
 
     let images = '';
     for (let s = 1; s <= 5; s++) {
         for (let i = 0; i < footer[s].length; i++) {
             if (s === 2) {
-                if (i === 2) { continue; } //Drops
-            } else if (s === 5 && i < 2) { continue; } //Solar mass and Elements
+                if (i === 2) { continue; } // Drops
+            } else if (s === 5 && i < 2) { continue; } // Solar mass and Elements
             images += `<img src="Used_art/${footer[s][i][0]}" loading="lazy">`;
         }
         for (const artSrc of build[s]) {
@@ -214,7 +214,7 @@ export const preventImageUnload = () => {
         if (extraDiv[s].length > 0) { images += `<img src="Used_art/${extraDiv[s][0]}" loading="lazy">`; }
         images += `<img src="Used_art/Stage${s}%20border.png" loading="lazy">`;
     }
-    specialHTML.cache.imagesDiv.innerHTML = images; //Saved just in case
+    specialHTML.cache.imagesDiv.innerHTML = images; // Saved just in case
 };
 
 export const setTheme = (theme: number | null) => {
@@ -257,7 +257,7 @@ export const switchTheme = () => {
     body.removeProperty('--button-text');
     body.removeProperty('--main-text');
     body.removeProperty('--white-text');
-    //body.removeProperty('--cyan-text');
+    // body.removeProperty('--cyan-text');
     body.removeProperty('--blue-text');
     body.removeProperty('--orange-text');
     body.removeProperty('--gray-text');
@@ -557,7 +557,7 @@ export const Notify = (text: string) => {
     notification.textContent = text;
     notification.style.animation = 'hideX 1s ease-in-out reverse';
     div.style.pointerEvents = '';
-    if (global.screenReader) { notification.setAttribute('role', 'alert'); } //Firefox only recently added support for .role (in version 119)
+    if (global.screenReader) { notification.setAttribute('role', 'alert'); } // Firefox only recently added support for .role (in version 119)
 
     const mainDiv = getId('notifications');
     mainDiv.appendChild(notification);
@@ -663,7 +663,7 @@ export const replayEvent = async() => {
         last = player.event ? 6 : 5;
     } else {
         last = player.stage.true - (player.event ? 0 : 1);
-        if (last < 1) { return void Alert('There are no unlocked events'); }
+        if (last < 1) { return Alert('There are no unlocked events'); }
     }
 
     let text = 'Which event do you want to see again?\nEvent 1: To Discharge;';
@@ -677,7 +677,7 @@ export const replayEvent = async() => {
     const event = Number(await Prompt(text, `${last}`));
     if (event > last) { return; }
 
-    void playEvent(event, false);
+    playEvent(event, false);
 };
 
 export const playEvent = async(event: number, award = true) => {
@@ -686,24 +686,24 @@ export const playEvent = async(event: number, award = true) => {
 
     switch (event) {
         case 1:
-            return void Alert("Spent Energy can be regained only with Discharge, reaching new Goal isn't required for it");
+            return Alert("Spent Energy can be regained only with Discharge, reaching new Goal isn't required for it");
         case 2:
-            return void Alert('Cloud density is too high... Strength of new Clouds will be weaker');
+            return Alert('Cloud density is too high... Strength of new Clouds will be weaker');
         case 3:
             if (award) {
                 global.accretionInfo.rankCost[4] = 5e29;
                 global.debug.rankUpdated = -1;
             }
-            return void Alert("Accretion can't continue without a new Rank. Next Rank is going to be softcapped");
+            return Alert("Accretion can't continue without a new Rank. Next Rank is going to be softcapped");
         case 4:
-            return void Alert("Elements require Collapse to be activated. Solar mass won't decrease from Collapse");
+            return Alert("Elements require Collapse to be activated. Solar mass won't decrease from Collapse");
         case 5:
-            return void Alert('Intergalactic space is currently empty, but after returning back to Microworld and completing different Milestones, new end will arrive');
+            return Alert('Intergalactic space is currently empty, but after returning back to Microworld and completing different Milestones, new end will arrive');
         case 6:
             if (award) { calculateMaxLevel(4, 4, 'strangeness', true); }
-            return void Alert('Galaxy will boost Nebulas and Star clusters, but for the price of everything else');
+            return Alert('Galaxy will boost Nebulas and Star clusters, but for the price of everything else');
         case 7:
             await Alert('Vacuum is too unstable. Vacuum instability is imminent');
-            return void Alert('False Vacuum decayed, new Forces and Structures are expected\n(Game will be much slower now)');
+            return Alert('False Vacuum decayed, new Forces and Structures are expected\n(Game will be much slower now)');
     }
 };

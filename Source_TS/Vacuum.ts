@@ -3,7 +3,7 @@ import {  global, player, playerStart } from './Player';
 import { resetVacuum } from './Reset';
 import { Alert, Confirm, playEvent, specialHTML } from './Special';
 
-export const prepareVacuum = (state: boolean) => { //Must not use direct player values
+export const prepareVacuum = (state: boolean) => { // Must not use direct player values
     const { buildings } = playerStart;
     const { buildingsInfo, upgradesInfo, researchesInfo, researchesExtraInfo, strangenessInfo } = global;
 
@@ -32,27 +32,27 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
         const upgrades1Cost = [40, 80, 100, 140, 200, 400, 2000, 4000, 20000, 70000];
         upgradesInfo[1].startCost.splice(0, upgrades1Cost.length, ...upgrades1Cost);
         upgradesInfo[5].startCost[2] = 1e120;
-        //upgradesInfo[1].maxActive = 10;
+        // upgradesInfo[1].maxActive = 10;
         upgradesInfo[2].maxActive = 9;
-        //upgradesInfo[3].maxActive = 13;
-        //upgradesInfo[4].maxActive = 4;
-        //upgradesInfo[5].maxActive = 3;
+        // upgradesInfo[3].maxActive = 13;
+        // upgradesInfo[4].maxActive = 4;
+        // upgradesInfo[5].maxActive = 3;
 
         const researches1Cost = [2400, 6000, 24000, 30000, 24000, 30000];
         const researches1Scaling = [400, 2000, 6000, 24000, 12000, 12000];
         researchesInfo[1].startCost.splice(0, researches1Cost.length, ...researches1Cost);
         researchesInfo[1].scaling.splice(0, researches1Scaling.length, ...researches1Scaling);
-        //researchesInfo[1].maxActive = 6;
-        //researchesInfo[2].maxActive = 6;
-        //researchesInfo[3].maxActive = 9;
-        //researchesInfo[4].maxActive = 5;
-        //researchesInfo[5].maxActive = 2;
+        // researchesInfo[1].maxActive = 6;
+        // researchesInfo[2].maxActive = 6;
+        // researchesInfo[3].maxActive = 9;
+        // researchesInfo[4].maxActive = 5;
+        // researchesInfo[5].maxActive = 2;
 
         researchesExtraInfo[1].maxActive = 5;
         researchesExtraInfo[2].maxActive = 4;
         researchesExtraInfo[3].maxActive = 5;
-        //researchesExtraInfo[4].maxActive = 3;
-        //researchesExtraInfo[5].maxActive = 0;
+        // researchesExtraInfo[4].maxActive = 3;
+        // researchesExtraInfo[5].maxActive = 0;
 
         global.accretionInfo.rankCost[5] = 2.45576045e31;
         global.ASRInfo.costRange[1] = [4000, 10000, 16000, 24000, 32000];
@@ -99,8 +99,8 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
         getId('preonCap').style.display = '';
         getId('molesProduction').style.display = '';
         getId('effectiveDrops').style.display = '';
-        //getId('massProduction').style.display = '';
-        //getId('dustCap').style.display = '';
+        // getId('massProduction').style.display = '';
+        // getId('dustCap').style.display = '';
         getId('mainCap').style.display = '';
         getId('strange9Stage1').style.display = '';
         getId('strange8Stage2').style.display = '';
@@ -209,8 +209,8 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
         getId('preonCap').style.display = 'none';
         getId('molesProduction').style.display = 'none';
         getId('effectiveDrops').style.display = 'none';
-        //getId('massProduction').style.display = 'none';
-        //getId('dustCap').style.display = 'none';
+        // getId('massProduction').style.display = 'none';
+        // getId('dustCap').style.display = 'none';
         getId('mainCap').style.display = 'none';
         getId('researchAuto1').style.display = 'none';
         getId('researchAuto2').style.display = 'none';
@@ -230,9 +230,9 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
 };
 
 export const switchVacuum = async() => {
-    if (player.inflation.vacuum) { return void Alert('This cannot be undone'); }
+    if (player.inflation.vacuum) { return Alert('This cannot be undone'); }
     const count = global.strangeInfo.instability;
-    if (count < 5) { return void Alert(`Universe is still stable. Vacuum state is false. ${5 - count} more`); }
+    if (count < 5) { return Alert(`Universe is still stable. Vacuum state is false. ${5 - count} more`); }
 
     if (!await Confirm('This will not be possible to undo. Confirm?')) { return; }
     if (player.stage.true < 6) {

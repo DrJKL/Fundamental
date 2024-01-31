@@ -24,7 +24,7 @@ export const detectHotkey = (check: KeyboardEvent) => {
         let isShift = check.shiftKey;
         if (isNaN(Number(key))) {
             if (code === '' || code[0] === 'F') { return; }
-            if (!isShift) { //Numpad
+            if (!isShift) { // Numpad
                 isShift = true;
                 check.preventDefault();
             }
@@ -43,17 +43,17 @@ export const detectHotkey = (check: KeyboardEvent) => {
         } else {
             if (stringKey === 'w') {
                 check.preventDefault();
-                void timeWarp();
+                timeWarp();
             } else if (stringKey === 's') {
-                void stageAsyncReset();
+                stageAsyncReset();
             } else if (stringKey === 'd') {
-                if (global.stageInfo.activeAll.includes(1)) { void dischargeAsyncReset(); }
+                if (global.stageInfo.activeAll.includes(1)) { dischargeAsyncReset(); }
             } else if (stringKey === 'v') {
-                if (global.stageInfo.activeAll.includes(2)) { void vaporizationAsyncReset(); }
+                if (global.stageInfo.activeAll.includes(2)) { vaporizationAsyncReset(); }
             } else if (stringKey === 'r') {
-                if (global.stageInfo.activeAll.includes(3)) { void rankAsyncReset(); }
+                if (global.stageInfo.activeAll.includes(3)) { rankAsyncReset(); }
             } else if (stringKey === 'c') {
-                if (global.stageInfo.activeAll.includes(4)) { void collapseAsyncReset(); }
+                if (global.stageInfo.activeAll.includes(4)) { collapseAsyncReset(); }
             }
         }
     } else if (key === 'ArrowLeft' || key === 'ArrowRight') {

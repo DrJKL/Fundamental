@@ -9,6 +9,7 @@
         "plugin:@typescript-eslint/strict",
         "plugin:@typescript-eslint/stylistic"
     ],
+    "plugins": ["@stylistic/eslint-plugin"],
     "overrides": [],
     "parserOptions": {
         "project": true,
@@ -24,27 +25,22 @@
         "indent": ["error", 4, { "SwitchCase": 1, "flatTernaryExpressions": true }],
         "max-statements-per-line": ["error", { "max": 2 }], //Because brace-style isn't working. So only allowed for cases like 'if (condition) { do this; }'
         "multiline-ternary": "off",
-        "no-empty": "warn", //When testing add comment inside
         "no-extra-label": "warn",
-        "no-fallthrough": "error", //falls through; For intentional one
-        "no-labels": "off",
         "no-loop-func": "warn",
         "no-promise-executor-return": "error",
-        "no-sparse-arrays": "off",
-        "no-unsafe-negation": ["error", { "enforceForOrderingRelations": true }], //Use (!key) or !(a < b), instead
-        "no-unsafe-optional-chaining": "error",
         "no-unused-private-class-members": "warn",
         "no-useless-concat": "warn",
         "no-var": "warn",
-        "no-void": "off", //Bugs, doesn't allow to void promises
+        "no-void": "error",
         "object-shorthand": ["warn", "consistent-as-needed"],
         "operator-assignment": "warn",
         "operator-linebreak": ["error", "after"],
         "prefer-object-has-own": "warn", //No 'in' as well
-        "space-before-function-paren": "off", //Already in @typescript
-        "spaced-comment": "off",
+       
+        "spaced-comment": "error",
         "switch-colon-spacing": "error",
 
+        "@typescript-eslint/array-type": ["error", { "default": "array-simple" }], //I rather to turn it off
         "@typescript-eslint/await-thenable": "error",
         "@typescript-eslint/default-param-last": "error",
         "@typescript-eslint/explicit-function-return-type": "off",
@@ -64,9 +60,7 @@
         "@typescript-eslint/prefer-nullish-coalescing": "off", //It can't tell apart undefined from null
         "@typescript-eslint/restrict-plus-operands": "warn",
         "@typescript-eslint/restrict-template-expressions": "off", //Doesn't work with Errors
-        "@typescript-eslint/space-before-function-paren": ["error", "never"],
-        "@typescript-eslint/unified-signatures": ["error", { "ignoreDifferentlyNamedParameters": true}],
-        
-        "@typescript-eslint/array-type": ["error", { "default": "array-simple" }] //I rather to turn it off
+        "space-before-function-paren": "off", //Already in @typescript
+        "@typescript-eslint/space-before-function-paren": ["error", "never"]
     }
 }

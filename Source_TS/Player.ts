@@ -6,10 +6,10 @@ import type { globalType, playerType } from './Types';
 import { format, visualUpdateResearches } from './Update';
 import { prepareVacuum } from './Vacuum';
 
-export const player: playerType = { //Only for information that need to be saved (cannot be calculated)
+export const player: playerType = { // Only for information that need to be saved (cannot be calculated)
     version: 'v0.1.9',
     fileName: 'Fundamental, [date] [time], [stage]',
-    separator: ['', '.'], //[0] separator, [1] point
+    separator: ['', '.'], // [0] separator, [1] point
     stage: {
         true: 1,
         current: 1,
@@ -20,27 +20,27 @@ export const player: playerType = { //Only for information that need to be saved
         time: 0,
         input: 20
     },
-    discharge: { //Stage 1
+    discharge: { // Stage 1
         energy: 0,
         energyMax: 0,
         current: 0
     },
-    vaporization: { //Stage 2
+    vaporization: { // Stage 2
         clouds: [0, 0],
         cloudsMax: [0, 0],
         input: 3
     },
-    accretion: { //Stage 3
+    accretion: { // Stage 3
         rank: 0
     },
-    collapse: { //Stage 4, 5
+    collapse: { // Stage 4, 5
         mass: 0.01235,
         massMax: 0.01235,
         stars: [0, 0, 0],
         show: 0,
         input: 2
     },
-    inflation: { //Stage 6
+    inflation: { // Stage 6
         vacuum: false,
         age: 0
     },
@@ -59,18 +59,18 @@ export const player: playerType = { //Only for information that need to be saved
         universe: 0
     },
     buildings: [
-        [] as unknown as playerType['buildings'][0], [ //Stage 1
+        [] as unknown as playerType['buildings'][0], [ // Stage 1
             {
                 current: [3, 0],
                 total: [3, 0],
                 trueTotal: [3, 0],
                 highest: [3, 0]
             }, {
-                true: 0, //Bought
-                current: [0, 0], //On hands
-                total: [0, 0], //This reset
-                trueTotal: [0, 0], //This stage
-                highest: [0, 0] //Highest 'current' in any stage
+                true: 0, // Bought
+                current: [0, 0], // On hands
+                total: [0, 0], // This reset
+                trueTotal: [0, 0], // This stage
+                highest: [0, 0] // Highest 'current' in any stage
             }, {
                 true: 0,
                 current: [0, 0],
@@ -96,8 +96,8 @@ export const player: playerType = { //Only for information that need to be saved
                 trueTotal: [0, 0],
                 highest: [0, 0]
             }
-        ], [ //Stage 2
-            { //Should be instead '2.77675342812811e-3'
+        ], [ // Stage 2
+            { // Should be instead '2.77675342812811e-3'
                 current: [2.8, -3],
                 total: [2.8, -3],
                 trueTotal: [2.8, -3],
@@ -139,7 +139,7 @@ export const player: playerType = { //Only for information that need to be saved
                 trueTotal: [0, 0],
                 highest: [0, 0]
             }
-        ], [ //Stage 3
+        ], [ // Stage 3
             {
                 current: [1, -19],
                 total: [1, -19],
@@ -176,7 +176,7 @@ export const player: playerType = { //Only for information that need to be saved
                 trueTotal: [0, 0],
                 highest: [0, 0]
             }
-        ], [ //Stage 4
+        ], [ // Stage 4
             {
                 current: [1, 0],
                 total: [1, 0],
@@ -213,7 +213,7 @@ export const player: playerType = { //Only for information that need to be saved
                 trueTotal: [0, 0],
                 highest: [0, 0]
             }
-        ], [ //Stage 5
+        ], [ // Stage 5
             {
                 current: [0, 0],
                 total: [0, 0],
@@ -240,7 +240,7 @@ export const player: playerType = { //Only for information that need to be saved
             }
         ]
     ],
-    strange: [ //Stage 5
+    strange: [ // Stage 5
         {
             current: 0,
             total: 0
@@ -254,7 +254,7 @@ export const player: playerType = { //Only for information that need to be saved
     researches: [],
     researchesExtra: [],
     researchesAuto: [],
-    ASR: [], //Auto Structures Research
+    ASR: [], // Auto Structures Research
     elements: [],
     strangeness: [],
     milestones: [],
@@ -263,16 +263,16 @@ export const player: playerType = { //Only for information that need to be saved
         void: [0, 0, 0, 0, 0, 0]
     },
     toggles: {
-        normal: [], //Auto added for every element with a class 'toggleNormal'
+        normal: [], // Auto added for every element with a class 'toggleNormal'
         /* Hotkeys type[0]; Elements as tab[1] */
-        confirm: [], //Class 'toggleConfirm'
+        confirm: [], // Class 'toggleConfirm'
         /* Stage[0]; Discharge[1]; Vaporization[2]; Rank[3]; Collapse[4] */
-        buildings: [], //Class 'toggleBuilding' ([0] everywhere, is toggle all)
-        hover: [], //Class 'toggleHover'
+        buildings: [], // Class 'toggleBuilding' ([0] everywhere, is toggle all)
+        hover: [], // Class 'toggleHover'
         /* Upgrades/Researches/Elements[0] */
-        max: [], //Class 'toggleMax'
+        max: [], // Class 'toggleMax'
         /* Researches[0] */
-        auto: [], //Class 'toggleAuto'
+        auto: [], // Class 'toggleAuto'
         /* Stage[0], Discharge[1], Vaporization[2], Rank[3], Collapse[4],
            Upgrades[5], Researches[6], ResearchesExtra[7], Elements[8] */
         shop: {
@@ -291,7 +291,7 @@ export const player: playerType = { //Only for information that need to be saved
     event: false
 };
 
-export const global: globalType = { //For information that doesn't need to be saved
+export const global: globalType = { // For information that doesn't need to be saved
     tab: 'stage',
     subtab: {
         stageCurrent: 'Structures',
@@ -299,7 +299,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         upgradeCurrent: 'Upgrades',
         strangenessCurrent: 'Matter'
     },
-    tabList: { //Order comes from footer
+    tabList: { // Order comes from footer
         tabs: ['stage', 'upgrade', 'strangeness', 'settings'],
         stageSubtabs: ['Structures', 'Advanced'],
         settingsSubtabs: ['Settings', 'History', 'Stats'],
@@ -307,11 +307,11 @@ export const global: globalType = { //For information that doesn't need to be sa
         strangenessSubtabs: ['Matter', 'Milestones']
     },
     debug: {
-        errorID: true, //Notify about missing ID
-        errorQuery: true, //About incorect Query
-        errorGain: true, //About NaN or Infinity
-        rankUpdated: -1, //Rank number
-        historyStage: -1 //Stage resets
+        errorID: true, // Notify about missing ID
+        errorQuery: true, // About incorect Query
+        errorGain: true, // About NaN or Infinity
+        rankUpdated: -1, // Rank number
+        historyStage: -1 // Stage resets
     },
     trueActive: 1,
     lastSave: 0,
@@ -319,9 +319,9 @@ export const global: globalType = { //For information that doesn't need to be sa
     footer: true,
     mobileDevice: false,
     screenReader: false,
-    supportSettings: [true], //No tabindex on bought upgrades[0]
-    automatization: { //Sorted cheapest first
-        autoU: [ //Upgrades
+    supportSettings: [true], // No tabindex on bought upgrades[0]
+    automatization: { // Sorted cheapest first
+        autoU: [ // Upgrades
             [],
             [],
             [],
@@ -329,7 +329,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             [],
             []
         ],
-        autoR: [ //Researches
+        autoR: [ // Researches
             [],
             [],
             [],
@@ -337,7 +337,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             [],
             []
         ],
-        autoE: [ //Researches Extra
+        autoE: [ // Researches Extra
             [],
             [],
             [],
@@ -383,9 +383,9 @@ export const global: globalType = { //For information that doesn't need to be sa
     },
     accretionInfo: {
         effective: 0,
-        rankU: [1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5], //Upgrades
-        rankR: [1, 1, 2, 2, 3, 3, 3, 4, 5], //Researches
-        rankE: [2, 3, 4, 5, 3], //Researches Extra
+        rankU: [1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5], // Upgrades
+        rankR: [1, 1, 2, 2, 3, 3, 3, 4, 5], // Researches
+        rankE: [2, 3, 4, 5, 3], // Researches Extra
         rankCost: [5.9722e27, 1e-7, 1e10, 1e24, 5e29, 2.45576045e31, 0],
         rankColor: ['blue', 'cyan', 'gray', 'gray', 'gray', 'darkviolet', 'orange'],
         rankName: ['Ocean world', 'Cosmic dust', 'Meteoroid', 'Asteroid', 'Planet', 'Jovian planet', 'Protostar'],
@@ -394,10 +394,10 @@ export const global: globalType = { //For information that doesn't need to be sa
     collapseInfo: {
         massEffect: 1,
         starEffect: [1, 1, 1],
-        unlockB: [0, 0.01235, 0.23, 10, 40, 1000], //Buildings (stage 4)
-        unlockG: [0, 100, 1000, 1e5], //Buildings (stage 5)
-        unlockU: [0.01235, 0.076, 1.3, 10], //Upgrades
-        unlockR: [0.18, 0.3, 0.8, 1.3], //Researches
+        unlockB: [0, 0.01235, 0.23, 10, 40, 1000], // Buildings (stage 4)
+        unlockG: [0, 100, 1000, 1e5], // Buildings (stage 5)
+        unlockU: [0.01235, 0.076, 1.3, 10], // Upgrades
+        unlockR: [0.18, 0.3, 0.8, 1.3], // Researches
         newMass: 0,
         starCheck: [0, 0, 0],
         trueStars: 0
@@ -406,7 +406,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         globalSpeed: 1,
         preonCap: [1, 14],
         dustCap: [8, 46],
-        massCap: 60, //Seconds
+        massCap: 60, // Seconds
         preonTrue: [0, 0],
         dustTrue: [0, 0]
     },
@@ -424,10 +424,10 @@ export const global: globalType = { //For information that doesn't need to be sa
         activeAll: [1]
     },
     buildingsInfo: {
-        maxActive: [0, 4, 6, 5, 5, 4], //Pre vacuum ([1] > [5])
+        maxActive: [0, 4, 6, 5, 5, 4], // Pre vacuum ([1] > [5])
         name: [
             [],
-            ['Mass', 'Preons', 'Quarks', 'Particles', 'Atoms', 'Molecules'], //[0] Must be 'Mass'
+            ['Mass', 'Preons', 'Quarks', 'Particles', 'Atoms', 'Molecules'], // [0] Must be 'Mass'
             ['Moles', 'Drops', 'Puddles', 'Ponds', 'Lakes', 'Seas', 'Oceans'],
             ['Mass', 'Cosmic dust', 'Planetesimals', 'Protoplanets', 'Satellites', 'Subsatellites'],
             ['Elements', 'Brown dwarfs', 'Main sequence', 'Red supergiants', 'Blue hypergiants', 'Quasi stars'],
@@ -443,11 +443,11 @@ export const global: globalType = { //For information that doesn't need to be sa
         ],
         type: [
             [] as unknown as [''],
-            ['', 'producing', 'producing', 'producing', 'producing', 'producing'], //Index 6 must not be 'producing'
+            ['', 'producing', 'producing', 'producing', 'producing', 'producing'], // Index 6 must not be 'producing'
             ['', 'producing', 'producing', 'improving', 'improving', 'improving', 'improving'],
             ['', 'producing', 'producing', 'producing', 'improving', 'improving'],
             ['', 'producing', 'producing', 'producing', 'producing', 'producing'],
-            ['', 'producing', 'improving', 'improving'] //Index 2, 3, 4 must not be 'producing'
+            ['', 'producing', 'improving', 'improving'] // Index 2, 3, 4 must not be 'producing'
         ],
         firstCost: [],
         startCost: [
@@ -486,7 +486,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         instability: 0
     },
     upgradesInfo: [
-        {} as globalType['upgradesInfo'][0], { //Stage 1
+        {} as globalType['upgradesInfo'][0], { // Stage 1
             name: [
                 'Weak force',
                 'Strong force',
@@ -509,14 +509,14 @@ export const global: globalType = { //For information that doesn't need to be sa
                 () => `Cost scaling is decreased by ${format(calculateEffects.S1Upgrade6() / 100)}.`,
                 () => `Self-made Structures boost themselves by ${format(calculateEffects.S1Upgrade7())} times.`,
                 () => 'Molecules produce Molecules. At a reduced rate.',
-                () => { //[9]
+                () => { // [9]
                     const effect = calculateEffects.S1Upgrade9();
                     return `Unspent Energy boost Molecules production of themselves ${player.discharge.energy !== effect ? `${format(player.discharge.energy / effect, { padding: true })} to 1. (Softcapped)\n(Actual boost is ${format(effect, { padding: true })})` : '1 to 1.'}`;
                 }
             ],
             startCost: [40, 80, 100, 140, 200, 400, 2000, 4000, 20000, 70000],
             maxActive: 10
-        }, { //Stage 2
+        }, { // Stage 2
             name: [
                 'Molecules to Moles',
                 'Water spread',
@@ -541,7 +541,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             ],
             startCost: [1e4, 1e6, 1e10, 1e3, 1e4, 2e9, 5e20, 1e28, 4e40],
             maxActive: 8
-        }, { //Stage 3
+        }, { // Stage 3
             name: [
                 'Brownian motion',
                 'Gas',
@@ -559,7 +559,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             ],
             effectText: [
                 () => `Through random collisions every self-made Cosmic dust ${player.inflation.vacuum ? 'delays Preons hardcap even more' : 'speeds up Accretion speed'}. (By ${format(calculateEffects.S3Upgrade0())})`,
-                () => { //[1]
+                () => { // [1]
                     const power = calculateEffects.S3Upgrade1();
                     return `New substance for Accretion, will provide ${player.inflation.vacuum ? 'delay to Preons hardcap' : 'boost to Accretion speed'} based on current Cosmic dust quantity ^${format(power)}.\n(Boost is equal to ${Limit(player.buildings[3][1].current).power(power).format({ padding: true })})`;
                 },
@@ -577,7 +577,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             ],
             startCost: [1e-16, 1e-13, 1e-13, 1, 1e14, 1e17, 1e10, 1e22, 1e22, 1e23, 1e9, 1e26, 1e29],
             maxActive: 13
-        }, { //Stage 4
+        }, { // Stage 4
             name: [
                 'Gravitational Collapse',
                 'Proton-proton chain',
@@ -592,7 +592,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             ],
             startCost: [100, 1000, 1e9, 1e48],
             maxActive: 4
-        }, { //Stage 5
+        }, { // Stage 5
             name: [
                 'Jeans instability',
                 'Super Star cluster',
@@ -608,7 +608,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         }
     ],
     researchesInfo: [
-        {} as globalType['researchesInfo'][0], { //Stage 1
+        {} as globalType['researchesInfo'][0], { // Stage 1
             name: [
                 'Stronger Protium',
                 'Better Deuterium',
@@ -623,7 +623,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 () => `Molecules now produce themselves ${format(calculateEffects.S1Research2())} times quicker.`,
                 () => 'Next goal for Discharge bonus scales by -2 less.',
                 () => 'Discharge production boost from reached goals is now +1.',
-                () => { //[5]
+                () => { // [5]
                     const power = calculateEffects.S1Research5();
                     return `Discharge will boost 'Tritium' Upgrade for every non bonus goal ^${format(power)}.\n(Total boost: ${format(player.discharge.current ** power)})`;
                 }
@@ -633,7 +633,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [400, 2000, 6000, 24000, 12000, 12000],
             max: [5, 4, 8, 2, 4, 3],
             maxActive: 6
-        }, { //Stage 2
+        }, { // Stage 2
             name: [
                 'Better Mole production',
                 'Better Drop production',
@@ -655,7 +655,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [1.36, 5, 1e3, 1e2, 1e3, 1e4],
             max: [8, 8, 4, 4, 2, 1],
             maxActive: 6
-        }, { //Stage 3
+        }, { // Stage 3
             name: [
                 'More massive bodies',
                 'Adhesion',
@@ -674,7 +674,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 () => `Slow encounter velocities will result in a more efficient growth, so this Research will make bodies lose more Energy from each deflection. ${player.inflation.vacuum ? 'Preons hardcap delay from Cosmic dust' : 'Mass production'} increased by 2.`,
                 () => `Planetesimals when shatter replenish small grains quantity. 'Streaming instability' effect increased by +${format(0.005)}.`,
                 () => `Some Planetesimals instead of shattering form a contact binary or even trinary. ${player.inflation.vacuum ? 'Preons hardcap delay from Cosmic dust' : 'Mass production'} increased by 3.`,
-                () => { //[6]
+                () => { // [6]
                     const power = calculateEffects.S3Research6();
                     return `Planetesimals attract other bodies with own gravity. Planetesimals get boost to production based on unspent Mass ^${format(power)}.\n(Total boost: ${Limit(player.buildings[3][0].current).power(power).format({ padding: true })})`;
                 },
@@ -686,7 +686,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [11, 111, 22, 10, 100, 100, 10, 1e4, 1e3],
             max: [9, 3, 8, 8, 2, 2, 5, 4, 4],
             maxActive: 9
-        }, { //Stage 4
+        }, { // Stage 4
             name: [
                 'Planetary system',
                 'Star system',
@@ -695,11 +695,11 @@ export const global: globalType = { //For information that doesn't need to be sa
                 'Gamma-ray burst'
             ],
             effectText: [
-                () => { //[0]
+                () => { // [0]
                     const base = calculateEffects.S4Research0();
                     return `From Planetesimals to Planets, will get ${format(base)}x boost to all Stars per level.\n(Total boost: ${format(base ** player.researches[4][0], { padding: true })})`;
                 },
-                () => { //[1]
+                () => { // [1]
                     const base = calculateEffects.S4Research1();
                     return `All Stars boost each other by ${format(base)}.\n(Total boost: ${Limit(base).power(global.collapseInfo.trueStars).format({ padding: true })})`;
                 },
@@ -712,7 +712,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [10, 200, 1e12, 5e44, 2e8],
             max: [3, 2, 1, 1, 2],
             maxActive: 5
-        }, { //Stage 5
+        }, { // Stage 5
             name: [
                 'Higher density',
                 'Type frequency'
@@ -729,7 +729,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         }
     ],
     researchesExtraInfo: [
-        {} as globalType['researchesExtraInfo'][0], { //Stage 1
+        {} as globalType['researchesExtraInfo'][0], { // Stage 1
             name: [
                 'Extra strong force',
                 'Improved formula',
@@ -741,11 +741,11 @@ export const global: globalType = { //For information that doesn't need to be sa
                 () => "Mesons now binds Particles to form Atoms, which makes Atoms to be affected by 'Strong force'.\n(Atoms are 10 times cheaper)",
                 () => `Improve scaling for 'Tritium' formula, current formula is log${format(calculateEffects.S1Extra1())}.`,
                 () => 'First level is to begin the Accretion, second level is to Submerge it.\nAll Structures produce Energy on creation, as well Mass from all Stages is connected.',
-                () => { //[3]
+                () => { // [3]
                     const power = calculateEffects.S1Extra3();
                     return `Delay Preons hardcap by current Energy ^${format(power)}.\n(Effect is equal to ${format(player.discharge.energy ** power, { padding: true })})`;
                 },
-                () => { //[4]
+                () => { // [4]
                     const base = calculateEffects.S1Extra4();
                     return `Discharge goals will now boost all Interstellar Stars, but at reduced base and without bonus Goals.\nCurrent base is ${format(base)}, total boost is ${Limit(base).power(player.discharge.current).format()}.`;
                 }
@@ -755,7 +755,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [0, 12000, 62000, 18000, 0],
             max: [1, 4, 2, 6, 1],
             maxActive: 0
-        }, { //Stage 2
+        }, { // Stage 2
             name: [
                 'Natural Vaporization',
                 'Rain Clouds',
@@ -773,7 +773,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [1, 1, 1, 1e5],
             max: [1, 1, 1, 2],
             maxActive: 3
-        }, { //Stage 3
+        }, { // Stage 3
             name: [
                 'Rank boost',
                 'Efficient growth',
@@ -793,7 +793,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [10, 100, 1, 1e5, 1e12],
             max: [12, 5, 1, 8, 1],
             maxActive: 4
-        }, { //Stage 4
+        }, { // Stage 4
             name: [
                 'Nova',
                 'Mass transfer',
@@ -809,7 +809,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [1e10, 1, 1],
             max: [3, 1, 1],
             maxActive: 3
-        }, { //Stage 5
+        }, { // Stage 5
             name: [],
             effectText: [],
             cost: [],
@@ -819,7 +819,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 0
         }
     ],
-    researchesAutoInfo: { //Auto Researches Research
+    researchesAutoInfo: { // Auto Researches Research
         name: [
             'Upgrade automatization',
             'More toggles'
@@ -828,24 +828,24 @@ export const global: globalType = { //For information that doesn't need to be sa
             () => `Automatically create all ${['Upgrades', 'Stage Researches', 'Special Researches'][Math.min(player.researchesAuto[0], 2)]} from any Stage. (Need to be enabled in Settings)`,
             () => 'Unlock a new toggle that will switch all auto Structure toggles at once.'
         ],
-        costRange: [ //Random scaling
+        costRange: [ // Random scaling
             [1e14, 2e36, 1e52],
             [96000]
         ],
-        autoStage: [ //Stage to buy from (1 per level)
+        autoStage: [ // Stage to buy from (1 per level)
             [2, 3, 4],
             [1]
         ],
         max: [3, 1]
     },
-    ASRInfo: { //Auto Structures Research
+    ASRInfo: { // Auto Structures Research
         name: 'Auto Structures',
         effectText: () => {
             const stageIndex = player.stage.active;
             const autoIndex = Math.min(player.ASR[stageIndex] + 1, global.ASRInfo.max[stageIndex]);
             return `Automatically make ${player.buildings[stageIndex][autoIndex].highest[0] > 0 ? global.buildingsInfo.name[stageIndex][autoIndex] : '(unknown)'} (counts as self-made).\n(Auto will wait until ${format(player.strangeness[1][7] < 1 ? 2 : player.toggles.shop.wait[stageIndex])} times of the Structure cost)`;
         },
-        costRange: [ //Random scaling
+        costRange: [ // Random scaling
             [],
             [4000, 10000, 16000, 24000, 32000],
             [1e10, 1e14, 1e18, 1e23, 1e28, 1e34],
@@ -912,7 +912,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             () => `A new color and a rare bonus of +^${format(0.1)} to Solar mass effect.`,
             () => 'New alloy allowing Red giants to be added into effective amount of Neutron stars.',
             () => `Catalyst for production of Elements. 'Gamma-ray burst' effect increased by Solar mass ^${format(0.1)}.\n(Effect is equal to ${format(player.collapse.mass ** 0.1, { padding: true })})`,
-            () => { //[24]
+            () => { // [24]
                 const power = calculateEffects.element24();
                 return `No corrosion, only boost to all Stars that is based on unspent Elements ^${format(power)}.\n(Boost is equal to ${Limit(player.buildings[4][0].current).power(power).format({ padding: true })})`;
             },
@@ -928,7 +928,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         ]
     },
     strangenessInfo: [
-        {} as globalType['strangenessInfo'][0], { //Stage 1
+        {} as globalType['strangenessInfo'][0], { // Stage 1
             name: [
                 'Stronger Discharge',
                 'Cheaper Discharge',
@@ -962,7 +962,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [2.4, 4, 6, 1, 4, 2.2, 2, 2, 1, 1.8, 1, 1],
             max: [4, 4, 2, 1, 2, 4, 3, 2, 1, 6, 1, 1],
             maxActive: 9
-        }, { //Stage 2
+        }, { // Stage 2
             name: [
                 'More Moles',
                 'Bigger Puddles',
@@ -994,7 +994,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [1.8, 1.8, 2, 4, 650, 2, 2, 1, 1, 1, 2],
             max: [6, 6, 3, 3, 1, 5, 1, 1, 1, 1, 3],
             maxActive: 8
-        }, { //Stage 3
+        }, { // Stage 3
             name: [
                 'Faster Accretion',
                 'Intense weathering',
@@ -1026,7 +1026,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [1.8, 2.8, 2, 1, 400, 2.22, 2, 1, 1, 2, 6],
             max: [8, 4, 3, 1, 1, 4, 3, 1, 1, 4, 2],
             maxActive: 8
-        }, { //Stage 4
+        }, { // Stage 4
             name: [
                 'Hotter Stars',
                 'Cheaper Stars',
@@ -1058,7 +1058,7 @@ export const global: globalType = { //For information that doesn't need to be sa
             scaling: [1.8, 2.8, 2.4, 4, 8, 250, 2.22, 2, 1, 1, 1.4],
             max: [8, 4, 3, 2, 1, 1, 4, 3, 1, 1, 8],
             maxActive: 9
-        }, { //Stage 5
+        }, { // Stage 5
             name: [
                 'Omnipresent reality',
                 'Strange gain',
@@ -1080,7 +1080,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 () => "'Super star cluster' is now even bigger. Effect increased by 3.",
                 () => player.inflation.vacuum ? 'Unlock Intergalactic Stage.' : 'Intergalactic is no longer affected by Collapse reset.',
                 () => `With this a new Intergalactic Structure can be created.${player.stage.true >= 6 ? " (Can't be Created in current version)" : " (Also will increase max level of 'Remnants of past' after creation of that Structure)"}\nSecond level will increase permanent level of auto Structures.`,
-                () => { //[7]
+                () => { // [7]
                     const autoIndex = Math.min(player.strangeness[5][7] + (player.strangeness[5][6] >= 2 ? 2 : 1), 3);
                     return `Increase permanent level of auto Structures. Next auto is for ${player.buildings[5][autoIndex].highest[0] > 0 ? global.buildingsInfo.name[5][autoIndex] : '(unknown)'}.`;
                 },
@@ -1101,7 +1101,7 @@ export const global: globalType = { //For information that doesn't need to be sa
     lastMilestone: [-1, -1],
     lastChallenge: [-1, -1],
     milestonesInfo: [
-        {} as globalType['milestonesInfo'][0], { //Stage 1
+        {} as globalType['milestonesInfo'][0], { // Stage 1
             name: [
                 'Fundamental Matter',
                 'Energized'
@@ -1120,7 +1120,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 [1e160, 1e170, 1e180, 1e190, 1e200, 1e220],
                 [24000, 26000, 28000, 30000, 32000, 34000]
             ]
-        }, { //Stage 2
+        }, { // Stage 2
             name: [
                 'A Nebula of Drops',
                 'Just a bigger Puddle'
@@ -1139,7 +1139,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 [1e30, 1e33, 1e36, 1e39, 1e42, 1e45],
                 [1000, 2500, 4000, 5500, 7000, 9000]
             ]
-        }, { //Stage 3
+        }, { // Stage 3
             name: [
                 'Cluster of Mass',
                 'Satellites of Satellites'
@@ -1158,7 +1158,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 [1e32, 1e34, 1e36, 1e38, 1e40, 1e43, 1e46],
                 [20, 25, 30, 35, 40, 45, 50]
             ]
-        }, { //Stage 4
+        }, { // Stage 4
             name: [
                 'Supermassive',
                 'Biggest of all'
@@ -1177,7 +1177,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 [8000, 10000, 12000, 14000, 16000, 18000, 20000, 22000],
                 [100, 120, 140, 160, 180, 200, 220, 240]
             ]
-        }, { //Stage 5
+        }, { // Stage 5
             name: [
                 'Light in the dark',
                 'End of Greatness'
@@ -1245,17 +1245,17 @@ export const global: globalType = { //For information that doesn't need to be sa
     }
 };
 
-//Math.log extension for any base
+// Math.log extension for any base
 export const logAny = (number: number, base: number) => Math.log(number) / Math.log(base);
 
-//For non deep clone use { ...object } or cloneArray when possible
+// For non deep clone use { ...object } or cloneArray when possible
 export const deepClone = <CloneType>(toClone: CloneType): CloneType => {
     if (typeof toClone !== 'object' || toClone === null) { return toClone; }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any 
     let value: any;
     if (Array.isArray(toClone)) {
-        value = []; //Faster this way
+        value = []; // Faster this way
         for (const el of toClone) { value.push(deepClone(el)); }
     } else {
         value = {};
@@ -1345,7 +1345,7 @@ Object.assign(player.toggles, {
     auto: createArray(document.getElementsByClassName('toggleAuto').length, false)
 });
 
-//player.example = playerStart.example; Is not allowed (if example is an array or object), instead iterate or create clone
+// player.example = playerStart.example; Is not allowed (if example is an array or object), instead iterate or create clone
 export const playerStart = deepClone(player);
 
 function isPlayerType(toCheck: unknown): toCheck is playerType {
@@ -1375,14 +1375,14 @@ export const updatePlayer = (load: Partial<playerType>): string => {
     if ('player' in load) { load = load['player'] as Partial<playerType>; }
     if (load.vaporization === undefined) { throw new ReferenceError('This save file is not from this game or too old'); }
     load.version ??= '0.0.0';
-    prepareVacuum(Boolean(load.inflation?.vacuum)); //Only to set starting buildings values
+    prepareVacuum(Boolean(load.inflation?.vacuum)); // Only to set starting buildings values
 
     const oldVersion = load.version;
     if (!isPlayerType(load)) {throw new ReferenceError('This save file is invalid, no stage data'); }
     if (oldVersion !== playerStart.version) {
         if (load.version === '0.0.0') {
             load.version = 'v0.0.1';
-            load.researchesExtra = []; //Required for v0.0.9
+            load.researchesExtra = []; // Required for v0.0.9
         }
         if (load.version === 'v0.0.1') {
             load.version = 'v0.0.2';
@@ -1445,7 +1445,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
                 for (const building of buildings) {
                     building.current = Limit(building.current).toArray();
                     building.total = Limit(building.total).toArray();
-                    building.trueTotal = Limit(building.total).toArray(); //Intentional
+                    building.trueTotal = Limit(building.total).toArray(); // Intentional
                     building.highest = [0, 0];
                 }
                 
@@ -1515,7 +1515,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
             load.time.stage = load.stage.time;
             delete load['events' as keyof unknown];
 
-            //Can be removed eventually
+            // Can be removed eventually
             if (load.inflation.vacuum) {
                 load.milestones[2][1] = 0;
                 load.milestones[4][1] = 0;
@@ -1523,7 +1523,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
         }
         if (load.version === 'v0.1.8') {
             load.version = 'v0.1.9';
-            //load.toggles = deepClone(playerStart.toggles);
+            // load.toggles = deepClone(playerStart.toggles);
             load.toggles.normal = [...playerStart.toggles.normal];
             load.toggles.hover = [...playerStart.toggles.hover];
             load.toggles.max = [...playerStart.toggles.max];
@@ -1645,7 +1645,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
         for (let i = 0; i < playerStart.researchesAuto.length; i++) {
             calculateMaxLevel(i, 0, 'researchesAuto');
         }
-    } /*else {
+    } /* else {
         player.researchesAuto[0] = player.strangeness[3][6];
         player.researchesAuto[1] = player.strangeness[1][7] >= 1 ? 1 : 0;
     }*/

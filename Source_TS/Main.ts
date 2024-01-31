@@ -29,7 +29,7 @@ function isHTMLElement(element: Element): element is HTMLElement {
 }
 
 export const getClass = (idCollection: string): HTMLElement[] => {
-    //Might require to remove old values: 'specialHTML.cache.classMap.delete(oldValue)'
+    // Might require to remove old values: 'specialHTML.cache.classMap.delete(oldValue)'
     const test = specialHTML.cache.classMap.get(idCollection);
     if (test !== undefined) {
         return test;
@@ -100,7 +100,7 @@ const saveGame = (saveOnly = false): string | null => {
             global.lastSave = 0;
         }
         return save;
-    } catch (error) { void Alert(`Failed to save game\nFull error: '${error}'`); }
+    } catch (error) { Alert(`Failed to save game\nFull error: '${error}'`); }
     return null;
 };
 const loadGame = (save: string) => {
@@ -113,7 +113,7 @@ const loadGame = (save: string) => {
         global.lastSave = handleOfflineTime();
         Notify(`This save is ${format(global.lastSave, { type: 'time', padding: false })} old. Save file version is ${versionCheck}`);
         stageUpdate('reload');
-    } catch (error) { void Alert(`Incorrect save file format\nFull error: '${error}'`); }
+    } catch (error) { Alert(`Incorrect save file format\nFull error: '${error}'`); }
     global.paused = false;
     changeIntervals();
 };
@@ -149,7 +149,7 @@ const saveConsole = async() => {
 
     if (lower === 'copy') {
         const save = saveGame(true);
-        if (save !== null) { void navigator.clipboard.writeText(save); }
+        if (save !== null) { navigator.clipboard.writeText(save); }
     } else if (lower === 'delete' || lower === 'clear') {
         global.paused = true;
         changeIntervals();
@@ -157,7 +157,7 @@ const saveConsole = async() => {
             localStorage.removeItem('save');
         } else { localStorage.clear(); }
         window.location.reload();
-        void Alert('Awaiting page refresh');
+        Alert('Awaiting page refresh');
     } else if (lower === 'achievement') {
         Notify('Unlocked a new Achievement');
     } else if (lower === 'slow' || lower === 'free') {
@@ -165,7 +165,7 @@ const saveConsole = async() => {
     } else if (lower === 'neutronium' || lower === 'element0') {
         Notify(global.elementsInfo.effectText[0]().replace('this', 'Elements'));
     } else {
-        if (value.length < 20) { return void Alert(`Input '${value}' doesn't match anything`); }
+        if (value.length < 20) { return Alert(`Input '${value}' doesn't match anything`); }
         if (!(await Confirm("Press 'Confirm' to load input as a save file\n(Input is too long to be displayed)"))) { return; }
         loadGame(value);
     }
@@ -176,11 +176,11 @@ const changeSaveFileName = () => {
     const newValue = input.value.length === 0 ? playerStart.fileName : input.value.replaceAll(/[\\/:*?"<>|]/g, '_');
 
     try {
-        btoa(newValue); //Test for any illegal characters
+        btoa(newValue); // Test for any illegal characters
         player.fileName = newValue;
         input.value = newValue;
     } catch (error) {
-        void Alert(`Save file name is not allowed\nFull error: '${error}'`);
+        Alert(`Save file name is not allowed\nFull error: '${error}'`);
     }
 };
 const replaceSaveFileSpecials = (): string => {
@@ -250,12 +250,12 @@ const hoverChallenge = (index: number, type: 'challenge' | 'reward') => {
 export const timeWarp = async() => {
     if (global.paused) { return Notify('No warping while game is paused'); }
     const offline = player.time.offline;
-    if (offline < 60) { return void Alert('Need at least 1 minute in Offline storage to Warp'); }
+    if (offline < 60) { return Alert('Need at least 1 minute in Offline storage to Warp'); }
     const improved = player.strangeness[2][6] >= 1;
     const value = await Prompt(`How many seconds to Warp? (Offline storage is ${format(offline, { type: 'time', padding: false })} and 1 tick is ${improved ? '1 second' : '10 seconds'})\nNot using entire Offline storage will remove 1 hour up to same amount as Warp time from storage without using`, `${Math.floor(offline)}`);
     let warpTime = Math.min(Number(value), offline);
     if (value === null || !isFinite(warpTime)) { return; }
-    if (warpTime < 60) { return void Alert('Warp has to be at least 1 minute'); }
+    if (warpTime < 60) { return Alert('Warp has to be at least 1 minute'); }
     if (warpTime < offline) {
         const remove = Math.max(warpTime, 3600);
         if (warpTime + remove >= offline) {
@@ -278,7 +278,8 @@ const warpMain = (warpTime: number, tick: number, start = warpTime) => {
         timeUpdate(time, tick);
     } catch (error) {
         warpEnd();
-        return void Alert(`Warp failed due to Error:\n${error}`);
+        Alert(`Warp failed due to Error:\n${error}`);
+        return;
     }
     if (warpTime > 0) {
         setTimeout(warpMain, 0, warpTime, tick, start);
@@ -313,7 +314,7 @@ const pauseGame = async() => {
     visualUpdate();
 };
 
-try { //Start everything
+try { // Start everything
     preventImageUnload();
 
     const supportType = localStorage.getItem('support');
@@ -346,10 +347,10 @@ try { //Start everything
             MDToggle.style.color = 'var(--red-text)';
             MDToggle.style.borderColor = 'crimson';
             global.mobileDevice = true;
-            const styleSheet = 'input[type = "image"], img { -webkit-touch-callout: none; }'; //Safari junk to disable image hold menu
+            const styleSheet = 'input[type = "image"], img { -webkit-touch-callout: none; }'; // Safari junk to disable image hold menu
 
             document.getElementById('MDMessage1')?.remove();
-            (getId('file') as HTMLInputElement).accept = ''; //Accept for unknown reason not properly supported on phones
+            (getId('file') as HTMLInputElement).accept = ''; // Accept for unknown reason not properly supported on phones
 
             const pages = document.createElement('div');
             pages.innerHTML = '<button type="button" id="strangenessPage1" class="stage1borderImage hollowButton">1</button><button type="button" id="strangenessPage2" class="stage2borderImage hollowButton">2</button><button type="button" id="strangenessPage3" class="stage3borderImage hollowButton">3</button><button type="button" id="strangenessPage4" class="stage4borderImage hollowButton">4</button><button type="button" id="strangenessPage5" class="stage5borderImage hollowButton">5</button><button type="button" id="strangenessCreate" class="hollowButton" style="width: unset; padding: 0 0.4em;">Create</button>';
@@ -431,7 +432,7 @@ try { //Start everything
         global.lastSave = handleOfflineTime();
         alertText = `Welcome back, you were away for ${format(global.lastSave, { type: 'time', padding: false })}\n${versionCheck !== player.version ? `Game have been updated from ${versionCheck} to ${player.version}` : `Current version is ${player.version}`}`;
     } else {
-        prepareVacuum(false); //Set buildings values
+        prepareVacuum(false); // Set buildings values
         updatePlayer(deepClone(playerStart));
         alertText = `Welcome to 'Fundamental' ${player.version}, a test-project created by awWhy\n(This idle game is not meant to be fast)`;
     }
@@ -463,7 +464,7 @@ try { //Start everything
     for (let i = 0; i < playerStart.toggles.normal.length; i++) {
         getId(`toggleNormal${i}`).addEventListener('click', () => {
             toggleSwap(i, 'normal', true);
-            if (i === 1) { void Alert('Changes will come into effect after page reload\n(Game will need to be saved first)'); }
+            if (i === 1) { Alert('Changes will come into effect after page reload\n(Game will need to be saved first)'); }
         });
     }
     for (let i = 0; i < playerStart.toggles.confirm.length; i++) {
@@ -486,17 +487,17 @@ try { //Start everything
     for (let i = 1; i < specialHTML.longestBuilding; i++) {
         getId(`building${i}Btn`).addEventListener('click', () => buyBuilding(i));
     }
-    getId('stageReset').addEventListener('click', () => { void stageAsyncReset(); });
+    getId('stageReset').addEventListener('click', () => { stageAsyncReset(); });
     getId('reset1Button').addEventListener('click', () => {
         const active = player.stage.active;
         if (active === 1) {
-            void dischargeAsyncReset();
+            dischargeAsyncReset();
         } else if (active === 2) {
-            void vaporizationAsyncReset();
+            vaporizationAsyncReset();
         } else if (active === 3) {
-            void rankAsyncReset();
+            rankAsyncReset();
         } else if (active === 4) {
-            void collapseAsyncReset();
+            collapseAsyncReset();
         }
     });
     getId('buy1x').addEventListener('click', () => toggleBuy('1'));
@@ -516,13 +517,13 @@ try { //Start everything
         if (PC) { image.addEventListener('mouseover', () => hoverChallenge(i, 'challenge')); }
         if (MD) { image.addEventListener('touchstart', () => hoverChallenge(i, 'challenge')); }
         if (SR) { image.addEventListener('focus', () => hoverChallenge(i, 'challenge')); }
-        image.addEventListener('click', i === -1 ? switchVacuum : () => { void enterExitChallenge(i); });
+        image.addEventListener('click', i === -1 ? switchVacuum : () => { enterExitChallenge(i); });
     }
     for (let i = 1; i < global.challengesInfo.rewardText[0].length; i++) {
-        if (i === 5) { continue; } //Missing for now
+        if (i === 5) { continue; } // Missing for now
         const image = getId(`voidReward${global.stageInfo.word[i]}`);
         image.addEventListener('click', () => hoverChallenge(i, 'reward'));
-        if (MD) { //Safari bugs with no focus events
+        if (MD) { // Safari bugs with no focus events
             image.addEventListener('click', () => { getId('voidRewardsDiv').style.display = 'block'; });
         }
     }
@@ -618,14 +619,14 @@ try { //Start everything
         buildVersionInfo();
         getId('versionInfo').style.display = '';
     });
-    getId('save').addEventListener('click', () => { void saveGame(); });
+    getId('save').addEventListener('click', () => { saveGame(); });
     getId('file').addEventListener('change', async() => {
         const id = getId('file') as HTMLInputElement;
         loadGame(await (id.files as FileList)[0].text());
         id.value = '';
     });
     getId('export').addEventListener('click', () => { exportFileGame(); });
-    getId('saveConsole').addEventListener('click', () => { void saveConsole(); });
+    getId('saveConsole').addEventListener('click', () => { saveConsole(); });
     getId('switchTheme0').addEventListener('click', () => setTheme(null));
     for (let i = 1; i < global.stageInfo.word.length; i++) {
         getId(`switchTheme${i}`).addEventListener('click', () => setTheme(i));
@@ -678,9 +679,9 @@ try { //Start everything
         support !== null && support[0] === 'S' ? localStorage.removeItem('support') : localStorage.setItem('support', 'STT');
         window.location.reload();
     });
-    getId('pauseGame').addEventListener('click', () => { void pauseGame(); });
-    getId('reviewEvents').addEventListener('click', () => { void replayEvent(); });
-    getId('offlineWarp').addEventListener('click', () => { void timeWarp(); });
+    getId('pauseGame').addEventListener('click', () => { pauseGame(); });
+    getId('reviewEvents').addEventListener('click', () => { replayEvent(); });
+    getId('offlineWarp').addEventListener('click', () => { timeWarp(); });
     getId('customFontSize').addEventListener('change', () => changeFontSize(true));
 
     getId('stageResetsSave').addEventListener('change', () => {
@@ -721,9 +722,9 @@ try { //Start everything
     global.paused = false;
     changeIntervals();
     document.title = `Fundamental ${playerStart.version}`;
-    void Alert(alertText + `\n(Game loaded after ${format((Date.now() - playerStart.time.started) / 1000, { type: 'time', padding: false })})`);
+    Alert(alertText + `\n(Game loaded after ${format((Date.now() - playerStart.time.started) / 1000, { type: 'time', padding: false })})`);
 } catch (error) {
-    void Alert(`Game failed to load\nFull error: '${error}'`);
+    Alert(`Game failed to load\nFull error: '${error}'`);
     const buttonDiv = document.createElement('div');
     buttonDiv.innerHTML = '<button type="button" id="exportError" style="width: 7em;">Export save</button><button type="button" id="deleteError" style="width: 7em;">Delete save</button>';
     buttonDiv.style.cssText = 'display: flex; column-gap: 0.6em; margin-top: 0.4em;';
@@ -732,7 +733,10 @@ try { //Start everything
     getId('exportError').addEventListener('click', () => {
         exported = true;
         const save = localStorage.getItem('save');
-        if (save === null) { return void Alert('No save file detected'); }
+        if (save === null) {
+            Alert('No save file detected'); 
+            return;
+        }
         const a = document.createElement('a');
         a.href = `data:text/plain,${save}`;
         a.download = 'Fundamental post error export';
@@ -742,6 +746,6 @@ try { //Start everything
         if (!exported && !(await Confirm("Recommended to export save file first\nPress 'Confirm' to confirm and delete your save file"))) { return; }
         localStorage.removeItem('save');
         window.location.reload();
-        void Alert('Awaiting page refresh');
+        Alert('Awaiting page refresh');
     });
 }
