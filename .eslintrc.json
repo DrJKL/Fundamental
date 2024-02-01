@@ -58,20 +58,24 @@
         "@stylistic/space-before-function-paren": ["error", "never"],
         "@stylistic/spaced-comment": "error",
         "@stylistic/switch-colon-spacing": "error",
+        "@stylistic/multiline-ternary": "error",
 
         "unicorn/consistent-destructuring": "off",
         "unicorn/filename-case": "off",
+        "unicorn/no-array-callback-reference": "off",
         "unicorn/prevent-abbreviations": "off",
         "unicorn/switch-case-braces": "off",
-        "unicorn/no-array-callback-reference": "off",
-        "unicorn/prefer-number-properties":"error",
-        "unicorn/no-null": "error",
-        "unicorn/prefer-string-slice": "error",
+
         "unicorn/explicit-length-check": "error",
-        "unicorn/prefer-spread": "error",
-        "unicorn/numeric-separators-style": "error",
-        "unicorn/prefer-switch": "error",
         "unicorn/no-negated-condition": "error",
+        "unicorn/no-nested-ternary": "error",
+        "unicorn/no-null": "error",
+        "unicorn/numeric-separators-style": "error",
+        "unicorn/prefer-includes": "error",
+        "unicorn/prefer-number-properties":"error",
+        "unicorn/prefer-spread": "error",
+        "unicorn/prefer-string-slice": "error",
+        "unicorn/prefer-switch": "error",
 
 
         "eqeqeq": "warn"

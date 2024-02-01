@@ -108,7 +108,9 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     getId('strange9Stage4').style.display = '';
     getId('strange6Stage5').style.display = '';
     for (let s = 2; s <= 5; s++) {
-      getId(`strangeness${global.mobileDevice ? 'Page' : 'Section'}${s}`).style.display = '';
+      getId(`strangeness${global.mobileDevice ?
+        'Page' :
+        'Section'}${s}`).style.display = '';
       getId(`milestone1Stage${s}Div`).style.display = '';
       getId(`milestone2Stage${s}Div`).style.display = '';
     }
@@ -258,6 +260,8 @@ export const updateUnknown = () => {
   if (milestones[4][1] >= 8) { text += '<img src="Used_art/Quasi%20star.png" alt="Unknown Structure" loading="lazy" draggable="false">'; }
 
   const div = getId('unknownStructures');
-  div.style.display = global.strangeInfo.instability > 0 ? '' : 'none';
+  div.style.display = global.strangeInfo.instability > 0 ?
+    '' :
+    'none';
   if (div.innerHTML !== text) { div.innerHTML = text; }
 };

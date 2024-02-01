@@ -224,14 +224,22 @@ export const setTheme = (theme: number | undefined) => {
   }
 
   global.theme = theme;
-  theme === undefined ? localStorage.removeItem('theme') : localStorage.setItem('theme', `${theme}`);
+
+  if (theme === undefined) {
+    localStorage.removeItem('theme');
+  } else {
+    localStorage.setItem('theme', `${theme}`);
+  }
+
   switchTheme();
 };
 
 export const switchTheme = () => {
   const body = document.body.style;
   const theme = global.theme ?? player.stage.active;
-  getId('currentTheme').textContent = global.theme === undefined ? 'Default' : global.stageInfo.word[theme];
+  getId('currentTheme').textContent = global.theme === undefined ?
+    'Default' :
+    global.stageInfo.word[theme];
 
   let dropStatColor = '';
   let waterStatColor = '';
@@ -483,11 +491,9 @@ export const Confirm = async(text: string): Promise<boolean> => {
       if (button.key === 'Escape') {
         button.preventDefault();
         no();
-      } else if (button.key === 'Enter' || button.key === ' ') {
-        if (document.activeElement !== cancel) {
-          button.preventDefault();
-          yes();
-        }
+      } else if ((button.key === 'Enter' || button.key === ' ') && document.activeElement !== cancel) {
+        button.preventDefault();
+        yes();
       }
     };
     const close = (result: boolean) => {
@@ -524,19 +530,18 @@ export const Prompt = async(text: string, inputValue = ''): Promise<string | und
     input.focus();
 
     const yes = () => { close(input.value); };
-    const no = () => { close(undefined); };
+    const no = () => { close(); };
     const key = (button: KeyboardEvent) => {
       if (button.key === 'Escape') {
         button.preventDefault();
         no();
       } else if (button.key === 'Enter' || button.key === ' ') {
-        if (document.activeElement !== cancel) {
-          button.preventDefault();
-          yes();
-        }
+        if (document.activeElement === cancel) {return;}
+        button.preventDefault();
+        yes();
       }
     };
-    const close = (result: string | undefined) => {
+    const close = (result?: string) => {
       blocker.style.display = 'none';
       cancel.style.display = 'none';
       input.style.display = 'none';
@@ -560,14 +565,14 @@ export const Notify = (text: string) => {
   if (global.screenReader) { notification.setAttribute('role', 'alert'); } // Firefox only recently added support for .role (in version 119)
 
   const mainDiv = getId('notifications');
-  mainDiv.appendChild(notification);
+  mainDiv.append(notification);
 
   let timeout: number | undefined;
   const remove = () => {
     notification.removeEventListener('click', remove);
     notification.style.animation = 'hideX 1s ease-in-out forwards';
     setTimeout(() => {
-      mainDiv.removeChild(notification);
+      notification.remove();
       div.style.pointerEvents = '';
     }, 1000);
     clearTimeout(timeout);
@@ -621,7 +626,9 @@ export const hideFooter = () => {
 
 export const changeFontSize = (change = false) => {
   const input = getId('customFontSize') as HTMLInputElement;
-  let size = Number(change ? input.value : localStorage.getItem('fontSize'));
+  let size = Number(change ?
+    input.value :
+    localStorage.getItem('fontSize'));
   if (size === 0) { size = 16; }
 
   if (size === 16) {
@@ -636,16 +643,24 @@ export const changeFontSize = (change = false) => {
 };
 
 export const changeFormat = (point: boolean) => {
-  const htmlInput = (point ? getId('decimalPoint') : getId('thousandSeparator')) as HTMLInputElement;
+  const htmlInput = (point ?
+    getId('decimalPoint') :
+    getId('thousandSeparator')) as HTMLInputElement;
   const allowed = ['.', ',', ' ', '_', '^', '"', "'", '`', '|'].includes(htmlInput.value);
-  if (!allowed || (point ? player.separator[0] : player.separator[1]) === htmlInput.value) {
+  if (!allowed || (point ?
+    player.separator[0] :
+    player.separator[1]) === htmlInput.value) {
     if (point && player.separator[0] === '.') {
       (getId('thousandSeparator') as HTMLInputElement).value = '';
       player.separator[0] = '';
     }
-    htmlInput.value = point ? '.' : '';
+    htmlInput.value = point ?
+      '.' :
+      '';
   }
-  point ? player.separator[1] = htmlInput.value : player.separator[0] = htmlInput.value;
+  point ?
+    player.separator[1] = htmlInput.value :
+    player.separator[0] = htmlInput.value;
 };
 
 export const MDStrangenessPage = (stageIndex: number) => {
@@ -660,9 +675,13 @@ export const replayEvent = async() => {
   if (player.stage.true >= 6) {
     last = 7;
   } else if (player.strange[0].total > 0) {
-    last = player.event ? 6 : 5;
+    last = player.event ?
+      6 :
+      5;
   } else {
-    last = player.stage.true - (player.event ? 0 : 1);
+    last = player.stage.true - (player.event ?
+      0 :
+      1);
     if (last < 1) { return Alert('There are no unlocked events'); }
   }
 

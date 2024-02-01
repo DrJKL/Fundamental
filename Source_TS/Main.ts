@@ -77,10 +77,18 @@ const changeIntervals = () => {
   clearInterval(intervalsId.numbers);
   clearInterval(intervalsId.visual);
   clearInterval(intervalsId.autoSave);
-  intervalsId.main = paused ? undefined : setInterval(timeUpdate, intervals.main);
-  intervalsId.numbers = paused ? undefined : setInterval(numbersUpdate, intervals.numbers);
-  intervalsId.visual = paused ? undefined : setInterval(visualUpdate, intervals.visual);
-  intervalsId.autoSave = paused ? undefined : setInterval(saveGame, intervals.autoSave);
+  intervalsId.main = paused ?
+    undefined :
+    setInterval(timeUpdate, intervals.main);
+  intervalsId.numbers = paused ?
+    undefined :
+    setInterval(numbersUpdate, intervals.numbers);
+  intervalsId.visual = paused ?
+    undefined :
+    setInterval(visualUpdate, intervals.visual);
+  intervalsId.autoSave = paused ?
+    undefined :
+    setInterval(saveGame, intervals.autoSave);
 };
 
 const saveGame = (saveOnly = false): string | undefined => {
@@ -206,7 +214,9 @@ const saveConsole = async() => {
 
 const changeSaveFileName = () => {
   const input = getId('saveFileNameInput') as HTMLInputElement;
-  const newValue = input.value.length === 0 ? playerStart.fileName : input.value.replaceAll(/[\\/:*?"<>|]/g, '_');
+  const newValue = input.value.length === 0 ?
+    playerStart.fileName :
+    input.value.replaceAll(/[\\/:*?"<>|]/g, '_');
 
   try {
     btoa(newValue); // Test for any illegal characters
@@ -291,7 +301,9 @@ export const timeWarp = async() => {
   const offline = player.time.offline;
   if (offline < 60) { return Alert('Need at least 1 minute in Offline storage to Warp'); }
   const improved = player.strangeness[2][6] >= 1;
-  const value = await Prompt(`How many seconds to Warp? (Offline storage is ${format(offline, { type: 'time', padding: false })} and 1 tick is ${improved ? '1 second' : '10 seconds'})\nNot using entire Offline storage will remove 1 hour up to same amount as Warp time from storage without using`, `${Math.floor(offline)}`);
+  const value = await Prompt(`How many seconds to Warp? (Offline storage is ${format(offline, { type: 'time', padding: false })} and 1 tick is ${improved ?
+    '1 second' :
+    '10 seconds'})\nNot using entire Offline storage will remove 1 hour up to same amount as Warp time from storage without using`, `${Math.floor(offline)}`);
   let warpTime = Math.min(Number(value), offline);
   if (value === undefined || !Number.isFinite(warpTime)) { return; }
   if (warpTime < 60) { return Alert('Warp has to be at least 1 minute'); }
@@ -307,7 +319,9 @@ export const timeWarp = async() => {
   getId('alertMain').style.display = 'none';
   getId('warpMain').style.display = '';
   getId('blocker').style.display = '';
-  warpMain(warpTime, improved ? 1 : 10);
+  warpMain(warpTime, improved ?
+    1 :
+    10);
   player.time.offline -= warpTime;
 };
 const warpMain = (warpTime: number, tick: number, start = warpTime) => {
@@ -368,7 +382,9 @@ try { // Start everything
       if (!reload) {
         const support = localStorage.getItem('support') ?? '';
         state = support[number + 1] === 'F';
-        localStorage.setItem('support', `${support.slice(0, number + 1)}${state ? 'T' : 'F'}${support.slice(number + 2, support.length)}`);
+        localStorage.setItem('support', `${support.slice(0, number + 1)}${state ?
+          'T' :
+          'F'}${support.slice(number + 2, support.length)}`);
       }
       if (type === 'SR' && number === 0) { global.supportSettings[0] = state; }
 
@@ -443,7 +459,9 @@ try { // Start everything
       if (supportType[1] === 'F') { hangleToggle(0, 'SR', true); }
 
       const primaryIndex = (reload = false) => {
-        const newTab = hangleToggle(1, 'SR', reload) ? -1 : 0;
+        const newTab = hangleToggle(1, 'SR', reload) ?
+          -1 :
+          0;
         getId('stageReset').tabIndex = newTab;
         getId('reset1Button').tabIndex = newTab;
         for (let i = 1; i < specialHTML.longestBuilding; i++) {
@@ -478,7 +496,9 @@ try { // Start everything
     const load = JSON.parse(atob(save)) as unknown as Partial<playerType>;
     const versionCheck = updatePlayer(load);
     global.lastSave = handleOfflineTime();
-    alertText = `Welcome back, you were away for ${format(global.lastSave, { type: 'time', padding: false })}\n${versionCheck === player.version ? `Current version is ${player.version}` : `Game have been updated from ${versionCheck} to ${player.version}`}`;
+    alertText = `Welcome back, you were away for ${format(global.lastSave, { type: 'time', padding: false })}\n${versionCheck === player.version ?
+      `Current version is ${player.version}` :
+      `Game have been updated from ${versionCheck} to ${player.version}`}`;
   }
 
   if (player.toggles.normal[1]) {
@@ -587,9 +607,11 @@ try { // Start everything
         hoverChallenge(i, 'challenge'); 
       }); 
     }
-    image.addEventListener('click', i === -1 ? switchVacuum : () => { 
-      void enterExitChallenge(i); 
-    });
+    image.addEventListener('click', i === -1 ?
+      switchVacuum :
+      () => { 
+        void enterExitChallenge(i); 
+      });
   }
   for (let i = 1; i < global.challengesInfo.rewardText[0].length; i++) {
     if (i === 5) { continue; } // Missing for now
@@ -842,13 +864,17 @@ try { // Start everything
   getId('MDMainToggle').addEventListener('click', async() => {
     if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
     const support = localStorage.getItem('support');
-    support !== null && support.startsWith('M') ? localStorage.removeItem('support') : localStorage.setItem('support', 'MT');
+    support !== null && support.startsWith('M') ?
+      localStorage.removeItem('support') :
+      localStorage.setItem('support', 'MT');
     window.location.reload();
   });
   getId('SRMainToggle').addEventListener('click', async() => {
     if (!(await Confirm('Changing this setting will reload the page, confirm?\n(Game will not autosave)'))) { return; }
     const support = localStorage.getItem('support');
-    support !== null && support.startsWith('S') ? localStorage.removeItem('support') : localStorage.setItem('support', 'STT');
+    support !== null && support.startsWith('S') ?
+      localStorage.removeItem('support') :
+      localStorage.setItem('support', 'STT');
     window.location.reload();
   });
   getId('pauseGame').addEventListener('click', () => { void pauseGame(); });

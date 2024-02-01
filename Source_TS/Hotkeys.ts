@@ -35,7 +35,9 @@ export const detectHotkey = (check: KeyboardEvent) => {
       toggleSwap(numberKey, 'buildings', true);
     } else { buyBuilding(numberKey); }
   } else if (key.length === 1) {
-    const stringKey = (player.toggles.normal[0] ? key : code.replace('Key', '')).toLowerCase();
+    const stringKey = (player.toggles.normal[0] ?
+      key :
+      code.replace('Key', '')).toLowerCase();
     if (check.shiftKey) {
       if (stringKey === 'a') {
         toggleSwap(0, 'buildings', true);

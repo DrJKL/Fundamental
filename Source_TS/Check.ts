@@ -8,7 +8,9 @@ export const checkTab = (tab: string, subtab?: string): boolean => {
     return subtab === 'Structures' || subtab === undefined;
   case 'Elements':
   case 'upgrade':
-    if (player.stage.resets < 1 && player.discharge.energyMax < (player.inflation.vacuum ? 40 : 9)) { return false; }
+    if (player.stage.resets < 1 && player.discharge.energyMax < (player.inflation.vacuum ?
+      40 :
+      9)) { return false; }
     if (subtab === 'Elements' || tab === 'Elements') { return global.stageInfo.activeAll.includes(4) && player.upgrades[4][1] === 1; }
     return subtab === 'Upgrades' || subtab === undefined;
   case 'strangeness':
@@ -300,13 +302,21 @@ export const milestoneCheck = (index: number, stageIndex: number): boolean => {
 
   switch (stageIndex) {
   case 1: {
-    if (index === 0) { return Limit(player.buildings[1][player.inflation.vacuum ? 1 : 0].current).moreOrEqual(need); }
+    if (index === 0) {
+      return Limit(player.buildings[1][player.inflation.vacuum ?
+        1 :
+        0].current).moreOrEqual(need); 
+    }
     if (index === 1) { return Limit(player.discharge.energy).moreOrEqual(need); }
   
     break;
   }
   case 2: {
-    if (index === 0) { return Limit(player.inflation.vacuum ? player.vaporization.clouds : player.buildings[2][1].current).moreOrEqual(need); }
+    if (index === 0) {
+      return Limit(player.inflation.vacuum ?
+        player.vaporization.clouds :
+        player.buildings[2][1].current).moreOrEqual(need); 
+    }
     if (index === 1) { return Limit(player.buildings[2][2].current).moreOrEqual(need); }
   
     break;
@@ -318,7 +328,11 @@ export const milestoneCheck = (index: number, stageIndex: number): boolean => {
     break;
   }
   case 4: {
-    if (index === 0) { return Limit(player.inflation.vacuum ? player.buildings[4][0].current : player.collapse.mass).moreOrEqual(need); }
+    if (index === 0) {
+      return Limit(player.inflation.vacuum ?
+        player.buildings[4][0].current :
+        player.collapse.mass).moreOrEqual(need); 
+    }
     if (index === 1) { return Limit(player.collapse.stars[2]).moreOrEqual(need); }
   
     break;

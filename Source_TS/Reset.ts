@@ -139,7 +139,9 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
       player.collapse.mass = 0.012_35;
       player.collapse.stars = [0, 0, 0];
       player.elements = [...playerStart.elements];
-      player.elements[0] = player.strangeness[4][10] >= 1 ? 1 : 0;
+      player.elements[0] = player.strangeness[4][10] >= 1 ?
+        1 :
+        0;
       autoElementsSet();
       for (let i = 0; i < player.elements.length; i++) { visualUpdateUpgrades(i, 4, 'elements'); }
       global.lastElement = -1;
@@ -155,7 +157,9 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
     }
   }
   player.researchesAuto[0] = player.strangeness[3][6];
-  player.researchesAuto[1] = player.strangeness[1][7] >= 1 ? 1 : 0;
+  player.researchesAuto[1] = player.strangeness[1][7] >= 1 ?
+    1 :
+    0;
 
   for (let i = 0; i < playerStart.researchesAuto.length; i++) { calculateMaxLevel(i, 0, 'researchesAuto'); }
   for (const s of stageIndex) { // Less errors if do it separatly
