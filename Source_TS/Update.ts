@@ -7,8 +7,8 @@ import { autoElementsBuy, autoElementsSet, autoResearchesBuy, autoResearchesSet,
 import type { overlimit } from './Types';
 import { updateUnknown } from './Vacuum';
 
-export const switchTab = (tab: string, subtab = null as null | string) => {
-  if (subtab === null) {
+export const switchTab = (tab: string, subtab?: string) => {
+  if (subtab === undefined) {
     const oldTab = global.tab;
     getId(`${oldTab}Tab`).style.display = 'none';
     getId(`${oldTab}TabBtn`).classList.remove('tabActive');
@@ -51,7 +51,7 @@ export const switchTab = (tab: string, subtab = null as null | string) => {
   if (global.trueActive !== active) {
     switchStage(global.trueActive);
   } else if (active !== 4 && active !== 5 && ((global.tab === 'upgrade' && global.subtab.upgradeCurrent === 'Elements') || tab === 'Elements')) {
-    if ((tab === 'upgrade' && subtab === null) || !global.stageInfo.activeAll.includes(4)) {
+    if ((tab === 'upgrade' && subtab === undefined) || !global.stageInfo.activeAll.includes(4)) {
       switchTab('upgrade', 'Upgrades');
     } else {
       setActiveStage(4, active);
@@ -1097,7 +1097,7 @@ export const format = (input: number /* | overlimit*/, settings = {} as { digits
     settings.padding = !(settings.padding === false && Math.trunc(input) === input);
     settings.digits = 3;
   }
-  if (!isFinite(input)) { return extra !== undefined ? `${input} ${extra}` : `${input}`; }
+  if (!Number.isFinite(input)) { return extra !== undefined ? `${input} ${extra}` : `${input}`; }
 
   const inputAbs = Math.abs(input);
   if (inputAbs >= 1e6 || (inputAbs < 1e-3 && inputAbs > 0)) {

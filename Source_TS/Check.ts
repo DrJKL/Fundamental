@@ -1,23 +1,23 @@
 import Limit from './Limit';
 import { global, player } from './Player';
 
-export const checkTab = (tab: string, subtab: string | null = null): boolean => {
+export const checkTab = (tab: string, subtab?: string): boolean => {
   switch (tab) {
   case 'stage':
     if (subtab === 'Advanced') { return player.inflation.vacuum || global.strangeInfo.instability > 0; }
-    return subtab === 'Structures' || subtab === null;
+    return subtab === 'Structures' || subtab === undefined;
   case 'Elements':
   case 'upgrade':
     if (player.stage.resets < 1 && player.discharge.energyMax < (player.inflation.vacuum ? 40 : 9)) { return false; }
     if (subtab === 'Elements' || tab === 'Elements') { return global.stageInfo.activeAll.includes(4) && player.upgrades[4][1] === 1; }
-    return subtab === 'Upgrades' || subtab === null;
+    return subtab === 'Upgrades' || subtab === undefined;
   case 'strangeness':
     if (player.strange[0].total <= 0) { return false; }
     if (subtab === 'Milestones') { return player.strangeness[5][8] >= 1 || !player.inflation.vacuum; }
-    return subtab === 'Matter' || subtab === null;
+    return subtab === 'Matter' || subtab === undefined;
   case 'settings':
     if (subtab === 'History') { return player.strange[0].total > 0; }
-    return subtab === 'Settings' || subtab === 'Stats' || subtab === null;
+    return subtab === 'Settings' || subtab === 'Stats' || subtab === undefined;
   }
 
   return false;

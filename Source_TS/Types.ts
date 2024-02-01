@@ -138,7 +138,7 @@ export interface globalType {
     autoE: number[][];
     elements: number[];
   };
-  theme: number | null;
+  theme: number | undefined;
   dischargeInfo: {
     getEnergy: (index: number, stageIndex: number) => number;
     energyType: number[][];
@@ -212,7 +212,7 @@ export interface globalType {
   strangeInfo: {
     gain: (stage: number) => number;
     name: string[];
-    stageBoost: Array<number | null>;
+    stageBoost: Array<number | undefined>;
     instability: number;
   };
   upgradesInfo: Array<{

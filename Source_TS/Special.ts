@@ -217,21 +217,21 @@ export const preventImageUnload = () => {
   specialHTML.cache.imagesDiv.innerHTML = images; // Saved just in case
 };
 
-export const setTheme = (theme: number | null) => {
-  if (theme !== null) {
-    if (player.stage.true < theme) { theme = null; }
-    if (theme === 6 && player.stage.true < 7 && player.strangeness[5][0] < 1) { theme = null; }
+export const setTheme = (theme: number | undefined) => {
+  if (theme !== undefined) {
+    if (player.stage.true < theme) { theme = undefined; }
+    if (theme === 6 && player.stage.true < 7 && player.strangeness[5][0] < 1) { theme = undefined; }
   }
 
   global.theme = theme;
-  theme === null ? localStorage.removeItem('theme') : localStorage.setItem('theme', `${theme}`);
+  theme === undefined ? localStorage.removeItem('theme') : localStorage.setItem('theme', `${theme}`);
   switchTheme();
 };
 
 export const switchTheme = () => {
   const body = document.body.style;
   const theme = global.theme ?? player.stage.active;
-  getId('currentTheme').textContent = global.theme === null ? 'Default' : global.stageInfo.word[theme];
+  getId('currentTheme').textContent = global.theme === undefined ? 'Default' : global.stageInfo.word[theme];
 
   let dropStatColor = '';
   let waterStatColor = '';
@@ -504,11 +504,11 @@ export const Confirm = async(text: string): Promise<boolean> => {
   });
 };
 
-export const Prompt = async(text: string, inputValue = ''): Promise<string | null> => {
+export const Prompt = async(text: string, inputValue = ''): Promise<string | undefined> => {
   return await new Promise((resolve) => {
     const blocker = getId('blocker');
     if (blocker.style.display !== 'none') {
-      resolve(null);
+      resolve(undefined);
       Notify('Another Alert is already active');
       return;
     }
@@ -524,7 +524,7 @@ export const Prompt = async(text: string, inputValue = ''): Promise<string | nul
     input.focus();
 
     const yes = () => { close(input.value); };
-    const no = () => { close(null); };
+    const no = () => { close(undefined); };
     const key = (button: KeyboardEvent) => {
       if (button.key === 'Escape') {
         button.preventDefault();
@@ -536,7 +536,7 @@ export const Prompt = async(text: string, inputValue = ''): Promise<string | nul
         }
       }
     };
-    const close = (result: string | null) => {
+    const close = (result: string | undefined) => {
       blocker.style.display = 'none';
       cancel.style.display = 'none';
       input.style.display = 'none';

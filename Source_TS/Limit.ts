@@ -75,8 +75,8 @@ export const overlimit = {
         result = technical.round(result);
         return this;
       },
-      isNaN: (): boolean => isNaN(result[0]) || isNaN(result[1]),
-      isFinite: (): boolean => isFinite(result[0]) && isFinite(result[1]),
+      isNaN: (): boolean => Number.isNaN(result[0]) || Number.isNaN(result[1]),
+      isFinite: (): boolean => Number.isFinite(result[0]) && Number.isFinite(result[1]),
       lessThan: (compare: string | number | [number, number]): boolean => technical.less(result, technical.convert(compare)),
       lessOrEqual: (compare: string | number | [number, number]): boolean => technical.lessOrEqual(result, technical.convert(compare)),
       moreThan: (compare: string | number | [number, number]): boolean => technical.more(result, technical.convert(compare)),
@@ -99,8 +99,8 @@ export const overlimit = {
         const array = technical.convertAll(compare);
 
         for (const el of array) {
-          if (isNaN(el[0])) {
-            result = [NaN, NaN];
+          if (Number.isNaN(el[0])) {
+            result = [Number.NaN, Number.NaN];
             break;
           }
 
@@ -114,8 +114,8 @@ export const overlimit = {
         const array = technical.convertAll(compare);
 
         for (const el of array) {
-          if (isNaN(el[0])) {
-            result = [NaN, NaN];
+          if (Number.isNaN(el[0])) {
+            result = [Number.NaN, Number.NaN];
             break;
           }
 
@@ -131,7 +131,7 @@ export const overlimit = {
     };
   },
   LimitAlt: {
-    abs: (number: string): string => number.startsWith('-') ? number.substring(1) : number,
+    abs: (number: string): string => number.startsWith('-') ? number.slice(1) : number,
     isNaN: (number: string): boolean => number.includes('NaN'),
     isFinite: (number: string): boolean => !number.includes('Infinity') && !number.includes('NaN'),
     clone: (number: [number, number]): [number, number] => [number[0], number[1]],
@@ -195,7 +195,7 @@ export const overlimit = {
       };
       main = merge(main) as number[];
 
-      const clone = toSort.slice(0);
+      const clone = [...toSort];
       toSort.length = 0;
       for (let i = 0; i < clone.length; i++) {
         toSort.push(clone[main[i]]);
@@ -206,9 +206,9 @@ export const overlimit = {
     add: (left: [number, number], right: [number, number]): [number, number] => {
       if (right[0] === 0) { return left; }
       if (left[0] === 0) { return right; }
-      if (!isFinite(left[0]) || !isFinite(right[0])) {
+      if (!Number.isFinite(left[0]) || !Number.isFinite(right[0])) {
         const check = left[0] + right[0]; // Infinity + -Infinity === NaN
-        return isNaN(left[0]) || isNaN(right[0]) || isNaN(check) ? [NaN, NaN] : [check, Infinity];
+        return Number.isNaN(left[0]) || Number.isNaN(right[0]) || Number.isNaN(check) ? [Number.NaN, Number.NaN] : [check, Number.POSITIVE_INFINITY];
       }
 
       const difference = left[1] - right[1];
@@ -267,7 +267,7 @@ export const overlimit = {
       return left;
     },
     div: (left: [number, number], right: [number, number]): [number, number] => {
-      if (right[0] === 0) { return [NaN, NaN]; }
+      if (right[0] === 0) { return [Number.NaN, Number.NaN]; }
       if (left[0] === 0) { return [0, 0]; }
 
       left[1] -= right[1];
@@ -287,25 +287,25 @@ export const overlimit = {
       return left;
     },
     pow: (left: [number, number], power: number): [number, number] => {
-      if (power === 0) { return left[0] === 0 || isNaN(left[0]) ? [NaN, NaN] : [1, 0]; }
-      if (left[0] === 0) { return power < 0 ? [NaN, NaN] : [0, 0]; }
-      if (!isFinite(power)) {
-        if (left[1] === 0 && (left[0] === 1 || (left[0] === -1 && !isNaN(power)))) { return [1, 0]; }
-        if ((power === -Infinity && left[1] >= 0) || (power === Infinity && left[1] < 0)) { return [0, 0]; }
-        return isNaN(power) || isNaN(left[0]) ? [NaN, NaN] : [Infinity, Infinity];
+      if (power === 0) { return left[0] === 0 || Number.isNaN(left[0]) ? [Number.NaN, Number.NaN] : [1, 0]; }
+      if (left[0] === 0) { return power < 0 ? [Number.NaN, Number.NaN] : [0, 0]; }
+      if (!Number.isFinite(power)) {
+        if (left[1] === 0 && (left[0] === 1 || (left[0] === -1 && !Number.isNaN(power)))) { return [1, 0]; }
+        if ((power === Number.NEGATIVE_INFINITY && left[1] >= 0) || (power === Number.POSITIVE_INFINITY && left[1] < 0)) { return [0, 0]; }
+        return Number.isNaN(power) || Number.isNaN(left[0]) ? [Number.NaN, Number.NaN] : [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY];
       }
 
-      const negative = left[0] < 0 ? Math.abs(power) % 2 : null;
-      if (negative !== null) { // Complex numbers are not supported
-        if (Math.floor(power) !== power) { return [NaN, NaN]; }
+      const negative = left[0] < 0 ? Math.abs(power) % 2 : undefined;
+      if (negative !== undefined) { // Complex numbers are not supported
+        if (Math.floor(power) !== power) { return [Number.NaN, Number.NaN]; }
         left[0] *= -1;
       }
 
       const base10 = power * (Math.log10(left[0]) + left[1]);
-      if (!isFinite(base10)) {
-        if (isNaN(left[0])) { return [NaN, NaN]; }
-        if (base10 === -Infinity) { return [0, 0]; }
-        return [negative === 1 ? -Infinity : Infinity, Infinity];
+      if (!Number.isFinite(base10)) {
+        if (Number.isNaN(left[0])) { return [Number.NaN, Number.NaN]; }
+        if (base10 === Number.NEGATIVE_INFINITY) { return [0, 0]; }
+        return [negative === 1 ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY];
       }
 
       const target = Math.floor(base10);
@@ -322,19 +322,19 @@ export const overlimit = {
       return left;
     },
     log: (left: [number, number], base: number): [number, number] => {
-      if (Math.abs(base) === 1 || (left[0] === -1 && left[1] === 0)) { return [NaN, NaN]; }
+      if (Math.abs(base) === 1 || (left[0] === -1 && left[1] === 0)) { return [Number.NaN, Number.NaN]; }
       if (left[0] === 1 && left[1] === 0) { return [0, 0]; }
-      if (base === 0) { return [NaN, NaN]; } // Order matters (0 ** 0 === 1)
-      if (left[0] === 0) { return isNaN(base) ? [NaN, NaN] : [Math.abs(base) > 1 ? -Infinity : Infinity, Infinity]; }
-      if (!isFinite(base)) { return [NaN, NaN]; } // Order matters (Infinity ** 0 === 1 || Infinity ** -Infinity === 0)
-      if (!isFinite(left[0])) {
-        if (isNaN(left[0]) || left[0] === -Infinity) { return [NaN, NaN]; }
-        return [Math.abs(base) < 1 ? -Infinity : Infinity, Infinity];
+      if (base === 0) { return [Number.NaN, Number.NaN]; } // Order matters (0 ** 0 === 1)
+      if (left[0] === 0) { return Number.isNaN(base) ? [Number.NaN, Number.NaN] : [Math.abs(base) > 1 ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]; }
+      if (!Number.isFinite(base)) { return [Number.NaN, Number.NaN]; } // Order matters (Infinity ** 0 === 1 || Infinity ** -Infinity === 0)
+      if (!Number.isFinite(left[0])) {
+        if (Number.isNaN(left[0]) || left[0] === Number.NEGATIVE_INFINITY) { return [Number.NaN, Number.NaN]; }
+        return [Math.abs(base) < 1 ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY];
       }
 
       const negative = left[0] < 0;
       if (negative) { // Complex numbers are not supported
-        if (base > 0) { return [NaN, NaN]; }
+        if (base > 0) { return [Number.NaN, Number.NaN]; }
         left[0] *= -1;
       }
 
@@ -357,13 +357,13 @@ export const overlimit = {
       }
 
       if (base < 0 || negative) { // Special test for negative numbers
-        if (left[1] < 0) { return [NaN, NaN]; }
+        if (left[1] < 0) { return [Number.NaN, Number.NaN]; }
         // Due to floats (1.1 * 100 !== 110), test is done in this way
         const test = left[1] < 16 ? Math.abs(Math.round(left[0] * 1e14) / 10 ** (14 - left[1])) % 2 : 0;
         if (base < 0 && !negative) {
-          if (test !== 0) { return [NaN, NaN]; } // Result must be even
+          if (test !== 0) { return [Number.NaN, Number.NaN]; } // Result must be even
         } else { // base < 0 && negative
-          if (test !== 1) { return [NaN, NaN]; } // Result must be uneven
+          if (test !== 1) { return [Number.NaN, Number.NaN]; } // Result must be uneven
         }
       }
 
@@ -455,7 +455,7 @@ export const overlimit = {
     },
     format: (left: [number, number], settings: { digits?: number; type?: 'number' | 'input'; padding?: boolean }): string => {
       const [base, power] = left;
-      if (!isFinite(base) || !isFinite(power)) { return overlimit.technical.convertBack(left); }
+      if (!Number.isFinite(base) || !Number.isFinite(power)) { return overlimit.technical.convertBack(left); }
 
       // 1.23ee123 (-1.23e-e123)
       if ((power >= 1e4 || power <= -1e4) && settings.type !== 'input') {
@@ -498,7 +498,7 @@ export const overlimit = {
         result = index === -1 ? [Number(number), 0] : [Number(number.slice(0, index)), Number(number.slice(index + 1))];
       } else { result = [number[0], number[1]]; } // Not instant return, because might need a fix
 
-      if (!isFinite(result[0])) { return isNaN(result[0]) ? [NaN, NaN] : [result[0], Infinity]; }
+      if (!Number.isFinite(result[0])) { return Number.isNaN(result[0]) ? [Number.NaN, Number.NaN] : [result[0], Number.POSITIVE_INFINITY]; }
 
       const after = Math.abs(result[0]);
       if (after === 0) {
@@ -532,14 +532,14 @@ export const overlimit = {
       return result;
     },
     prepare: (number: [number, number]): [number, number] => {
-      if (isFinite(number[0]) && isFinite(number[1])) { return number; }
-      if (number[0] === 0 || number[1] === -Infinity) { return [0, 0]; }
-      if (isNaN(number[0]) || isNaN(number[1])) { return [NaN, NaN]; }
-      return [number[0] < 0 ? -Infinity : Infinity, Infinity]; // Base can be non Infinity
+      if (Number.isFinite(number[0]) && Number.isFinite(number[1])) { return number; }
+      if (number[0] === 0 || number[1] === Number.NEGATIVE_INFINITY) { return [0, 0]; }
+      if (Number.isNaN(number[0]) || Number.isNaN(number[1])) { return [Number.NaN, Number.NaN]; }
+      return [number[0] < 0 ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]; // Base can be non Infinity
     },
     convertBack: (number: [number, number]): string => {
       number = overlimit.technical.prepare(number);
-      if (!isFinite(number[0])) { return `${number[0]}`; }
+      if (!Number.isFinite(number[0])) { return `${number[0]}`; }
       return number[1] === 0 ? `${number[0]}` : `${number[0]}e${number[1]}`;
     },
   },

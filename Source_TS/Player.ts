@@ -347,7 +347,7 @@ export const global: globalType = { // For information that doesn't need to be s
     ],
     elements: [],
   },
-  theme: null,
+  theme: undefined,
   dischargeInfo: {
     getEnergy: (index: number, stageIndex: number) => {
       let value = global.dischargeInfo.energyType[stageIndex][index];
@@ -952,7 +952,7 @@ export const global: globalType = { // For information that doesn't need to be s
         () => "Research 'Improved Tritium' is now better. (+1)",
         () => `Always have auto for ${global.buildingsInfo.name[1][Math.min(player.strangeness[1][6] + 1, global.ASRInfo.max[1])]}.`,
         () => `First level - ${player.strangeness[1][7] >= 1 ? 'Auto await value input and toggle to switch all auto Structures toggles at once' : 'improve control over auto Structures toggles'}.\nSecond level - ${player.strangeness[1][7] >= 2 ? 'Hover to create and max create Researches toggles' : 'unlock new toggles for all Upgrade types'}.`,
-        () => `Unspent Strange quarks will boost Microworld with bonus Discharge goals.\n(Current effect: ${global.strangeInfo.stageBoost[1] !== null ? `+${format(global.strangeInfo.stageBoost[1], { padding: true })}` : 'none'})`,
+        () => `Unspent Strange quarks will boost Microworld with bonus Discharge goals.\n(Current effect: ${global.strangeInfo.stageBoost[1] !== undefined ? `+${format(global.strangeInfo.stageBoost[1], { padding: true })}` : 'none'})`,
         () => `Minor boost of ${format(1.3)}x per level to all Microworld Structures.`,
         () => 'No Mass will be lost when creating Preons.',
         () => 'Energy is now directly based on current self-made amount of Structures.\nThis will also increase max levels for Reset automatization.',
@@ -984,7 +984,7 @@ export const global: globalType = { // For information that doesn't need to be s
         () => `Automatically Vaporize when reached enough boost from new Clouds. (Need to be enabled in Settings)${player.strangeness[1][11] >= 1 ? '\nSecond level - Automatically gain 20% of Clouds per second.' : ''}`,
         () => `Always have auto for ${global.buildingsInfo.name[2][Math.min(player.strangeness[2][5] + 1, global.ASRInfo.max[2])]}.`,
         () => 'Improve warp by making a single tick to be 1 instead 10 seconds.',
-        () => `Unspent Strange quarks will boost Submerged by improving Puddles.\n(Current effect: ${global.strangeInfo.stageBoost[2] !== null ? format(global.strangeInfo.stageBoost[2], { padding: true }) : 'none'})`,
+        () => `Unspent Strange quarks will boost Submerged by improving Puddles.\n(Current effect: ${global.strangeInfo.stageBoost[2] !== undefined ? format(global.strangeInfo.stageBoost[2], { padding: true }) : 'none'})`,
         () => 'Current Vacuum state allows for another Submerged Structure.',
         () => `Increase ${global.strangeInfo.name[player.strangeness[5][10]]} gained from this Stage reset based on current Cloud amount.\n(Current effect: ${format(calculateEffects.S2Strange9(), { padding: true })})`,
         () => `Increase max level for one of Researches again by +1.\nFinal level will instead unlock an even better new Upgrade.\n(Current effect: ${player.strangeness[2][10] >= 1 ? `max level increased for 'Stronger surface tension'${player.strangeness[2][10] >= 2 ? " and 'Stronger surface stress'" : ''}${player.strangeness[2][10] >= 3 ? ", a new Upgrade - 'Tide'" : ''}` : 'none'})`,
@@ -1016,7 +1016,7 @@ export const global: globalType = { // For information that doesn't need to be s
         () => `Automatically increase Rank when available. (Need to be enabled in Settings)${player.strangeness[1][11] >= 1 ? '\nSecond level - auto creation of Accretion Structures after reaching cosmic dust hardcap will always keep enough for highest Solar mass conversion.' : ''}`,
         () => `Always have auto for ${global.buildingsInfo.name[3][Math.min(player.strangeness[3][5] + 1, global.ASRInfo.max[3])]}.`,
         () => `Always automatically create all ${['Upgrades', 'Stage Researches', 'Special Researches'][Math.min(player.strangeness[3][6], 2)]} from any Stage. (Need to be enabled in Settings)`,
-        () => `Unspent Strange quarks will boost Accretion by making its Structures cheaper.\n(Current effect: ${global.strangeInfo.stageBoost[3] !== null ? format(global.strangeInfo.stageBoost[3], { padding: true }) : 'none'})`,
+        () => `Unspent Strange quarks will boost Accretion by making its Structures cheaper.\n(Current effect: ${global.strangeInfo.stageBoost[3] !== undefined ? format(global.strangeInfo.stageBoost[3], { padding: true }) : 'none'})`,
         () => 'Current Vacuum state allows for another Accretion Structure.\n(Not recommended until cheap)',
         () => `Reduce amount of time required to reach Solar mass hardcap by shifting Cosmic dust and Solar mass hardcaps.\nEach level allows for ${format(1.4)} times bigger shift. (Automatic)`,
         () => 'Increase effective Rank by +1.',
@@ -1049,7 +1049,7 @@ export const global: globalType = { // For information that doesn't need to be s
         () => `Automatically Collapse once reached enough boost. (Need to be enabled in Settings)${player.strangeness[1][11] >= 1 ? '\nSecond level - Star remnants will now be gained automatically.' : ''}`,
         () => `Always have auto for ${global.buildingsInfo.name[4][Math.min(player.strangeness[4][6] + 1, global.ASRInfo.max[4])]}.`,
         () => `Increase multiplier of ${global.strangeInfo.name[player.strangeness[5][10]]} gained from export per day by +1 (which is equal to ${format((2 + player.strangeness[4][7]) / (1 + player.strangeness[4][7]) * 100 - 100)}% increase).\n(${player.strangeness[5][10] >= 1 ? '' : 'Can claim only full ones. '}Export base is increased by +${format(6.25)}% of highest Stage reset reward even without this Strangeness)`,
-        () => `Unspent Strange quarks will boost Interstellar by improving all Stars.\n(Current effect: ${global.strangeInfo.stageBoost[4] !== null ? format(global.strangeInfo.stageBoost[4], { padding: true }) : 'none'})`,
+        () => `Unspent Strange quarks will boost Interstellar by improving all Stars.\n(Current effect: ${global.strangeInfo.stageBoost[4] !== undefined ? format(global.strangeInfo.stageBoost[4], { padding: true }) : 'none'})`,
         () => 'Current Vacuum state allows for another Interstellar Structure.',
         () => "Improve Neutron Stars strength and improve scaling of '[12] Magnesium' effect.",
       ],
@@ -1085,7 +1085,7 @@ export const global: globalType = { // For information that doesn't need to be s
           return `Increase permanent level of auto Structures. Next auto is for ${player.buildings[5][autoIndex].highest[0] > 0 ? global.buildingsInfo.name[5][autoIndex] : '(unknown)'}.`;
         },
         () => `Unlock ${player.inflation.vacuum ? 'Void' : 'Intergalactic'} Milestones.`,
-        () => `Unspent Strange quarks will boost Intergalactic by ${player.inflation.vacuum ? 'delaying Cosmic dust hardcap' : 'increasing Solar mass gain'}.\n(Current effect: ${global.strangeInfo.stageBoost[5] !== null ? (player.inflation.vacuum || global.stageInfo.activeAll.includes(5) ? format(global.strangeInfo.stageBoost[5], { padding: true }) : 'awaiting Intergalactic Stage') : 'none'})`,
+        () => `Unspent Strange quarks will boost Intergalactic by ${player.inflation.vacuum ? 'delaying Cosmic dust hardcap' : 'increasing Solar mass gain'}.\n(Current effect: ${global.strangeInfo.stageBoost[5] !== undefined ? (player.inflation.vacuum || global.stageInfo.activeAll.includes(5) ? format(global.strangeInfo.stageBoost[5], { padding: true }) : 'awaiting Intergalactic Stage') : 'none'})`,
         () => `Unlock a new Strange Structure that will replace current Stage reset reward, also convert all ${global.strangeInfo.name[Math.min(player.strangeness[5][10], global.strangenessInfo[5].max[10] - 1)]} and then produce them, but hardcaps quickly.\n(Hardcap delayed by quantity of a higher tier Structure, can be seen in Stats)`,
       ],
       cost: [],
@@ -1250,7 +1250,7 @@ export const logAny = (number: number, base: number) => Math.log(number) / Math.
 
 // For non deep clone use { ...object } or cloneArray when possible
 export const deepClone = <CloneType>(toClone: CloneType): CloneType => {
-  if (typeof toClone !== 'object' || toClone === null) { return toClone; }
+  if (typeof toClone !== 'object') { return toClone; }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any 
   let value: any;
@@ -1540,7 +1540,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
   }
 
   for (let s = 1; s < playerStart.buildings.length; s++) {
-    if (isNaN(load.toggles.shop.wait[s])) { load.toggles.shop.wait[s] = 2; }
+    if (Number.isNaN(load.toggles.shop.wait[s])) { load.toggles.shop.wait[s] = 2; }
     for (let i = load.buildings[s].length; i < playerStart.buildings[s].length; i++) {
       load.buildings[s][i] = deepClone(playerStart.buildings[s][i]);
     }
@@ -1679,7 +1679,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
 
   /* Finish visuals */
   const theme = localStorage.getItem('theme');
-  setTheme(theme === null ? null : Number(theme));
+  setTheme(theme === null ? undefined : Number(theme));
 
   (getId('saveFileNameInput') as HTMLInputElement).value = player.fileName;
   (getId('mainInterval') as HTMLInputElement).value = `${player.intervals.main}`;

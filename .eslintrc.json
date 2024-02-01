@@ -7,8 +7,9 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/strict-type-checked",
         "plugin:@typescript-eslint/stylistic-type-checked"
+        // "plugin:unicorn/recommended"
     ],
-    "plugins": ["@stylistic/eslint-plugin"],
+    "plugins": ["@stylistic/eslint-plugin", "unicorn"],
     "overrides": [],
     "parserOptions": {
         "project": true,
@@ -19,7 +20,7 @@
         /* To see all used rules type `npx eslint --print-config file.ts > eslintconifg.txt`, this will create a text file */
         
         "curly": ["error", "all"],
-        "eqeqeq": "warn",
+        // "eqeqeq": "warn",
         "max-statements-per-line": ["error", { "max": 2 }], //Because brace-style isn't working. So only allowed for cases like 'if (condition) { do this; }'
         "no-extra-label": "warn",
         "no-loop-func": "warn",
@@ -56,6 +57,17 @@
         "@stylistic/semi": "error",
         "@stylistic/space-before-function-paren": ["error", "never"],
         "@stylistic/spaced-comment": "error",
-        "@stylistic/switch-colon-spacing": "error"
+        "@stylistic/switch-colon-spacing": "error",
+
+        "unicorn/consistent-destructuring": "off",
+        "unicorn/filename-case": "off",
+        "unicorn/prefer-number-properties":"error",
+        "unicorn/no-null": "error",
+        "unicorn/prefer-string-slice": "error",
+        // "unicorn/prefer-explicit-length-check": "error",
+        "unicorn/prefer-spread": "error",
+
+
+        "eqeqeq": "warn"
     }
 }

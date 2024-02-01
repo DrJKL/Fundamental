@@ -35,7 +35,7 @@ export const getClass = (idCollection: string): HTMLElement[] => {
     return test;
   }
   const store = document.getElementsByClassName(idCollection);
-  const store2 = Array.from(store);
+  const store2 = [...store];
   const onlyHTML = store2.filter(isHTMLElement);
   specialHTML.cache.classMap.set(idCollection, onlyHTML);
   return onlyHTML;
@@ -83,10 +83,10 @@ const changeIntervals = () => {
   intervalsId.autoSave = paused ? undefined : setInterval(saveGame, intervals.autoSave);
 };
 
-const saveGame = (saveOnly = false): string | null => {
+const saveGame = (saveOnly = false): string | undefined => {
   if (global.paused) {
     Notify('No saving while game is paused');
-    return null;
+    return undefined;
   }
   try {
     player.history.stage.list = global.historyStorage.stage.slice(0, player.history.stage.input[0]);
@@ -106,7 +106,7 @@ const saveGame = (saveOnly = false): string | null => {
       void Alert(`Failed to save game\nFull error: '${error.message}'`); 
     } 
   }
-  return null;
+  return undefined;
 };
 const loadGame = (save: string) => {
   if (global.paused) {
@@ -149,7 +149,7 @@ const exportFileGame = () => {
   }
 
   const save = saveGame(true);
-  if (save === null) { return; }
+  if (save === undefined) { return; }
   const a = document.createElement('a');
   a.href = `data:text/plain,${save}`;
   a.download = replaceSaveFileSpecials();
@@ -157,12 +157,12 @@ const exportFileGame = () => {
 };
 const saveConsole = async() => {
   const value = await Prompt("Available options:\n'Copy' - copy save file to clipboard\n'Delete' - delete your save file\n'Clear' - clear all domain data\nOr insert save file string here to load it");
-  if (value === null || value === '') { return; }
+  if (value === undefined || value === '') { return; }
   const lower = value.toLowerCase();
 
   if (lower === 'copy') {
     const save = saveGame(true);
-    if (save !== null) { void navigator.clipboard.writeText(save); }
+    if (save !== undefined) { void navigator.clipboard.writeText(save); }
   } else if (lower === 'delete' || lower === 'clear') {
     global.paused = true;
     changeIntervals();
@@ -273,7 +273,7 @@ export const timeWarp = async() => {
   const improved = player.strangeness[2][6] >= 1;
   const value = await Prompt(`How many seconds to Warp? (Offline storage is ${format(offline, { type: 'time', padding: false })} and 1 tick is ${improved ? '1 second' : '10 seconds'})\nNot using entire Offline storage will remove 1 hour up to same amount as Warp time from storage without using`, `${Math.floor(offline)}`);
   let warpTime = Math.min(Number(value), offline);
-  if (value === null || !isFinite(warpTime)) { return; }
+  if (value === undefined || !Number.isFinite(warpTime)) { return; }
   if (warpTime < 60) { return Alert('Warp has to be at least 1 minute'); }
   if (warpTime < offline) {
     const remove = Math.max(warpTime, 3600);
@@ -346,8 +346,7 @@ try { // Start everything
     const hangleToggle = (number: number, type: 'MD' | 'SR', reload = false) => {
       let state = false;
       if (!reload) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const support = localStorage.getItem('support')!;
+        const support = localStorage.getItem('support') ?? '';
         state = support[number + 1] === 'F';
         localStorage.setItem('support', `${support.slice(0, number + 1)}${state ? 'T' : 'F'}${support.slice(number + 2, support.length)}`);
       }
@@ -532,7 +531,7 @@ try { // Start everything
   getId('autoWaitInput').addEventListener('change', () => {
     const input = getId('autoWaitInput') as HTMLInputElement;
     let value = Math.max(Number(input.value), 1);
-    if (isNaN(value)) { value = 2; }
+    if (Number.isNaN(value)) { value = 2; }
     player.toggles.shop.wait[player.stage.active] = value;
     input.value = format(value, { type: 'input' });
   });
@@ -766,7 +765,7 @@ try { // Start everything
   });
   getId('export').addEventListener('click', () => { exportFileGame(); });
   getId('saveConsole').addEventListener('click', () => { void saveConsole(); });
-  getId('switchTheme0').addEventListener('click', () => { setTheme(null); });
+  getId('switchTheme0').addEventListener('click', () => { setTheme(undefined); });
   for (let i = 1; i < global.stageInfo.word.length; i++) {
     getId(`switchTheme${i}`).addEventListener('click', () => { setTheme(i); });
   }
