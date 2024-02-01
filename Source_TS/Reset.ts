@@ -15,7 +15,7 @@ export const reset = (type: 'discharge' | 'vaporization' | 'rank' | 'collapse' |
     }
     autoElementsSet();
 
-    player.collapse.mass = 0.01235;
+    player.collapse.mass = 0.012_35;
     player.collapse.stars = [0, 0, 0];
   }
 
@@ -109,32 +109,49 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
     autoUpgradesSet(s);
 
     global.lastUpgrade[s][0] = -1;
-    if (s === 1) {
+    switch (s) {
+    case 1: {
       player.discharge.current = 0;
       player.discharge.energy = 0;
       global.dischargeInfo.energyTrue = 0;
-    } else if (s === 2) {
+    
+      break;
+    }
+    case 2: {
       player.vaporization.clouds = [0, 0];
       global.vaporizationInfo.research0 = 0;
       global.vaporizationInfo.research1 = 0;
-    } else if (s === 3) {
+    
+      break;
+    }
+    case 3: {
       if (player.inflation.vacuum) {
         player.accretion.rank = 1;
       } else {
         player.accretion.rank = 0;
         buildings[0].current = [5.9722, 27];
       }
-    } else if (s === 4) {
+    
+      break;
+    }
+    case 4: {
       global.collapseInfo.trueStars = 0;
-      player.collapse.mass = 0.01235;
+      player.collapse.mass = 0.012_35;
       player.collapse.stars = [0, 0, 0];
       player.elements = [...playerStart.elements];
       player.elements[0] = player.strangeness[4][10] >= 1 ? 1 : 0;
       autoElementsSet();
       for (let i = 0; i < player.elements.length; i++) { visualUpdateUpgrades(i, 4, 'elements'); }
       global.lastElement = -1;
-    } else if (s === 5) {
+    
+      break;
+    }
+    case 5: {
       if (player.strangeness[5][6] >= 2) { player.ASR[5]++; }
+    
+      break;
+    }
+    // No default
     }
   }
   player.researchesAuto[0] = player.strangeness[3][6];
@@ -212,8 +229,8 @@ export const resetVacuum = () => {
 
   // Stage 4
   global.collapseInfo.trueStars = 0;
-  player.collapse.mass = 0.01235;
-  player.collapse.massMax = 0.01235;
+  player.collapse.mass = 0.012_35;
+  player.collapse.massMax = 0.012_35;
   player.collapse.stars = [0, 0, 0];
   player.collapse.show = 0;
   player.elements = [...playerStart.elements];

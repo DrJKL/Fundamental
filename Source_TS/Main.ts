@@ -64,7 +64,7 @@ const handleOfflineTime = (): number => {
   const offlineTime = (timeNow - time.updated) / 1000;
   time.updated = timeNow;
   time.offline = Math.min(time.offline + offlineTime, maxOfflineTime());
-  player.stage.export = Math.min(player.stage.export + offlineTime, 86400);
+  player.stage.export = Math.min(player.stage.export + offlineTime, 86_400);
   return offlineTime;
 };
 
@@ -137,11 +137,11 @@ const exportFileGame = () => {
 
     let strangeGain;
     if (rewardType >= 1) {
-      strangeGain = player.stage.export * multiplier / 86400 / 1e12 ** rewardType;
+      strangeGain = player.stage.export * multiplier / 86_400 / 1e12 ** rewardType;
       player.stage.export = 0;
     } else {
-      strangeGain = Math.floor(player.stage.export * multiplier / 86400);
-      player.stage.export -= strangeGain * 86400 / multiplier;
+      strangeGain = Math.floor(player.stage.export * multiplier / 86_400);
+      player.stage.export -= strangeGain * 86_400 / multiplier;
     }
     player.strange[rewardType].current += strangeGain;
     player.strange[rewardType].total += strangeGain;
@@ -160,10 +160,15 @@ const saveConsole = async() => {
   if (value === undefined || value === '') { return; }
   const lower = value.toLowerCase();
 
-  if (lower === 'copy') {
+  switch (lower) {
+  case 'copy': {
     const save = saveGame(true);
     if (save !== undefined) { void navigator.clipboard.writeText(save); }
-  } else if (lower === 'delete' || lower === 'clear') {
+  
+    break;
+  }
+  case 'delete': 
+  case 'clear': {
     global.paused = true;
     changeIntervals();
     if (lower === 'delete') {
@@ -171,16 +176,31 @@ const saveConsole = async() => {
     } else { localStorage.clear(); }
     window.location.reload();
     void Alert('Awaiting page refresh');
-  } else if (lower === 'achievement') {
+  
+    break;
+  }
+  case 'achievement': {
     Notify('Unlocked a new Achievement');
-  } else if (lower === 'slow' || lower === 'free') {
+  
+    break;
+  }
+  case 'slow': 
+  case 'free': {
     Notify('Game speed was increased by 1x');
-  } else if (lower === 'neutronium' || lower === 'element0') {
+  
+    break;
+  }
+  case 'neutronium': 
+  case 'element0': {
     Notify(global.elementsInfo.effectText[0]().replace('this', 'Elements'));
-  } else {
+  
+    break;
+  }
+  default: {
     if (value.length < 20) { return Alert(`Input '${value}' doesn't match anything`); }
     if (!(await Confirm("Press 'Confirm' to load input as a save file\n(Input is too long to be displayed)"))) { return; }
     loadGame(value);
+  }
   }
 };
 
@@ -450,15 +470,15 @@ try { // Start everything
 
   let alertText;
   const save = localStorage.getItem('save');
-  if (save !== null) {
-    const load = JSON.parse(atob(save)) as unknown as Partial<playerType>;
-    const versionCheck = updatePlayer(load);
-    global.lastSave = handleOfflineTime();
-    alertText = `Welcome back, you were away for ${format(global.lastSave, { type: 'time', padding: false })}\n${versionCheck !== player.version ? `Game have been updated from ${versionCheck} to ${player.version}` : `Current version is ${player.version}`}`;
-  } else {
+  if (save === null) {
     prepareVacuum(false); // Set buildings values
     updatePlayer(deepClone(playerStart));
     alertText = `Welcome to 'Fundamental' ${player.version}, a test-project created by awWhy\n(This idle game is not meant to be fast)`;
+  } else {
+    const load = JSON.parse(atob(save)) as unknown as Partial<playerType>;
+    const versionCheck = updatePlayer(load);
+    global.lastSave = handleOfflineTime();
+    alertText = `Welcome back, you were away for ${format(global.lastSave, { type: 'time', padding: false })}\n${versionCheck === player.version ? `Current version is ${player.version}` : `Game have been updated from ${versionCheck} to ${player.version}`}`;
   }
 
   if (player.toggles.normal[1]) {
@@ -514,14 +534,28 @@ try { // Start everything
   getId('stageReset').addEventListener('click', () => { void stageAsyncReset(); });
   getId('reset1Button').addEventListener('click', () => {
     const active = player.stage.active;
-    if (active === 1) {
+    switch (active) {
+    case 1: {
       void dischargeAsyncReset();
-    } else if (active === 2) {
+    
+      break;
+    }
+    case 2: {
       void vaporizationAsyncReset();
-    } else if (active === 3) {
+    
+      break;
+    }
+    case 3: {
       void rankAsyncReset();
-    } else if (active === 4) {
+    
+      break;
+    }
+    case 4: {
       void collapseAsyncReset();
+    
+      break;
+    }
+    // No default
     }
   });
   getId('buy1x').addEventListener('click', () => { toggleBuy('1'); });
@@ -760,7 +794,7 @@ try { // Start everything
   getId('save').addEventListener('click', () => { saveGame(); });
   getId('file').addEventListener('change', async() => {
     const id = getId('file') as HTMLInputElement;
-    loadGame(await id.files?.[0]?.text() ?? '');
+    loadGame((await id.files?.[0]?.text()) ?? '');
     id.value = '';
   });
   getId('export').addEventListener('click', () => { exportFileGame(); });
@@ -799,7 +833,7 @@ try { // Start everything
   });
   getId('autoSaveInterval').addEventListener('change', () => {
     const autoSaveInput = getId('autoSaveInterval') as HTMLInputElement;
-    player.intervals.autoSave = Math.min(Math.max(Math.trunc(Number(autoSaveInput.value) * 100), 400), 180000) * 10;
+    player.intervals.autoSave = Math.min(Math.max(Math.trunc(Number(autoSaveInput.value) * 100), 400), 180_000) * 10;
     autoSaveInput.value = `${player.intervals.autoSave / 1000}`;
     changeIntervals();
   });

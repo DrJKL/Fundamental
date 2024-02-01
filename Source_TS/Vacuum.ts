@@ -13,7 +13,7 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     buildingsInfo.hoverText[3][0] = 'Preons hardcap';
     buildings[1][0].current = [5.476, -3];
     buildings[2][0].current = [0, 0];
-    buildings[3][0].current = [9.76185667392, -36];
+    buildings[3][0].current = [9.761_856_673_92, -36];
     const maxBuildings = [6, 7, 6, 6, 4];
     buildingsInfo.maxActive.splice(1, maxBuildings.length, ...maxBuildings);
     if (buildingsInfo.name[1][0] !== 'Mass') {
@@ -21,15 +21,15 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
       buildingsInfo.name[1].unshift('Mass', 'Preons');
       buildingsInfo.hoverText[1].unshift('Mass', 'Preons');
     }
-    buildingsInfo.startCost[1] = [0, 0.005476, 6, 3, 24, 3];
-    buildingsInfo.firstCost[1] = [0, 0.005476, 6, 3, 24, 3];
+    buildingsInfo.startCost[1] = [0, 0.005_476, 6, 3, 24, 3];
+    buildingsInfo.firstCost[1] = [0, 0.005_476, 6, 3, 24, 3];
     global.dischargeInfo.energyType[1] = [0, 1, 3, 5, 10, 20];
     buildingsInfo.type[2][1] = 'improving';
     buildingsInfo.type[3][1] = 'delaying';
     buildingsInfo.increase[5][1] = 4;
     buildingsInfo.increase[5][2] = 4;
 
-    const upgrades1Cost = [40, 80, 100, 140, 200, 400, 2000, 4000, 20000, 70000];
+    const upgrades1Cost = [40, 80, 100, 140, 200, 400, 2000, 4000, 20_000, 70_000];
     upgradesInfo[1].startCost.splice(0, upgrades1Cost.length, ...upgrades1Cost);
     upgradesInfo[5].startCost[2] = 1e120;
     // upgradesInfo[1].maxActive = 10;
@@ -38,8 +38,8 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     // upgradesInfo[4].maxActive = 4;
     // upgradesInfo[5].maxActive = 3;
 
-    const researches1Cost = [2400, 6000, 24000, 30000, 24000, 30000];
-    const researches1Scaling = [400, 2000, 6000, 24000, 12000, 12000];
+    const researches1Cost = [2400, 6000, 24_000, 30_000, 24_000, 30_000];
+    const researches1Scaling = [400, 2000, 6000, 24_000, 12_000, 12_000];
     researchesInfo[1].startCost.splice(0, researches1Cost.length, ...researches1Cost);
     researchesInfo[1].scaling.splice(0, researches1Scaling.length, ...researches1Scaling);
     // researchesInfo[1].maxActive = 6;
@@ -54,9 +54,9 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     // researchesExtraInfo[4].maxActive = 3;
     // researchesExtraInfo[5].maxActive = 0;
 
-    global.accretionInfo.rankCost[5] = 2.45576045e31;
-    global.ASRInfo.costRange[1] = [4000, 10000, 16000, 24000, 32000];
-    global.ASRInfo.costRange[3][3] = 2.45576045e31;
+    global.accretionInfo.rankCost[5] = 2.455_760_45e31;
+    global.ASRInfo.costRange[1] = [4000, 10_000, 16_000, 24_000, 32_000];
+    global.ASRInfo.costRange[3][3] = 2.455_760_45e31;
 
     const strangeness1Cost = [2, 1, 4, 24, 2, 1, 2, 4, 36];
     const strangeness1Scaling = [2.4, 4, 6, 1, 4, 2.2, 2, 2, 1];
@@ -74,7 +74,7 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     const strangeness4Scaling = [1.8, 2.8, 2.4, 4, 8, 250, 2.22, 2, 1];
     strangenessInfo[4].startCost.splice(0, strangeness4Cost.length, ...strangeness4Cost);
     strangenessInfo[4].scaling.splice(0, strangeness4Scaling.length, ...strangeness4Scaling);
-    const strangeness5Cost = [4, 16, 2400, 8, 10, 64, 21600, 40, 1600, 180];
+    const strangeness5Cost = [4, 16, 2400, 8, 10, 64, 21_600, 40, 1600, 180];
     const strangeness5Scaling = [1, 5, 1, 1.8, 1.8, 1, 3, 2, 1, 1];
     strangenessInfo[5].startCost.splice(0, strangeness5Cost.length, ...strangeness5Cost);
     strangenessInfo[5].scaling.splice(0, strangeness5Scaling.length, ...strangeness5Scaling);
@@ -137,7 +137,7 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     buildingsInfo.increase[5][1] = 2;
     buildingsInfo.increase[5][2] = 2;
 
-    const upgrades1Cost = [0, 0, 9, 12, 36, 300, 800, 2000, 4000, 22000];
+    const upgrades1Cost = [0, 0, 9, 12, 36, 300, 800, 2000, 4000, 22_000];
     upgradesInfo[1].startCost.splice(0, upgrades1Cost.length, ...upgrades1Cost);
     upgradesInfo[5].startCost[2] = 1e100;
     upgradesInfo[1].maxActive = 10;
@@ -163,7 +163,7 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     researchesExtraInfo[5].maxActive = 0;
 
     global.accretionInfo.rankCost[5] = 0;
-    global.ASRInfo.costRange[1] = [6000, 12000, 18000];
+    global.ASRInfo.costRange[1] = [6000, 12_000, 18_000];
     global.ASRInfo.costRange[3][3] = 2e30;
 
     const strangeness1Cost = [1, 1, 3, 6, 6, 1, 2, 2, 12];

@@ -41,19 +41,39 @@ export const detectHotkey = (check: KeyboardEvent) => {
         toggleSwap(0, 'buildings', true);
       }
     } else {
-      if (stringKey === 'w') {
+      switch (stringKey) {
+      case 'w': {
         check.preventDefault();
         void timeWarp();
-      } else if (stringKey === 's') {
+      
+        break;
+      }
+      case 's': {
         void stageAsyncReset();
-      } else if (stringKey === 'd') {
+      
+        break;
+      }
+      case 'd': {
         if (global.stageInfo.activeAll.includes(1)) { void dischargeAsyncReset(); }
-      } else if (stringKey === 'v') {
+      
+        break;
+      }
+      case 'v': {
         if (global.stageInfo.activeAll.includes(2)) { void vaporizationAsyncReset(); }
-      } else if (stringKey === 'r') {
+      
+        break;
+      }
+      case 'r': {
         if (global.stageInfo.activeAll.includes(3)) { void rankAsyncReset(); }
-      } else if (stringKey === 'c') {
+      
+        break;
+      }
+      case 'c': {
         if (global.stageInfo.activeAll.includes(4)) { void collapseAsyncReset(); }
+      
+        break;
+      }
+      // No default
       }
     }
   } else if (key === 'ArrowLeft' || key === 'ArrowRight') {

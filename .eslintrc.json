@@ -7,7 +7,7 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/strict-type-checked",
         "plugin:@typescript-eslint/stylistic-type-checked"
-        // "plugin:unicorn/recommended"
+        // ,"plugin:unicorn/recommended"
     ],
     "plugins": ["@stylistic/eslint-plugin", "unicorn"],
     "overrides": [],
@@ -61,11 +61,17 @@
 
         "unicorn/consistent-destructuring": "off",
         "unicorn/filename-case": "off",
+        "unicorn/prevent-abbreviations": "off",
+        "unicorn/switch-case-braces": "off",
+        "unicorn/no-array-callback-reference": "off",
         "unicorn/prefer-number-properties":"error",
         "unicorn/no-null": "error",
         "unicorn/prefer-string-slice": "error",
-        // "unicorn/prefer-explicit-length-check": "error",
+        "unicorn/explicit-length-check": "error",
         "unicorn/prefer-spread": "error",
+        "unicorn/numeric-separators-style": "error",
+        "unicorn/prefer-switch": "error",
+        "unicorn/no-negated-condition": "error",
 
 
         "eqeqeq": "warn"
