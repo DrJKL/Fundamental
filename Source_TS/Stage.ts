@@ -449,6 +449,8 @@ export const assignBuildingInformation = () => {
   }
 };
 
+type SpecialOption = '' | 'Moles' | 'Mass' | 'Galaxy';
+
 export const buyBuilding = (index: number, stageIndex = player.stage.active, auto = false) => {
   if (!checkBuilding(index, stageIndex)) { return; }
   const building = player.buildings[stageIndex][index as 1];
@@ -456,7 +458,7 @@ export const buyBuilding = (index: number, stageIndex = player.stage.active, aut
   let pointer; // For cost
   let currency;
   let free = false;
-  let special = '' as '' | 'Moles' | 'Mass' | 'Galaxy';
+  let special: SpecialOption = '';
   switch (stageIndex) {
   case 1: {
     pointer = player.buildings[1][index - 1];
@@ -1843,7 +1845,9 @@ export const toggleConfirm = (number: number, change = false) => {
   }
 };
 
-export const toggleBuy = (type = 'none' as 'none' | '1' | 'max' | 'any') => {
+type BuyingOption = 'none' | '1' | 'max' | 'any';
+
+export const toggleBuy = (type: BuyingOption = 'none') => {
   const input = getId('buyAnyInput') as HTMLInputElement;
   const shop = player.toggles.shop;
 

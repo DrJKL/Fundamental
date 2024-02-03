@@ -4,10 +4,10 @@ import { getClass, getId, getQuery } from './Main';
 import { global, player } from './Player';
 import { MDStrangenessPage, playEvent, specialHTML, switchTheme } from './Special';
 import { autoElementsBuy, autoElementsSet, autoResearchesBuy, autoResearchesSet, autoUpgradesBuy, autoUpgradesSet, buyBuilding, calculateBuildingsCost, gainBuildings, assignBuildingInformation, collapseResetCheck, dischargeResetCheck, rankResetCheck, stageResetCheck, toggleSwap, vaporizationResetCheck, assignDischargeInformation, assignVaporizationInformation, assignCollapseInformation, gainStrange, switchStage, setActiveStage, calculateEffects } from './Stage';
-import type { Tab, overlimit } from './Types';
+import type { Tab, VALID_SUBTABS, overlimit } from './Types';
 import { updateUnknown } from './Vacuum';
 
-export const switchTab = (tab: Tab, subtab?: string) => {
+export const switchTab = <T extends Tab>(tab: T, subtab?: typeof VALID_SUBTABS[`${T}Subtabs`][number]) => {
   if (subtab === undefined) {
     const oldTab = global.tab;
     getId(`${oldTab}Tab`).style.display = 'none';
@@ -21,7 +21,7 @@ export const switchTab = (tab: Tab, subtab?: string) => {
     let subtabAmount = 0;
     getId(`${tab}Tab`).style.display = '';
     getId(`${tab}TabBtn`).classList.add('tabActive');
-    const newSubtabs = global.tabList[`${tab}Subtabs`] ;
+    const newSubtabs = global.tabList[`${tab}Subtabs`];
     for (const inside of newSubtabs) {
       if (checkTab(tab, inside)) {
         getId(`${tab}SubtabBtn${inside}`).style.display = '';

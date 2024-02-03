@@ -306,7 +306,7 @@ export const global: globalType = { // For information that doesn't need to be s
     settingsSubtabs: ['Settings', 'History', 'Stats'],
     upgradeSubtabs: ['Upgrades', 'Elements'],
     strangenessSubtabs: ['Matter', 'Milestones'],
-    ElementsSubtabs: [],
+    ElementsSubtabs: [] as string[],
   },
   debug: {
     errorID: true, // Notify about missing ID

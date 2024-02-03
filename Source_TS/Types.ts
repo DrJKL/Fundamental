@@ -19,6 +19,14 @@ export type Tab =
     | 'Elements'
     ;
 
+export const VALID_SUBTABS = {
+  stageSubtabs: ['Structures', 'Advanced'],
+  settingsSubtabs: ['Settings', 'History', 'Stats'],
+  upgradeSubtabs: ['Upgrades', 'Elements'],
+  strangenessSubtabs: ['Matter', 'Milestones'],
+  ElementsSubtabs: [] as string[],
+} as const;
+
 export interface playerType {
   version: Version;
   fileName: string;
@@ -191,15 +199,16 @@ interface History {
     input: [number, number];
   };
 }
-
+type Mutable<T> = { -readonly [P in keyof T]: T[P] };
 // Too clever? Maybe...
 type SubTabInfo = {
-  [K in Tab as `${K}Current`]: string;
+  [K in Tab as `${K}Current`]: typeof VALID_SUBTABS[`${K}Subtabs`][number] | string; // TODO fix Update code to eliminate never assignment issue
+  
 };
 type TabList = {
   tabs: Tab[];
 } & {
-  [K in Tab as `${K}Subtabs`]: string[];
+  [K in Tab as `${K}Subtabs`]: Mutable<typeof VALID_SUBTABS[`${K}Subtabs`]> | string[];
 };
 
 interface Debug {

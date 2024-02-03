@@ -117,9 +117,11 @@ export const detectHotkey = (check: KeyboardEvent) => {
       }
     }
   } else if (key === 'ArrowDown' || key === 'ArrowUp') {
-    const subtab = global.subtab[`${global.tab}Current`] as string | undefined;
-    if (check.shiftKey || check.repeat || subtab === undefined) { return; }
-    const subtabs = global.tabList[`${global.tab}Subtabs`];
+    const {tab} = global;
+    const subtab = global.subtab[`${tab}Current`];
+    if (check.shiftKey || check.repeat) { return; }
+    const subtabs: readonly string[]|undefined = global.tabList[`${tab}Subtabs`];
+    if (!subtabs) { return; }
     let index = subtabs.indexOf(subtab);
 
     if (key === 'ArrowDown') {
