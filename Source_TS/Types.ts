@@ -30,7 +30,7 @@ export const VALID_SUBTABS = {
 export interface playerType {
   version: Version;
   fileName: string;
-  separator: string[];
+  separator: readonly string[];
   stage: Stage;
   discharge: Discharge;
   vaporization: Vaporization;
@@ -78,19 +78,19 @@ export interface globalType {
   stageInfo: StageInfo;
   buildingsInfo: BuildingsInfo;
   strangeInfo: StrangeInfo;
-  upgradesInfo: UpgradeInfo[];
-  researchesInfo: ResearchInfo[];
-  researchesExtraInfo: ResearchExtraInfo[];
+  upgradesInfo: readonly UpgradeInfo[];
+  researchesInfo: readonly ResearchInfo[];
+  researchesExtraInfo: readonly ResearchExtraInfo[];
   researchesAutoInfo: ResearchesAutoInfo;
   ASRInfo: ASRInfo;
   elementsInfo: ElementsInfo;
-  strangenessInfo: StrangenessInfo[];
+  strangenessInfo: readonly StrangenessInfo[];
   lastUpgrade: Array<[number, UpgradeThingy]>;
   lastElement: number;
   lastStrangeness: [number, number];
   lastMilestone: [number, number];
   lastChallenge: [number, number];
-  milestonesInfo: MilestoneInfo[];
+  milestonesInfo: readonly MilestoneInfo[];
   challengesInfo: ChallengesInfo;
   historyStorage: {
     stage: number[][];
@@ -181,7 +181,7 @@ interface Challenges {
 interface Toggles {
   normal: boolean[];
   confirm: ConfirmationMode[];
-  buildings: boolean[][];
+  buildings: readonly boolean[][];
   hover: boolean[];
   max: boolean[];
   auto: boolean[];
@@ -194,7 +194,7 @@ interface Toggles {
 
 interface History {
   stage: {
-    best: number[];
+    best: readonly number[];
     list: number[][];
     input: [number, number];
   };
@@ -268,10 +268,10 @@ interface AccretionInfo {
 interface CollapseInfo {
   massEffect: number;
   starEffect: [number, number, number];
-  unlockB: number[];
-  unlockG: number[];
-  unlockU: number[];
-  unlockR: number[];
+  unlockB: readonly number[];
+  unlockG: readonly number[];
+  unlockU: readonly number[];
+  unlockR: readonly number[];
   newMass: number;
   starCheck: [number, number, number];
   trueStars: number;
@@ -301,12 +301,12 @@ interface StageInfo {
 
 interface BuildingsInfo {
   maxActive: number[];
-  name: string[][];
-  hoverText: string[][];
-  type: Array<['', ...BuildingEffect[]]>;
+  name: readonly string[][];
+  hoverText: readonly string[][];
+  type: ReadonlyArray<['', ...BuildingEffect[]]>;
   firstCost: number[][];
   startCost: number[][];
-  increase: number[][];
+  increase: readonly number[][];
   producing: overlimit[][];
 }
 
@@ -318,7 +318,7 @@ interface StrangeInfo {
 }
 
 interface UpgradeInfo {
-  name: string[];
+  name: readonly string[];
   effectText: Array<() => string>;
   startCost: number[];
   maxActive: number;
@@ -338,8 +338,8 @@ interface ResearchExtraInfo {
   name: string[];
   effectText: Array<() => string>;
   cost: number[];
-  startCost: number[];
-  scaling: number[];
+  startCost: readonly number[];
+  scaling: readonly number[];
   max: number[];
   maxActive: number;
 }
@@ -350,9 +350,9 @@ interface ResearchesAutoInfo {
     'More toggles',
   ];
   effectText: Array<() => string>;
-  costRange: number[][];
-  max: number[];
-  autoStage: number[][];
+  costRange: readonly number[][];
+  max: readonly number[];
+  autoStage: readonly number[][];
 }
 
 interface ASRInfo {
@@ -363,13 +363,13 @@ interface ASRInfo {
 }
 
 interface ElementsInfo {
-  name: string[];
+  name: readonly string[];
   effectText: Array<() => string>;
-  startCost: number[];
+  startCost: readonly number[];
 }
 
 interface StrangenessInfo {
-  name: string[];
+  name: readonly string[];
   effectText: Array<() => string>;
   cost: number[];
   startCost: number[];
@@ -382,16 +382,16 @@ interface MilestoneInfo {
   name: string[];
   need: overlimit[];
   reward: number[];
-  scalingOld: number[][];
+  scalingOld: readonly number[][];
   needText: Array<() => string>;
   rewardText: Array<() => string>;
 }
 
 interface ChallengesInfo {
-  name: string[];
-  description: string[];
+  name: readonly string[];
+  description: readonly string[];
   effectText: Array<() => string>;
-  needText: string[][][];
-  rewardText: string[][][];
-  color: string[];
+  needText: readonly string[][][];
+  rewardText: readonly string[][][];
+  color: readonly string[];
 }
