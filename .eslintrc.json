@@ -46,6 +46,7 @@
         "@typescript-eslint/no-unnecessary-condition": "warn", //Objects can be undefined, even without proper type (TS will annoy if turn it on)
         "@typescript-eslint/no-unnecessary-type-arguments": "warn",
         "@typescript-eslint/no-unnecessary-type-constraint": "warn",
+        "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_.*$" }],
         "@typescript-eslint/prefer-namespace-keyword": "warn",
         "@typescript-eslint/restrict-plus-operands": "warn",
 
