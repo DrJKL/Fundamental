@@ -472,7 +472,6 @@ try { // Start everything
         for (const tabText of global.tabList.tabs) {
           getId(`${tabText}TabBtn`).tabIndex = newTab;
           const tabList = global.tabList[`${tabText}Subtabs`];
-          if (tabList === undefined) { continue; }
           for (const subtabText of tabList) {
             getId(`${tabText}SubtabBtn${subtabText}`).tabIndex = newTab;
           }
@@ -516,7 +515,7 @@ try { // Start everything
     }
 
     const tabList = global.tabList;
-    tabList.upgradeSubtabs?.splice(tabList.upgradeSubtabs.indexOf('Elements'), 1);
+    tabList.upgradeSubtabs.splice(tabList.upgradeSubtabs.indexOf('Elements'), 1);
     tabList.tabs.splice(tabList.tabs.indexOf('upgrade') + 1, 0, 'Elements');
   }
   changeFontSize();
@@ -904,7 +903,6 @@ try { // Start everything
   for (const tabText of global.tabList.tabs) {
     getId(`${tabText}TabBtn`).addEventListener('click', () => { switchTab(tabText); });
     const tabList = global.tabList[`${tabText}Subtabs`];
-    if (tabList === undefined) { continue; }
     for (const subtabText of tabList) {
       getId(`${tabText}SubtabBtn${subtabText}`).addEventListener('click', () => { switchTab(tabText, subtabText); });
     }

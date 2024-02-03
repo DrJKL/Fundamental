@@ -121,7 +121,6 @@ export const detectHotkey = (check: KeyboardEvent) => {
     const subtab = global.subtab[`${tab}Current`];
     if (check.shiftKey || check.repeat) { return; }
     const subtabs: readonly string[]|undefined = global.tabList[`${tab}Subtabs`];
-    if (!subtabs) { return; }
     let index = subtabs.indexOf(subtab);
 
     if (key === 'ArrowDown') {
