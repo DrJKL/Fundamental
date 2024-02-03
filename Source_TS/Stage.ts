@@ -498,13 +498,11 @@ export const buyBuilding = (index: number, stageIndex = player.stage.active, aut
 
   let budget = currency;
   if (auto && building.true > 0 && !free && special !== 'Galaxy') {
-    if (special === 'Mass' && player.strangeness[3][4] >= 2 && Limit(global.inflationInfo.dustTrue).moreOrEqual(global.inflationInfo.dustCap)) {
-      budget = Limit(global.inflationInfo.preonCap).multiply(global.inflationInfo.massCap, '-1.78266192e-33').plus(currency).toArray();
-    } else {
-      budget = Limit(currency).divide(player.strangeness[1][7] >= 1 ?
+    budget = special === 'Mass' && player.strangeness[3][4] >= 2 && Limit(global.inflationInfo.dustTrue).moreOrEqual(global.inflationInfo.dustCap) ?
+      Limit(global.inflationInfo.preonCap).multiply(global.inflationInfo.massCap, '-1.78266192e-33').plus(currency).toArray() :
+      Limit(currency).divide(player.strangeness[1][7] >= 1 ?
         player.toggles.shop.wait[stageIndex] :
         '2').toArray();
-    }
   }
 
   let total = calculateBuildingsCost(index, stageIndex);
@@ -775,11 +773,9 @@ export const gainBuildings = (get: number, stageIndex: number, time: number) => 
       // No default
       }
     } else if (get === 0) { awardMilestone(0, 1); }
-  } else if (stageIndex === 3) {
-    if (get === 0) { // Never 0 for true vacuum
-      if (player.accretion.rank < 5 && Limit(building.current).moreThan('1e30')) { building.current = [1, 30]; }
-      awardMilestone(0, 3);
-    }
+  } else if (stageIndex === 3 && get === 0) { // Never 0 for true vacuum
+    if (player.accretion.rank < 5 && Limit(building.current).moreThan('1e30')) { building.current = [1, 30]; }
+    awardMilestone(0, 3);
   }
 };
 
@@ -906,10 +902,8 @@ export const buyUpgrades = (upgrade: number, stageIndex: number, type: 'upgrades
         if (upgrade >= 4 /* && upgrade < 6*/) {
           assignPuddles();
         }
-      } else if (stageIndex === 4) {
-        if (upgrade === 2) {
-          calculateMaxLevel(0, 4, 'researches', true);
-        }
+      } else if (stageIndex === 4 && upgrade === 2) {
+        calculateMaxLevel(0, 4, 'researches', true);
       }
     } else {
       if (stageIndex === 1) {
@@ -922,10 +916,8 @@ export const buyUpgrades = (upgrade: number, stageIndex: number, type: 'upgrades
           stageUpdate('soft');
           awardVoidReward(1);
         }
-      } else if (stageIndex === 4) {
-        if (upgrade === 2) {
-          calculateMaxLevel(3, 4, 'researches', true);
-        }
+      } else if (stageIndex === 4 && upgrade === 2) {
+        calculateMaxLevel(3, 4, 'researches', true);
       }
     }
     if (!auto && global.screenReader) {
@@ -1281,7 +1273,7 @@ export const calculateResearchCost = (research: number, stageIndex: number, type
 };
 
 export const calculateMaxLevel = (research: number, stageIndex: number, type: 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'strangeness', addAuto = false) => {
-  let max = undefined;
+  let max:number | undefined;
   switch (type) {
   case 'ASR': {
     switch (stageIndex) {
@@ -2091,15 +2083,13 @@ export const dischargeAsyncReset = async() => {
   const info = global.dischargeInfo;
   const energy = player.discharge.energy;
 
-  if (player.toggles.confirm[1] !== 'None') {
-    if (player.toggles.confirm[1] !== 'Safe' || player.stage.active !== 1) {
-      if (!await Confirm(`Reset Structures and Energy to ${energy >= info.next ?
-        'gain boost from a new goal' :
-        `regain ${format(info.energyTrue - energy)} spent Energy`}?`)) { return; }
-      if (!dischargeResetCheck()) {
-        Notify('Discharge canceled, requirements are no longer met');
-        return; 
-      }
+  if (player.toggles.confirm[1] !== 'None' && (player.toggles.confirm[1] !== 'Safe' || player.stage.active !== 1)) {
+    if (!await Confirm(`Reset Structures and Energy to ${energy >= info.next ?
+      'gain boost from a new goal' :
+      `regain ${format(info.energyTrue - energy)} spent Energy`}?`)) { return; }
+    if (!dischargeResetCheck()) {
+      Notify('Discharge canceled, requirements are no longer met');
+      return; 
     }
   }
 
@@ -2213,13 +2203,11 @@ export const rankResetCheck = (auto = false): boolean => {
 export const rankAsyncReset = async() => {
   if (!rankResetCheck()) { return; }
 
-  if (player.toggles.confirm[3] !== 'None' && player.accretion.rank !== 0) {
-    if (player.toggles.confirm[3] !== 'Safe' || player.stage.active !== 3) {
-      if (!await Confirm('Reset Structures, Upgrades and Stage Researches to increase current Rank?')) { return; }
-      if (!rankResetCheck()) {
-        Notify('Rank increase canceled, requirements are no longer met'); 
-        return; 
-      }
+  if (player.toggles.confirm[3] !== 'None' && player.accretion.rank !== 0 && (player.toggles.confirm[3] !== 'Safe' || player.stage.active !== 3)) {
+    if (!await Confirm('Reset Structures, Upgrades and Stage Researches to increase current Rank?')) { return; }
+    if (!rankResetCheck()) {
+      Notify('Rank increase canceled, requirements are no longer met'); 
+      return; 
     }
   }
 

@@ -216,7 +216,7 @@ const changeSaveFileName = () => {
   const input = getId('saveFileNameInput') as HTMLInputElement;
   const newValue = input.value.length === 0 ?
     playerStart.fileName :
-    input.value.replaceAll(/[\\/:*?"<>|]/g, '_');
+    input.value.replaceAll(/["*/:<>?\\|]/g, '_');
 
   try {
     btoa(newValue); // Test for any illegal characters
@@ -249,8 +249,8 @@ const replaceSaveFileSpecials = (): string => {
     getDate('dateDMY'),
     getDate('timeHMS'),
   ];
-  for (let i = 0; i < special.length; i++) {
-    realName = realName.replaceAll(special[i], replaceWith[i]);
+  for (const [i, element] of special.entries()) {
+    realName = realName.replaceAll(element, replaceWith[i]);
   }
   return `${realName}.txt`;
 };

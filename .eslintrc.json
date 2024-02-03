@@ -77,6 +77,9 @@
         "unicorn/prefer-string-slice": "error",
         "unicorn/prefer-switch": "error",
 
+        "unicorn/better-regex": "error",
+        "unicorn/no-useless-undefined": "error",
+        "unicorn/no-for-loop": "error",
 
         "eqeqeq": "warn"
     }

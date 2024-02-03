@@ -478,16 +478,16 @@ export const numbersUpdate = () => {
       }
       // No default
       }
-      for (let i = 0; i < buildings.length; i++) {
-        getId(`building${i}StatTotal`).textContent = Limit(buildings[i].total).format({ padding: true });
-        getId(`building${i}StatTrueTotal`).textContent = Limit(buildings[i].trueTotal).format({ padding: true });
-        getId(`building${i}StatHighest`).textContent = Limit(buildings[i].highest).format({ padding: true });
+      for (const [i, building] of buildings.entries()) {
+        getId(`building${i}StatTotal`).textContent = Limit(building.total).format({ padding: true });
+        getId(`building${i}StatTrueTotal`).textContent = Limit(building.trueTotal).format({ padding: true });
+        getId(`building${i}StatHighest`).textContent = Limit(building.highest).format({ padding: true });
       }
 
       const { strange } = player;
       const strangeMax = Math.floor(strange[1].current * 1e12);
-      for (let i = 0; i < strange.length; i++) {
-        getId(`strange${i}StatTotal`).textContent = format(strange[i].total, { padding: true });
+      for (const [i, element] of strange.entries()) {
+        getId(`strange${i}StatTotal`).textContent = format(element.total, { padding: true });
       }
       getId('strange0StatProd').textContent = format(strangeMax, { padding: true });
       getId('strange1StatProd').textContent = format(strangeMax / 600, { padding: true });
@@ -1562,12 +1562,12 @@ export const getChallengeReward = (index: number) => {
   const reward = global.challengesInfo.rewardText[0][index];
   const level = player.challenges.void[index];
   let text = '';
-  for (let i = 0; i < need.length; i++) {
+  for (const [i, element] of need.entries()) {
     text += `<div><p><span class="${level > i ?
       'greenText' :
       'redText'}">→</span> ${index === 2 && i === 1 ?
-      need[i].replace('1e4', format(1e4)) :
-      need[i]}</p>
+      element.replace('1e4', format(1e4)) :
+      element}</p>
         <p><span class="${level > i ?
     'greenText' :
     'redText'}">Reward:</span> ${level > i ?
@@ -2154,11 +2154,11 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload') =>
   visualUpdateResearches(0, active, 'ASR');
 
   const footerStatsHTML = specialHTML.footerStatsHTML[active];
-  for (let i = 0; i < footerStatsHTML.length; i++) {
+  for (const [i, element] of footerStatsHTML.entries()) {
     if (showF.includes(i + 1)) { getId(`footerStat${i + 1}`).style.display = ''; }
-    (getQuery(`#footerStat${i + 1} > img`) as HTMLImageElement).src = `Used_art/${footerStatsHTML[i][0]}`;
-    getQuery(`#footerStat${i + 1} > p`).className = footerStatsHTML[i][1];
-    getId(`footerStat${i + 1}Name`).textContent = footerStatsHTML[i][2];
+    (getQuery(`#footerStat${i + 1} > img`) as HTMLImageElement).src = `Used_art/${element[0]}`;
+    getQuery(`#footerStat${i + 1} > p`).className = element[1];
+    getId(`footerStat${i + 1}Name`).textContent = element[2];
   }
 
   const body = document.body.style;
