@@ -7,12 +7,12 @@ type UpgradeThingy = 'upgrades' | 'researches' | 'researchesExtra' | 'researches
 export type overlimit = [number, number];
 
 type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-export type Version = 
+type Version = 
     | '0.0.0'
     | `v0.${0|1}.${Digit}`
     ;
 
-export const Tabs = ['stage', 'settings', 'upgrade', 'strangeness'] as const;
+const Tabs = ['stage', 'settings', 'upgrade', 'strangeness'] as const;
 
 export type Tab = 
     typeof Tabs[number]
@@ -246,15 +246,23 @@ interface VaporizationInfo {
   get: overlimit;
 }
 
+const rankU = [1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5] as const; // Upgrades
+const rankR = [1, 1, 2, 2, 3, 3, 3, 4, 5] as const; // Researches
+const rankE = [2, 3, 4, 5, 3] as const; // Researches Extra
+// const rankCost = [5.9722e27, 1e-7, 1e10, 1e24, 5e29, 2.455_760_45e31, 0] as const;
+const rankColors =  ['blue', 'cyan', 'gray', 'gray', 'gray', 'darkviolet', 'orange'] as const;
+const rankNames = ['Ocean world', 'Cosmic dust', 'Meteoroid', 'Asteroid', 'Planet', 'Jovian planet', 'Protostar'] as const;
+const rankImages = ['Ocean%20world.png', 'Dust.png', 'Meteoroids.png', 'Asteroid.png', 'Planet.png', 'Giant.png', 'Protostar.png'] as const;
+
 interface AccretionInfo {
   effective: number;
-  rankU: number[];
-  rankR: number[];
-  rankE: number[];
+  rankU: typeof rankU;
+  rankR: typeof rankR;
+  rankE: typeof rankE;
   rankCost: number[];
-  rankColor: string[];
-  rankName: string[];
-  rankImage: string[];
+  rankColor: typeof rankColors;
+  rankName: typeof rankNames;
+  rankImage: typeof rankImages;
 }
 
 interface CollapseInfo {
