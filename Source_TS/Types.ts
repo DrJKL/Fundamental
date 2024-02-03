@@ -286,11 +286,16 @@ interface InflationInfo {
   dustTrue: overlimit;
 }
 
+const word = ['', 'Microworld', 'Submerged', 'Accretion', 'Interstellar', 'Intergalactic', 'Void'] as const;
+const textColor = ['', 'cyan', 'blue', 'gray', 'orange', 'darkorchid', 'darkviolet'] as const;
+const buttonBorder = ['', 'darkcyan', '#386cc7', '#424242', '#a35700', '#8f004c', '#6c1ad1'] as const;
+const imageBorderColor = ['', '#008b8b', '#1460a8', '#5b5b75', '#e87400', '#b324e2', '#5300c1'] as const;
+
 interface StageInfo {
-  word: string[];
-  textColor: string[];
-  buttonBorder: string[];
-  imageBorderColor: string[];
+  word: typeof word;
+  textColor: typeof textColor;
+  buttonBorder: typeof buttonBorder;
+  imageBorderColor: typeof imageBorderColor;
   activeAll: number[];
 }
 
