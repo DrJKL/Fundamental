@@ -298,6 +298,7 @@ export const global: globalType = { // For information that doesn't need to be s
     settingsCurrent: 'Settings',
     upgradeCurrent: 'Upgrades',
     strangenessCurrent: 'Matter',
+    ElementsCurrent: '',
   },
   tabList: { // Order comes from footer
     tabs: ['stage', 'upgrade', 'strangeness', 'settings'],
@@ -305,6 +306,7 @@ export const global: globalType = { // For information that doesn't need to be s
     settingsSubtabs: ['Settings', 'History', 'Stats'],
     upgradeSubtabs: ['Upgrades', 'Elements'],
     strangenessSubtabs: ['Matter', 'Milestones'],
+    ElementsSubtabs: [],
   },
   debug: {
     errorID: true, // Notify about missing ID

@@ -117,9 +117,9 @@ export const detectHotkey = (check: KeyboardEvent) => {
       }
     }
   } else if (key === 'ArrowDown' || key === 'ArrowUp') {
-    const subtab = global.subtab[`${global.tab}Current` as keyof unknown] as string | undefined;
+    const subtab = global.subtab[`${global.tab}Current`] as string | undefined;
     if (check.shiftKey || check.repeat || subtab === undefined) { return; }
-    const subtabs = global.tabList[`${global.tab as 'stage'}Subtabs`];
+    const subtabs = global.tabList[`${global.tab}Subtabs`];
     let index = subtabs.indexOf(subtab);
 
     if (key === 'ArrowDown') {

@@ -4,34 +4,30 @@ import { getClass, getId, getQuery } from './Main';
 import { global, player } from './Player';
 import { MDStrangenessPage, playEvent, specialHTML, switchTheme } from './Special';
 import { autoElementsBuy, autoElementsSet, autoResearchesBuy, autoResearchesSet, autoUpgradesBuy, autoUpgradesSet, buyBuilding, calculateBuildingsCost, gainBuildings, assignBuildingInformation, collapseResetCheck, dischargeResetCheck, rankResetCheck, stageResetCheck, toggleSwap, vaporizationResetCheck, assignDischargeInformation, assignVaporizationInformation, assignCollapseInformation, gainStrange, switchStage, setActiveStage, calculateEffects } from './Stage';
-import type { overlimit } from './Types';
+import type { Tab, overlimit } from './Types';
 import { updateUnknown } from './Vacuum';
 
-export const switchTab = (tab: string, subtab?: string) => {
+export const switchTab = (tab: Tab, subtab?: string) => {
   if (subtab === undefined) {
     const oldTab = global.tab;
     getId(`${oldTab}Tab`).style.display = 'none';
     getId(`${oldTab}TabBtn`).classList.remove('tabActive');
-    const oldSubtabs = global.tabList[`${oldTab}Subtabs` as keyof unknown] as string[] | undefined;
-    if (oldSubtabs !== undefined) {
-      for (const inside of oldSubtabs) {
-        getId(`${oldTab}SubtabBtn${inside}`).style.display = 'none';
-      }
+    const oldSubtabs = global.tabList[`${oldTab}Subtabs`];
+    for (const inside of oldSubtabs) {
+      getId(`${oldTab}SubtabBtn${inside}`).style.display = 'none';
     }
 
     global.tab = tab;
     let subtabAmount = 0;
     getId(`${tab}Tab`).style.display = '';
     getId(`${tab}TabBtn`).classList.add('tabActive');
-    const newSubtabs = global.tabList[`${tab}Subtabs` as keyof unknown] as string[] | undefined;
-    if (newSubtabs !== undefined) {
-      for (const inside of newSubtabs) {
-        if (checkTab(tab, inside)) {
-          getId(`${tab}SubtabBtn${inside}`).style.display = '';
-          subtabAmount++;
-        } else if (global.subtab[`${tab as 'stage'}Current`] === inside) {
-          switchTab(tab, newSubtabs[0]);
-        }
+    const newSubtabs = global.tabList[`${tab}Subtabs`] ;
+    for (const inside of newSubtabs) {
+      if (checkTab(tab, inside)) {
+        getId(`${tab}SubtabBtn${inside}`).style.display = '';
+        subtabAmount++;
+      } else if (global.subtab[`${tab}Current`] === inside) {
+        switchTab(tab, newSubtabs[0]);
       }
     }
     getId('subtabs').style.display = subtabAmount > 1 ?
@@ -39,15 +35,15 @@ export const switchTab = (tab: string, subtab?: string) => {
       'none';
     if (global.screenReader) {
       getId('SRTab').textContent = `Current tab is '${tab}'${subtabAmount > 1 ?
-        ` and subtab is '${global.subtab[`${tab as 'stage'}Current`]}'` :
+        ` and subtab is '${global.subtab[`${tab}Current`]}'` :
         ''}`; 
     }
   } else {
-    const oldSubtab = global.subtab[`${tab as 'stage'}Current`];
+    const oldSubtab = global.subtab[`${tab}Current`];
     getId(`${tab}Subtab${oldSubtab}`).style.display = 'none';
     getId(`${tab}SubtabBtn${oldSubtab}`).classList.remove('tabActive');
 
-    global.subtab[`${tab as 'stage'}Current`] = subtab;
+    global.subtab[`${tab}Current`] = subtab;
     getId(`${tab}Subtab${subtab}`).style.display = '';
     getId(`${tab}SubtabBtn${subtab}`).classList.add('tabActive');
     if (global.screenReader) { getId('SRTab').textContent = `Current subtab is '${subtab}', part of '${tab}' tab`; }
@@ -1751,7 +1747,10 @@ const updateHistory = (/* type: 'stage'*/) => {
   global.debug.historyStage = player.stage.resets;
 };
 
-export const format = (input: number /* | overlimit*/, settings = {} as { digits?: number; type?: 'number' | 'input' | 'time' | 'income'; padding?: boolean }): string => {
+type FormatType = 'number' | 'input' | 'time' | 'income';
+interface FormatSettings { digits?: number; type?: FormatType; padding?: boolean }
+
+export const format = (input: number /* | overlimit*/, settings: FormatSettings = {}): string => {
   // if (typeof input !== 'number') { return Limit(input).format(settings as any); }
   const type = settings.type ?? 'number';
 
@@ -1862,8 +1861,9 @@ export const format = (input: number /* | overlimit*/, settings = {} as { digits
     `${formated} ${extra}`;
 };
 
+type UpdateExtra = 'normal' | 'soft' | 'reload';
 // Soft means that Stage wasn't changed
-export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload') => {
+export const stageUpdate = (extra: UpdateExtra = 'normal') => {
   const { stageInfo, buildingsInfo } = global;
   const { active, current, true: highest, resets } = player.stage;
   const vacuum = player.inflation.vacuum;

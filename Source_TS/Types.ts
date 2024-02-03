@@ -6,8 +6,21 @@ type UpgradeThingy = 'upgrades' | 'researches' | 'researchesExtra' | 'researches
 
 export type overlimit = [number, number];
 
+type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type Version = 
+    | '0.0.0'
+    | `v0.${0|1}.${Digit}`
+    ;
+
+export const Tabs = ['stage', 'settings', 'upgrade', 'strangeness'] as const;
+
+export type Tab = 
+    typeof Tabs[number]
+    | 'Elements'
+    ;
+
 export interface playerType {
-  version: string;
+  version: Version;
   fileName: string;
   separator: string[];
   stage: Stage;
@@ -35,7 +48,7 @@ export interface playerType {
 }
   
 export interface globalType {
-  tab: string;
+  tab: Tab;
   subtab: SubTabInfo;
   tabList: TabList;
   debug: Debug;
@@ -179,19 +192,15 @@ interface History {
   };
 }
 
-interface SubTabInfo {
-  stageCurrent: string;
-  settingsCurrent: string;
-  upgradeCurrent: string;
-  strangenessCurrent: string;
-}
-interface TabList {
-  tabs: string[];
-  stageSubtabs: string[];
-  settingsSubtabs: string[];
-  upgradeSubtabs: string[];
-  strangenessSubtabs: string[];
-}
+// Too clever? Maybe...
+type SubTabInfo = {
+  [K in Tab as `${K}Current`]: string;
+};
+type TabList = {
+  tabs: Tab[];
+} & {
+  [K in Tab as `${K}Subtabs`]: string[];
+};
 
 interface Debug {
   errorID: boolean;
@@ -209,7 +218,7 @@ interface Automatization {
 }
 
 interface DischargeInfo {
-  getEnergy(index: number, stageIndex: number): number;
+  getEnergy: (index: number, stageIndex: number) => number;
   energyType: number[][];
   energyTrue: number;
   tritium: overlimit;
