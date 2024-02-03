@@ -312,7 +312,7 @@ interface BuildingsInfo {
 
 interface StrangeInfo {
   gain(stage: number): number;
-  name: string[];
+  name: ['Strange quarks', 'Strangelets'];
   stageBoost: Array<number | undefined>;
   instability: number;
 }
@@ -345,7 +345,10 @@ interface ResearchExtraInfo {
 }
 
 interface ResearchesAutoInfo {
-  name: string[];
+  name: [
+    'Upgrade automatization',
+    'More toggles',
+  ];
   effectText: Array<() => string>;
   costRange: number[][];
   max: number[];
@@ -353,7 +356,7 @@ interface ResearchesAutoInfo {
 }
 
 interface ASRInfo {
-  name: string;
+  name: 'Auto Structures';
   effectText(): string;
   costRange: number[][];
   max: number[];
