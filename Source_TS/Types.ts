@@ -180,23 +180,23 @@ interface Challenges {
 
 interface Toggles {
   normal: boolean[];
-  confirm: ConfirmationMode[];
-  buildings: readonly boolean[][];
+  readonly confirm: ConfirmationMode[];
+  readonly buildings: readonly boolean[][];
   hover: boolean[];
   max: boolean[];
-  auto: boolean[];
-  shop: {
+  readonly auto: boolean[];
+  readonly shop: {
     howMany: number;
     input: number;
-    wait: number[];
+    readonly wait: number[];
   };
 }
 
 interface History {
-  stage: {
+  readonly stage: {
     best: readonly number[];
     list: number[][];
-    input: [number, number];
+    readonly input: [number, number];
   };
 }
 type Mutable<T> = { -readonly [P in keyof T]: T[P] };
@@ -220,15 +220,15 @@ interface Debug {
 }
 
 interface Automatization {
-  autoU: number[][];
-  autoR: number[][];
-  autoE: number[][];
-  elements: number[];
+  readonly autoU: number[][];
+  readonly autoR: number[][];
+  readonly autoE: number[][];
+  readonly elements: number[];
 }
 
 interface DischargeInfo {
   getEnergy: (index: number, stageIndex: number) => number;
-  energyType: number[][];
+  readonly energyType: number[][];
   energyTrue: number;
   tritium: overlimit;
   base: number;
@@ -256,24 +256,24 @@ const rankImages = ['Ocean%20world.png', 'Dust.png', 'Meteoroids.png', 'Asteroid
 
 interface AccretionInfo {
   effective: number;
-  rankU: typeof rankU;
-  rankR: typeof rankR;
-  rankE: typeof rankE;
-  rankCost: number[];
-  rankColor: typeof rankColors;
-  rankName: typeof rankNames;
-  rankImage: typeof rankImages;
+  readonly rankU: typeof rankU;
+  readonly rankR: typeof rankR;
+  readonly rankE: typeof rankE;
+  readonly rankCost: number[];
+  readonly rankColor: typeof rankColors;
+  readonly rankName: typeof rankNames;
+  readonly rankImage: typeof rankImages;
 }
 
 interface CollapseInfo {
   massEffect: number;
   starEffect: [number, number, number];
-  unlockB: readonly number[];
-  unlockG: readonly number[];
-  unlockU: readonly number[];
-  unlockR: readonly number[];
+  readonly unlockB: readonly number[];
+  readonly unlockG: readonly number[];
+  readonly unlockU: readonly number[];
+  readonly unlockR: readonly number[];
   newMass: number;
-  starCheck: [number, number, number];
+  readonly starCheck: [number, number, number];
   trueStars: number;
 }
 
@@ -292,106 +292,106 @@ const buttonBorder = ['', 'darkcyan', '#386cc7', '#424242', '#a35700', '#8f004c'
 const imageBorderColor = ['', '#008b8b', '#1460a8', '#5b5b75', '#e87400', '#b324e2', '#5300c1'] as const;
 
 interface StageInfo {
-  word: typeof word;
-  textColor: typeof textColor;
-  buttonBorder: typeof buttonBorder;
-  imageBorderColor: typeof imageBorderColor;
+  readonly word: typeof word;
+  readonly textColor: typeof textColor;
+  readonly buttonBorder: typeof buttonBorder;
+  readonly imageBorderColor: typeof imageBorderColor;
   activeAll: number[];
 }
 
 interface BuildingsInfo {
-  maxActive: number[];
-  name: readonly string[][];
-  hoverText: readonly string[][];
-  type: ReadonlyArray<['', ...BuildingEffect[]]>;
-  firstCost: number[][];
-  startCost: number[][];
-  increase: readonly number[][];
-  producing: overlimit[][];
+  readonly maxActive: number[];
+  readonly name: readonly string[][];
+  readonly hoverText: readonly string[][];
+  readonly type: ReadonlyArray<['', ...BuildingEffect[]]>;
+  readonly firstCost: number[][];
+  readonly startCost: number[][];
+  readonly increase: readonly number[][];
+  readonly producing: overlimit[][];
 }
 
 interface StrangeInfo {
   gain(stage: number): number;
-  name: ['Strange quarks', 'Strangelets'];
-  stageBoost: Array<number | undefined>;
+  readonly name: ['Strange quarks', 'Strangelets'];
+  readonly stageBoost: Array<number | undefined>;
   instability: number;
 }
 
 interface UpgradeInfo {
-  name: readonly string[];
-  effectText: Array<() => string>;
-  startCost: number[];
+  readonly name: readonly string[];
+  readonly effectText: Array<() => string>;
+  readonly startCost: number[];
   maxActive: number;
 }
 
 interface ResearchInfo {
-  name: string[];
-  effectText: Array<() => string>;
+  readonly name: string[];
+  readonly effectText: Array<() => string>;
   cost: number[];
-  startCost: number[];
-  scaling: number[];
-  max: number[];
+  readonly startCost: number[];
+  readonly scaling: number[];
+  readonly max: number[];
   maxActive: number;
 }
 
 interface ResearchExtraInfo {
-  name: string[];
-  effectText: Array<() => string>;
+  readonly name: string[];
+  readonly effectText: Array<() => string>;
   cost: number[];
-  startCost: readonly number[];
-  scaling: readonly number[];
-  max: number[];
+  readonly startCost: readonly number[];
+  readonly scaling: readonly number[];
+  readonly max: number[];
   maxActive: number;
 }
 
 interface ResearchesAutoInfo {
-  name: [
+  readonly name: [
     'Upgrade automatization',
     'More toggles',
   ];
-  effectText: Array<() => string>;
-  costRange: readonly number[][];
-  max: readonly number[];
-  autoStage: readonly number[][];
+  readonly effectText: Array<() => string>;
+  readonly costRange: readonly number[][];
+  readonly max: readonly number[];
+  readonly autoStage: readonly number[][];
 }
 
 interface ASRInfo {
-  name: 'Auto Structures';
+  readonly name: 'Auto Structures';
   effectText(): string;
-  costRange: number[][];
-  max: number[];
+  readonly costRange: number[][];
+  readonly max: number[];
 }
 
 interface ElementsInfo {
-  name: readonly string[];
-  effectText: Array<() => string>;
-  startCost: readonly number[];
+  readonly name: readonly string[];
+  readonly effectText: Array<() => string>;
+  readonly startCost: readonly number[];
 }
 
 interface StrangenessInfo {
-  name: readonly string[];
-  effectText: Array<() => string>;
+  readonly name: readonly string[];
+  readonly effectText: Array<() => string>;
   cost: number[];
-  startCost: number[];
-  scaling: number[];
-  max: number[];
+  readonly startCost: number[];
+  readonly scaling: number[];
+  readonly max: number[];
   maxActive: number;
 }
 
 interface MilestoneInfo {
-  name: string[];
-  need: overlimit[];
-  reward: number[];
-  scalingOld: readonly number[][];
-  needText: Array<() => string>;
-  rewardText: Array<() => string>;
+  readonly name: string[];
+  readonly need: overlimit[];
+  readonly reward: number[];
+  readonly scalingOld: readonly number[][];
+  readonly needText: Array<() => string>;
+  readonly rewardText: Array<() => string>;
 }
 
 interface ChallengesInfo {
-  name: readonly string[];
-  description: readonly string[];
-  effectText: Array<() => string>;
-  needText: readonly string[][][];
-  rewardText: readonly string[][][];
-  color: readonly string[];
+  readonly name: readonly string[];
+  readonly description: readonly string[];
+  readonly effectText: Array<() => string>;
+  readonly needText: readonly string[][][];
+  readonly rewardText: readonly string[][][];
+  readonly color: readonly string[];
 }
