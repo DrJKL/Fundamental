@@ -1,7 +1,8 @@
 import Limit from './Limit';
 import { global, player } from './Player';
+import { Tab, ValidSubtab } from './Types';
 
-export function checkTab(tab: string, subtab?: string): boolean {
+export function checkTab<T extends Tab>(tab: T, subtab?: ValidSubtab<T>): boolean {
   switch (tab) {
   case 'stage':
     if (subtab === 'Advanced') { return player.inflation.vacuum || global.strangeInfo.instability > 0; }

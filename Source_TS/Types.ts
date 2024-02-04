@@ -19,7 +19,7 @@ export type Tab =
     | 'Elements'
     ;
 
-export const VALID_SUBTABS = {
+const VALID_SUBTABS = {
   stageSubtabs: ['Structures', 'Advanced'],
   settingsSubtabs: ['Settings', 'History', 'Stats'],
   upgradeSubtabs: ['Upgrades', 'Elements'],
@@ -27,10 +27,12 @@ export const VALID_SUBTABS = {
   ElementsSubtabs: [] as string[],
 } as const;
 
+export type ValidSubtab<T extends Tab> = typeof VALID_SUBTABS[`${T}Subtabs`][number];
+
 export interface playerType {
   version: Version;
   fileName: string;
-  separator: string[];
+  separator: [string, string];
   readonly stage: Stage;
   readonly discharge: Discharge;
   readonly vaporization: Vaporization;

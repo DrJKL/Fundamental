@@ -4,10 +4,10 @@ import { getClass, getId, getQuery } from './Main';
 import { global, player } from './Player';
 import { MDStrangenessPage, playEvent, specialHTML, switchTheme } from './Special';
 import { autoElementsBuy, autoElementsSet, autoResearchesBuy, autoResearchesSet, autoUpgradesBuy, autoUpgradesSet, buyBuilding, calculateBuildingsCost, gainBuildings, assignBuildingInformation, collapseResetCheck, dischargeResetCheck, rankResetCheck, stageResetCheck, toggleSwap, vaporizationResetCheck, assignDischargeInformation, assignVaporizationInformation, assignCollapseInformation, gainStrange, switchStage, setActiveStage, calculateEffects } from './Stage';
-import type { Tab, VALID_SUBTABS, overlimit } from './Types';
+import type { Tab, ValidSubtab, overlimit } from './Types';
 import { updateUnknown } from './Vacuum';
 
-export function switchTab<T extends Tab>(tab: T, subtab?: typeof VALID_SUBTABS[`${T}Subtabs`][number]) {
+export function switchTab<T extends Tab>(tab: T, subtab?: ValidSubtab<T>) {
   if (subtab === undefined) {
     const oldTab = global.tab;
     getId(`${oldTab}Tab`).style.display = 'none';
