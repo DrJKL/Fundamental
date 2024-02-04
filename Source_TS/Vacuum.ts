@@ -3,7 +3,7 @@ import {  global, player, playerStart } from './Player';
 import { resetVacuum } from './Reset';
 import { Alert, Confirm, playEvent, specialHTML } from './Special';
 
-export const prepareVacuum = (state: boolean) => { // Must not use direct player values
+export function prepareVacuum(state: boolean) {
   const { buildings } = playerStart;
   const { buildingsInfo, upgradesInfo, researchesInfo, researchesExtraInfo, strangenessInfo } = global;
 
@@ -37,7 +37,6 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     // upgradesInfo[3].maxActive = 13;
     // upgradesInfo[4].maxActive = 4;
     // upgradesInfo[5].maxActive = 3;
-
     const researches1Cost = [2400, 6000, 24_000, 30_000, 24_000, 30_000];
     const researches1Scaling = [400, 2000, 6000, 24_000, 12_000, 12_000];
     researchesInfo[1].startCost.splice(0, researches1Cost.length, ...researches1Cost);
@@ -47,16 +46,14 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     // researchesInfo[3].maxActive = 9;
     // researchesInfo[4].maxActive = 5;
     // researchesInfo[5].maxActive = 2;
-
     researchesExtraInfo[1].maxActive = 5;
     researchesExtraInfo[2].maxActive = 4;
     researchesExtraInfo[3].maxActive = 5;
     // researchesExtraInfo[4].maxActive = 3;
     // researchesExtraInfo[5].maxActive = 0;
-
-    global.accretionInfo.rankCost[5] = 2.455_760_45e31;
+    global.accretionInfo.rankCost[5] = 2.455_760_45e+31;
     global.ASRInfo.costRange[1] = [4000, 10_000, 16_000, 24_000, 32_000];
-    global.ASRInfo.costRange[3][3] = 2.455_760_45e31;
+    global.ASRInfo.costRange[3][3] = 2.455_760_45e+31;
 
     const strangeness1Cost = [2, 1, 4, 24, 2, 1, 2, 4, 36];
     const strangeness1Scaling = [2.4, 4, 6, 1, 4, 2.2, 2, 2, 1];
@@ -229,9 +226,9 @@ export const prepareVacuum = (state: boolean) => { // Must not use direct player
     buildings[s][0].trueTotal = [...newValue];
     buildings[s][0].highest = [...newValue];
   }
-};
+}
 
-export const switchVacuum = async() => {
+export async function switchVacuum() {
   if (player.inflation.vacuum) { return Alert('This cannot be undone'); }
   const count = global.strangeInfo.instability;
   if (count < 5) { return Alert(`Universe is still stable. Vacuum state is false. ${5 - count} more`); }
@@ -248,9 +245,9 @@ export const switchVacuum = async() => {
   player.stage.active = 1;
   prepareVacuum(true);
   resetVacuum();
-};
+}
 
-export const updateUnknown = () => {
+export function updateUnknown() {
   const milestones = player.milestones;
 
   let text = '<h4 class="darkvioletText">Unknown Structures:</h4>';
@@ -264,4 +261,4 @@ export const updateUnknown = () => {
     '' :
     'none';
   if (div.innerHTML !== text) { div.innerHTML = text; }
-};
+}

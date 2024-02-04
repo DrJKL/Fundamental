@@ -3,7 +3,7 @@ import {  global, player, playerStart } from './Player';
 import { autoResearchesSet, autoUpgradesSet, calculateMaxLevel, calculateResearchCost, assignBuildingInformation, autoElementsSet, assignEnergy, calculateMilestoneInformation, assignStrangeBoost } from './Stage';
 import { numbersUpdate, stageUpdate, visualUpdate, visualUpdateResearches, visualUpdateUpgrades } from './Update';
 
-export const reset = (type: 'discharge' | 'vaporization' | 'rank' | 'collapse' | 'galaxy', stageIndex: number[]) => {
+export function reset(type: 'discharge' | 'vaporization' | 'rank' | 'collapse' | 'galaxy', stageIndex: number[]) {
   if (type === 'galaxy') {
     const { elements } = player;
 
@@ -85,9 +85,9 @@ export const reset = (type: 'discharge' | 'vaporization' | 'rank' | 'collapse' |
   assignBuildingInformation();
   if (stageIndex.includes(player.stage.active)) { numbersUpdate(); }
   visualUpdate();
-};
+}
 
-export const resetStage = (stageIndex: number[], update = 'normal' as false | 'normal' | 'soft') => {
+export function resetStage(stageIndex: number[], update = 'normal' as false | 'normal' | 'soft') {
   for (const s of stageIndex) {
     const buildings = player.buildings[s];
     const buildingsStart = playerStart.buildings[s];
@@ -114,14 +114,14 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
       player.discharge.current = 0;
       player.discharge.energy = 0;
       global.dischargeInfo.energyTrue = 0;
-    
+
       break;
     }
     case 2: {
       player.vaporization.clouds = [0, 0];
       global.vaporizationInfo.research0 = 0;
       global.vaporizationInfo.research1 = 0;
-    
+
       break;
     }
     case 3: {
@@ -131,7 +131,7 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
         player.accretion.rank = 0;
         buildings[0].current = [5.9722, 27];
       }
-    
+
       break;
     }
     case 4: {
@@ -145,15 +145,15 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
       autoElementsSet();
       for (let i = 0; i < player.elements.length; i++) { visualUpdateUpgrades(i, 4, 'elements'); }
       global.lastElement = -1;
-    
+
       break;
     }
     case 5: {
       if (player.strangeness[5][6] >= 2) { player.ASR[5]++; }
-    
+
       break;
     }
-    // No default
+            // No default
     }
   }
   player.researchesAuto[0] = player.strangeness[3][6];
@@ -180,9 +180,9 @@ export const resetStage = (stageIndex: number[], update = 'normal' as false | 'n
       for (let i = 0; i < global.upgradesInfo[active].maxActive; i++) { visualUpdateUpgrades(i, active, 'upgrades'); }
     }
   }
-};
+}
 
-export const resetVacuum = () => {
+export function resetVacuum() {
   for (let s = 1; s <= 5; s++) {
     const buildings = player.buildings[s];
     const buildingsStart = playerStart.buildings[s];
@@ -269,4 +269,4 @@ export const resetVacuum = () => {
   }
 
   stageUpdate('reload');
-};
+}

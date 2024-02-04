@@ -31,6 +31,7 @@
         "object-shorthand": ["warn", "consistent-as-needed"],
         "operator-assignment": "warn",
         "prefer-object-has-own": "warn", //No 'in' as well
+        "func-style": ["error", "declaration"],
        
         "@typescript-eslint/array-type": ["error", { "default": "array-simple" }], //I rather to turn it off
         "@typescript-eslint/await-thenable": "error",

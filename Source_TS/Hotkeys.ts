@@ -4,12 +4,12 @@ import { switchTab } from './Update';
 import { buyBuilding, collapseAsyncReset, dischargeAsyncReset, rankAsyncReset, stageAsyncReset, switchStage, toggleSwap, vaporizationAsyncReset } from './Stage';
 import { timeWarp } from './Main';
 
-export const detectHotkey = (check: KeyboardEvent) => {
+export function detectHotkey(check: KeyboardEvent) {
   if (check.code === 'Tab') {
     document.body.classList.add('outlineOnFocus');
     return;
   } else {
-    const {activeElement} = document;
+    const { activeElement } = document;
     if (activeElement instanceof HTMLInputElement) {
       const activeType = activeElement.type;
       if (activeType === 'text' || activeType === 'number') { return; }
@@ -47,35 +47,35 @@ export const detectHotkey = (check: KeyboardEvent) => {
       case 'w': {
         check.preventDefault();
         void timeWarp();
-      
+
         break;
       }
       case 's': {
         void stageAsyncReset();
-      
+
         break;
       }
       case 'd': {
         if (global.stageInfo.activeAll.includes(1)) { void dischargeAsyncReset(); }
-      
+
         break;
       }
       case 'v': {
         if (global.stageInfo.activeAll.includes(2)) { void vaporizationAsyncReset(); }
-      
+
         break;
       }
       case 'r': {
         if (global.stageInfo.activeAll.includes(3)) { void rankAsyncReset(); }
-      
+
         break;
       }
       case 'c': {
         if (global.stageInfo.activeAll.includes(4)) { void collapseAsyncReset(); }
-      
+
         break;
       }
-      // No default
+                // No default
       }
     }
   } else if (key === 'ArrowLeft' || key === 'ArrowRight') {
@@ -117,10 +117,10 @@ export const detectHotkey = (check: KeyboardEvent) => {
       }
     }
   } else if (key === 'ArrowDown' || key === 'ArrowUp') {
-    const {tab} = global;
+    const { tab } = global;
     const subtab = global.subtab[`${tab}Current`];
     if (check.shiftKey || check.repeat) { return; }
-    const subtabs: readonly string[]|undefined = global.tabList[`${tab}Subtabs`];
+    const subtabs: readonly string[] | undefined = global.tabList[`${tab}Subtabs`];
     let index = subtabs.indexOf(subtab);
 
     if (key === 'ArrowDown') {
@@ -139,4 +139,4 @@ export const detectHotkey = (check: KeyboardEvent) => {
       switchTab(global.tab, subtabs[index]);
     }
   }
-};
+}

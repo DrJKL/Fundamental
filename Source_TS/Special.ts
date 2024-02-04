@@ -187,10 +187,9 @@ export const specialHTML = { // First values for images from here must be from t
   },
 };
 
-export const preventImageUnload = () => {
+export function preventImageUnload() {
   const { footerStatsHTML: footer, buildingHTML: build, upgradeHTML: upgrade, researchHTML: research, researchExtraHTML: extra, researchExtraDivHTML: extraDiv } = specialHTML;
   // Duplicates are ignored, unless they are from Strangeness, because duplicates from there could become unique in future
-
   let images = '';
   for (let s = 1; s <= 5; s++) {
     for (let i = 0; i < footer[s].length; i++) {
@@ -200,7 +199,7 @@ export const preventImageUnload = () => {
       images += `<img src="Used_art/${footer[s][i][0]}" loading="lazy">`;
     }
     for (const artSrc of build[s]) {
-      images += `<img src="Used_art/${artSrc}" loading="lazy">`;            
+      images += `<img src="Used_art/${artSrc}" loading="lazy">`;
     }
     for (const upgradeSrc of upgrade[s]) {
       images += `<img src="Used_art/${upgradeSrc[0]}" loading="lazy">`;
@@ -215,9 +214,9 @@ export const preventImageUnload = () => {
     images += `<img src="Used_art/Stage${s}%20border.png" loading="lazy">`;
   }
   specialHTML.cache.imagesDiv.innerHTML = images; // Saved just in case
-};
+}
 
-export const setTheme = (theme: number | undefined) => {
+export function setTheme(theme: number | undefined) {
   if (theme !== undefined) {
     if (player.stage.true < theme) { theme = undefined; }
     if (theme === 6 && player.stage.true < 7 && player.strangeness[5][0] < 1) { theme = undefined; }
@@ -232,9 +231,9 @@ export const setTheme = (theme: number | undefined) => {
   }
 
   switchTheme();
-};
+}
 
-export const switchTheme = () => {
+export function switchTheme() {
   const body = document.body.style;
   const theme = global.theme ?? player.stage.active;
   getId('currentTheme').textContent = global.theme === undefined ?
@@ -436,9 +435,9 @@ export const switchTheme = () => {
     body.removeProperty('--transition-all');
     body.removeProperty('--transition-buttons');
   }, 1000);
-};
+}
 
-export const Alert = async(text: string): Promise<void> => {
+export async function Alert(text: string): Promise<void> {
   await new Promise<void>((resolve) => {
     const blocker = getId('blocker');
     if (blocker.style.display !== 'none') {
@@ -452,24 +451,24 @@ export const Alert = async(text: string): Promise<void> => {
     blocker.style.display = '';
     confirm.focus();
 
-    const key = (button: KeyboardEvent) => {
+    function key(button: KeyboardEvent) {
       if (button.key === 'Escape' || button.key === 'Enter' || button.key === ' ') {
         button.preventDefault();
         close();
       }
-    };
-    const close = () => {
+    }
+    function close() {
       blocker.style.display = 'none';
       document.removeEventListener('keydown', key);
       confirm.removeEventListener('click', close);
       resolve();
-    };
+    }
     document.addEventListener('keydown', key);
     confirm.addEventListener('click', close);
   });
-};
+}
 
-export const Confirm = async(text: string): Promise<boolean> => {
+export async function Confirm(text: string): Promise<boolean> {
   return await new Promise((resolve) => {
     const blocker = getId('blocker');
     if (blocker.style.display !== 'none') {
@@ -485,9 +484,9 @@ export const Confirm = async(text: string): Promise<boolean> => {
     cancel.style.display = '';
     confirm.focus();
 
-    const yes = () => { close(true); };
-    const no = () => { close(false); };
-    const key = (button: KeyboardEvent) => {
+    function yes() { close(true); }
+    function no() { close(false); }
+    function key(button: KeyboardEvent) {
       if (button.key === 'Escape') {
         button.preventDefault();
         no();
@@ -495,25 +494,26 @@ export const Confirm = async(text: string): Promise<boolean> => {
         button.preventDefault();
         yes();
       }
-    };
-    const close = (result: boolean) => {
+    }
+    function close(result: boolean) {
       blocker.style.display = 'none';
       cancel.style.display = 'none';
       document.removeEventListener('keydown', key);
       confirm.removeEventListener('click', yes);
       cancel.removeEventListener('click', no);
       resolve(result);
-    };
+    }
     document.addEventListener('keydown', key);
     confirm.addEventListener('click', yes);
     cancel.addEventListener('click', no);
   });
-};
+}
 
-export const Prompt = async(text: string, inputValue = ''): Promise<string | undefined> => {
+export async function Prompt(text: string, inputValue = ''): Promise<string | undefined> {
   return await new Promise((resolve) => {
     const blocker = getId('blocker');
     if (blocker.style.display !== 'none') {
+      // eslint-disable-next-line unicorn/no-useless-undefined
       resolve(undefined);
       Notify('Another Alert is already active');
       return;
@@ -529,19 +529,19 @@ export const Prompt = async(text: string, inputValue = ''): Promise<string | und
     input.value = inputValue;
     input.focus();
 
-    const yes = () => { close(input.value); };
-    const no = () => { close(); };
-    const key = (button: KeyboardEvent) => {
+    function yes() { close(input.value); }
+    function no() { close(); }
+    function key(button: KeyboardEvent) {
       if (button.key === 'Escape') {
         button.preventDefault();
         no();
       } else if (button.key === 'Enter' || button.key === ' ') {
-        if (document.activeElement === cancel) {return;}
+        if (document.activeElement === cancel) { return; }
         button.preventDefault();
         yes();
       }
-    };
-    const close = (result?: string) => {
+    }
+    function close(result?: string) {
       blocker.style.display = 'none';
       cancel.style.display = 'none';
       input.style.display = 'none';
@@ -549,14 +549,14 @@ export const Prompt = async(text: string, inputValue = ''): Promise<string | und
       confirm.removeEventListener('click', yes);
       cancel.removeEventListener('click', no);
       resolve(result);
-    };
+    }
     document.addEventListener('keydown', key);
     confirm.addEventListener('click', yes);
     cancel.addEventListener('click', no);
   });
-};
+}
 
-export const Notify = (text: string) => {
+export function Notify(text: string) {
   const div = getId('notifications');
   const notification = document.createElement('p');
   notification.textContent = text;
@@ -568,7 +568,7 @@ export const Notify = (text: string) => {
   mainDiv.append(notification);
 
   let timeout: number | undefined;
-  const remove = () => {
+  function remove() {
     notification.removeEventListener('click', remove);
     notification.style.animation = 'hideX 1s ease-in-out forwards';
     setTimeout(() => {
@@ -576,7 +576,7 @@ export const Notify = (text: string) => {
       div.style.pointerEvents = '';
     }, 1000);
     clearTimeout(timeout);
-  };
+  }
 
   setTimeout(() => {
     notification.style.animation = '';
@@ -584,19 +584,19 @@ export const Notify = (text: string) => {
     timeout = setTimeout(remove, 9000);
     notification.addEventListener('click', remove);
   }, 1000);
-};
+}
 
-export const hideFooter = () => {
+export function hideFooter() {
   const footer = getId('footer');
   const footerArea = getId('footerMain');
   const toggle = getId('hideToggle');
   const arrow = getId('hideArrow');
 
-  const animationReset = () => {
+  function animationReset() {
     footer.style.animation = '';
     arrow.style.animation = '';
     toggle.addEventListener('click', hideFooter);
-  };
+  }
 
   global.footer = !global.footer;
   toggle.removeEventListener('click', hideFooter);
@@ -622,9 +622,9 @@ export const hideFooter = () => {
       animationReset();
     }, 1000);
   }
-};
+}
 
-export const changeFontSize = (change = false) => {
+export function changeFontSize(change = false) {
   const input = getId('customFontSize') as HTMLInputElement;
   let size = Number(change ?
     input.value :
@@ -640,9 +640,9 @@ export const changeFontSize = (change = false) => {
     localStorage.setItem('fontSize', `${size}`);
   }
   input.value = `${size}`;
-};
+}
 
-export const changeFormat = (point: boolean) => {
+export function changeFormat(point: boolean) {
   const htmlInput = (point ?
     getId('decimalPoint') :
     getId('thousandSeparator')) as HTMLInputElement;
@@ -661,14 +661,14 @@ export const changeFormat = (point: boolean) => {
   point ?
     player.separator[1] = htmlInput.value :
     player.separator[0] = htmlInput.value;
-};
+}
 
-export const MDStrangenessPage = (stageIndex: number) => {
+export function MDStrangenessPage(stageIndex: number) {
   for (let s = 1; s <= 5; s++) { getId(`strangenessSection${s}`).style.display = 'none'; }
   getId(`strangenessSection${stageIndex}`).style.display = '';
-};
+}
 
-export const replayEvent = async() => {
+export async function replayEvent() {
   if (getId('blocker').style.display !== 'none') { return; }
 
   let last;
@@ -697,9 +697,9 @@ export const replayEvent = async() => {
   if (event > last) { return; }
 
   void playEvent(event, false);
-};
+}
 
-export const playEvent = async(event: number, award = true) => {
+export async function playEvent(event: number, award = true) {
   if (getId('blocker').style.display !== 'none') { return; }
   if (award) { player.event = true; }
 
@@ -725,4 +725,4 @@ export const playEvent = async(event: number, award = true) => {
     await Alert('Vacuum is too unstable. Vacuum instability is imminent');
     return Alert('False Vacuum decayed, new Forces and Structures are expected\n(Game will be much slower now)');
   }
-};
+}

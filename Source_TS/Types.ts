@@ -30,7 +30,7 @@ export const VALID_SUBTABS = {
 export interface playerType {
   version: Version;
   fileName: string;
-  separator: readonly string[];
+  separator: string[];
   readonly stage: Stage;
   readonly discharge: Discharge;
   readonly vaporization: Vaporization;
@@ -63,12 +63,12 @@ export interface globalType {
   trueActive: number;
   lastSave: number;
   paused: boolean;
-  readonly footer: boolean;
+  footer: boolean;
   mobileDevice: boolean;
   screenReader: boolean;
   readonly supportSettings: boolean[];
   readonly automatization: Automatization;
-  readonly theme: number | undefined;
+  theme: number | undefined;
   readonly dischargeInfo: DischargeInfo;
   readonly vaporizationInfo: VaporizationInfo;
   readonly accretionInfo: AccretionInfo;

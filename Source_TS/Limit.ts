@@ -170,7 +170,7 @@ export const overlimit = {
         }
       }
 
-      const merge = (array: number[][]): number[] | number[][] => {
+      function merge(array: number[][]): number[] | number[][] {
         if (array.length === 1) { return array[0]; }
         let main: number[] | number[][] = [] as number[][];
 
@@ -196,7 +196,7 @@ export const overlimit = {
 
         main = merge(main);
         return main;
-      };
+      }
       main = merge(main) as number[];
 
       const clone = [...toSort];
@@ -586,8 +586,8 @@ export const overlimit = {
     convertAll: (numbers: Array<string | number | [number, number]>): Array<[number, number]> => {
       const result = [];
       const { convert } = overlimit.technical;
-      for (let i = 0; i < numbers.length; i++) {
-        result[i] = convert(numbers[i]);
+      for (const [i, number_] of numbers.entries()) {
+        result[i] = convert(number_);
       }
       return result;
     },

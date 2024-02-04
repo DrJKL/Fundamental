@@ -1456,16 +1456,19 @@ export const global: globalType = { // For information that doesn't need to be s
 };
 
 // Math.log extension for any base
-export const logAny = (number: number, base: number) => Math.log(number) / Math.log(base);
+export function logAny(number: number, base: number) {
+  return Math.log(number) / Math.log(base);
+}
 
 // For non deep clone use { ...object } or cloneArray when possible
-export const deepClone = <CloneType>(toClone: CloneType): CloneType => {
+export function deepClone<CloneType>(toClone: CloneType): CloneType {
   if (typeof toClone !== 'object') { return toClone; }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any 
   let value: any;
   if (Array.isArray(toClone)) {
     value = []; // Faster this way
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     for (const el of toClone) { value.push(deepClone(el)); }
   } else {
@@ -1475,15 +1478,11 @@ export const deepClone = <CloneType>(toClone: CloneType): CloneType => {
   }
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return value;
-};
+}
 
-const createArray = <startValue>(amount: number, value: startValue) => {
-  const array = [];
-  for (let i = 0; i < amount; i++) {
-    array.push(value);
-  }
-  return array;
-};
+function createArray<T>(length: number, value: T) {
+  return Array.from({ length }, () => value);
+}
 
 for (let s = 0; s < global.buildingsInfo.startCost.length; s++) {
   global.buildingsInfo.firstCost[s] = [...global.buildingsInfo.startCost[s]];
@@ -1584,14 +1583,14 @@ function isPlayerType(toCheck: unknown): toCheck is playerType {
   return true;
 }
 
-export const updatePlayer = (load: Partial<playerType>): string => {
+export function updatePlayer(load: Partial<playerType>): string {
   if ('player' in load) { load = load.player as Partial<playerType>; }
   if (load.vaporization === undefined) { throw new ReferenceError('This save file is not from this game or too old'); }
   load.version ??= '0.0.0';
   prepareVacuum(Boolean(load.inflation?.vacuum)); // Only to set starting buildings values
 
   const oldVersion = load.version;
-  if (!isPlayerType(load)) {throw new ReferenceError('This save file is invalid, no stage data'); }
+  if (!isPlayerType(load)) { throw new ReferenceError('This save file is invalid, no stage data'); }
   if (oldVersion !== playerStart.version) {
     if (load.version === '0.0.0') {
       load.version = 'v0.0.1';
@@ -1661,7 +1660,7 @@ export const updatePlayer = (load: Partial<playerType>): string => {
           building.trueTotal = Limit(building.total).toArray(); // Intentional
           building.highest = [0, 0];
         }
-                
+
       }
       load.vaporization.clouds = Limit(load.vaporization.clouds).toArray();
       const firstStrange = load.strange[0];
@@ -1861,9 +1860,12 @@ export const updatePlayer = (load: Partial<playerType>): string => {
       calculateMaxLevel(i, 0, 'researchesAuto');
     }
   } /* else {
-        player.researchesAuto[0] = player.strangeness[3][6];
-        player.researchesAuto[1] = player.strangeness[1][7] >= 1 ? 1 : 0;
-    }*/
+          player.researchesAuto[0] = player.strangeness[3][6];
+          player.researchesAuto[1] = player.strangeness[1][7] >= 1 ? 1 : 0;
+      }*/
+
+
+
   for (let s = 1; s <= 5; s++) {
     calculateMaxLevel(0, s, 'ASR');
     const extra = player.researchesExtra[s];
@@ -1915,9 +1917,9 @@ export const updatePlayer = (load: Partial<playerType>): string => {
   toggleBuy();
 
   return oldVersion;
-};
+}
 
-export const buildVersionInfo = () => {
+export function buildVersionInfo() {
   if (document.querySelector('#versionText') !== null) { return; }
 
   getId('versionInfo').innerHTML = `<div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: clamp(42vw, 36em, 80vw); height: clamp(26vh, 36em, 90vh); background-color: var(--window-color); border: 3px solid var(--window-border); border-radius: 12px; padding: 1em 1em 0.8em; row-gap: 1em;">
@@ -1947,4 +1949,4 @@ export const buildVersionInfo = () => {
 
   document.head.appendChild(document.createElement('style')).textContent = '#versionText label { font-size: 1.18em; } #versionText p { line-height: 1.3em; white-space: pre-line; color: var(--white-text); margin-top: 0.2em; margin-bottom: 1.4em; } #versionText p:last-of-type { margin-bottom: 0; }';
   getId('closeVersionInfo').addEventListener('click', () => { getId('versionInfo').style.display = 'none'; });
-};
+}

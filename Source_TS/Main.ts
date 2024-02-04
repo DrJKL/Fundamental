@@ -28,7 +28,7 @@ function isHTMLElement(element: Element): element is HTMLElement {
   return element instanceof HTMLElement;
 }
 
-export const getClass = (idCollection: string): HTMLElement[] => {
+export function getClass(idCollection: string): HTMLElement[] {
   // Might require to remove old values: 'specialHTML.cache.classMap.delete(oldValue)'
   const test = specialHTML.cache.classMap.get(idCollection);
   if (test !== undefined) {
@@ -39,8 +39,8 @@ export const getClass = (idCollection: string): HTMLElement[] => {
   const onlyHTML = store2.filter(isHTMLElement);
   specialHTML.cache.classMap.set(idCollection, onlyHTML);
   return onlyHTML;
-};
-export const getQuery = (query: string): HTMLElement => {
+}
+export function getQuery(query: string): HTMLElement {
   const test = specialHTML.cache.queryMap.get(query);
   if (test !== undefined) {
     return test;
@@ -56,9 +56,9 @@ export const getQuery = (query: string): HTMLElement => {
   }
   specialHTML.cache.queryMap.set(query, store);
   return store;
-};
+}
 
-const handleOfflineTime = (): number => {
+function handleOfflineTime(): number {
   const time = player.time;
   const timeNow = Date.now();
   const offlineTime = (timeNow - time.updated) / 1000;
@@ -66,9 +66,9 @@ const handleOfflineTime = (): number => {
   time.offline = Math.min(time.offline + offlineTime, maxOfflineTime());
   player.stage.export = Math.min(player.stage.export + offlineTime, 86_400);
   return offlineTime;
-};
+}
 
-const changeIntervals = () => {
+function changeIntervals() {
   const intervalsId = global.intervalsId;
   const intervals = player.intervals;
   const paused = global.paused;
@@ -89,9 +89,9 @@ const changeIntervals = () => {
   intervalsId.autoSave = paused ?
     undefined :
     setInterval(saveGame, intervals.autoSave);
-};
+}
 
-const saveGame = (saveOnly = false): string | undefined => {
+function saveGame(saveOnly = false): string | undefined {
   if (global.paused) {
     Notify('No saving while game is paused');
     return undefined;
@@ -111,15 +111,15 @@ const saveGame = (saveOnly = false): string | undefined => {
   } catch (error) {
     if (error instanceof Error) {
       console.error(error);
-      void Alert(`Failed to save game\nFull error: '${error.message}'`); 
-    } 
+      void Alert(`Failed to save game\nFull error: '${error.message}'`);
+    }
   }
   return undefined;
-};
-const loadGame = (save: string) => {
+}
+function loadGame(save: string) {
   if (global.paused) {
     Notify('No loading while game is paused');
-    return; 
+    return;
   }
   global.paused = true;
   changeIntervals();
@@ -132,13 +132,13 @@ const loadGame = (save: string) => {
   } catch (error) {
     if (error instanceof Error) {
       console.error(error);
-      void Alert(`Incorrect save file format\nFull error: '${error.message}'`); 
+      void Alert(`Incorrect save file format\nFull error: '${error.message}'`);
     }
   }
   global.paused = false;
   changeIntervals();
-};
-const exportFileGame = () => {
+}
+function exportFileGame() {
   if (player.strange[0].total > 0 && player.stage.export > 0) {
     const rewardType = player.strangeness[5][10];
     const multiplier = exportMultiplier();
@@ -162,8 +162,8 @@ const exportFileGame = () => {
   a.href = `data:text/plain,${save}`;
   a.download = replaceSaveFileSpecials();
   a.click();
-};
-const saveConsole = async() => {
+}
+async function saveConsole() {
   const value = await Prompt("Available options:\n'Copy' - copy save file to clipboard\n'Delete' - delete your save file\n'Clear' - clear all domain data\nOr insert save file string here to load it");
   if (value === undefined || value === '') { return; }
   const lower = value.toLowerCase();
@@ -172,10 +172,10 @@ const saveConsole = async() => {
   case 'copy': {
     const save = saveGame(true);
     if (save !== undefined) { void navigator.clipboard.writeText(save); }
-  
+
     break;
   }
-  case 'delete': 
+  case 'delete':
   case 'clear': {
     global.paused = true;
     changeIntervals();
@@ -184,24 +184,24 @@ const saveConsole = async() => {
     } else { localStorage.clear(); }
     window.location.reload();
     void Alert('Awaiting page refresh');
-  
+
     break;
   }
   case 'achievement': {
     Notify('Unlocked a new Achievement');
-  
+
     break;
   }
-  case 'slow': 
+  case 'slow':
   case 'free': {
     Notify('Game speed was increased by 1x');
-  
+
     break;
   }
-  case 'neutronium': 
+  case 'neutronium':
   case 'element0': {
     Notify(global.elementsInfo.effectText[0]().replace('this', 'Elements'));
-  
+
     break;
   }
   default: {
@@ -210,9 +210,9 @@ const saveConsole = async() => {
     loadGame(value);
   }
   }
-};
+}
 
-const changeSaveFileName = () => {
+function changeSaveFileName() {
   const input = getId('saveFileNameInput') as HTMLInputElement;
   const newValue = input.value.length === 0 ?
     playerStart.fileName :
@@ -226,10 +226,10 @@ const changeSaveFileName = () => {
     if (error instanceof Error) {
       console.error(error);
       void Alert(`Save file name is not allowed\nFull error: '${error.message}'`);
-    }  
+    }
   }
-};
-const replaceSaveFileSpecials = (): string => {
+}
+function replaceSaveFileSpecials(): string {
   let realName = player.fileName;
   const special = [
     '[stage]',
@@ -253,8 +253,8 @@ const replaceSaveFileSpecials = (): string => {
     realName = realName.replaceAll(element, replaceWith[i]);
   }
   return `${realName}.txt`;
-};
-const getDate = (type: 'dateDMY' | 'timeHMS'): string => {
+}
+function getDate(type: 'dateDMY' | 'timeHMS'): string {
   const current = new Date();
   switch (type) {
   case 'dateDMY': {
@@ -268,22 +268,22 @@ const getDate = (type: 'dateDMY' | 'timeHMS'): string => {
     return `${current.getHours()}-${minutes}-${seconds}`;
   }
   }
-};
+}
 
-const hoverUpgrades = (index: number, type: 'upgrades' | 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'elements') => {
+function hoverUpgrades(index: number, type: 'upgrades' | 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'elements') {
   if (player.toggles.hover[0] && player.strangeness[1][7] >= 2) { buyUpgrades(index, player.stage.active, type); }
   if (type === 'elements') {
     global.lastElement = index;
   } else { global.lastUpgrade[player.stage.active] = [index, type]; }
   getUpgradeDescription(index, type);
-};
-const hoverStrangeness = (index: number, stageIndex: number, type: 'strangeness' | 'milestones') => {
+}
+function hoverStrangeness(index: number, stageIndex: number, type: 'strangeness' | 'milestones') {
   if (type === 'strangeness') {
     global.lastStrangeness = [index, stageIndex];
   } else { global.lastMilestone = [index, stageIndex]; }
   getStrangenessDescription(index, stageIndex, type);
-};
-const hoverChallenge = (index: number, type: 'challenge' | 'reward') => {
+}
+function hoverChallenge(index: number, type: 'challenge' | 'reward') {
   if (type === 'challenge') {
     global.lastChallenge[0] = index;
     getChallengeDescription(index);
@@ -291,12 +291,12 @@ const hoverChallenge = (index: number, type: 'challenge' | 'reward') => {
     global.lastChallenge[1] = index;
     getChallengeReward(index);
   }
-};
+}
 
-export const timeWarp = async() => {
-  if (global.paused) { 
+export async function timeWarp() {
+  if (global.paused) {
     Notify('No warping while game is paused');
-    return; 
+    return;
   }
   const offline = player.time.offline;
   if (offline < 60) { return Alert('Need at least 1 minute in Offline storage to Warp'); }
@@ -323,8 +323,8 @@ export const timeWarp = async() => {
     1 :
     10);
   player.time.offline -= warpTime;
-};
-const warpMain = (warpTime: number, tick: number, start = warpTime) => {
+}
+function warpMain(warpTime: number, tick: number, start = warpTime) {
   const time = Math.min(tick * 600, warpTime);
   warpTime -= time;
   try {
@@ -334,7 +334,7 @@ const warpMain = (warpTime: number, tick: number, start = warpTime) => {
     if (error instanceof Error) {
       console.error(error);
       void Alert(`Warp failed due to Error:\n${error.message}`);
-    }    return;
+    } return;
   }
   if (warpTime > 0) {
     setTimeout(warpMain, 0, warpTime, tick, start);
@@ -344,20 +344,20 @@ const warpMain = (warpTime: number, tick: number, start = warpTime) => {
   } else { warpEnd(); }
   numbersUpdate();
   visualUpdate();
-};
-const warpEnd = () => {
+}
+function warpEnd() {
   Notify(`Warp ended after ${format(handleOfflineTime(), { type: 'time', padding: false })}`);
   global.paused = false;
   changeIntervals();
   getId('blocker').style.display = 'none';
   getId('warpMain').style.display = 'none';
   getId('alertMain').style.display = '';
-};
+}
 
-const pauseGame = async() => {
+async function pauseGame() {
   if (global.paused) {
     Notify('Game is already paused');
-    return; 
+    return;
   }
   global.paused = true;
   changeIntervals();
@@ -370,36 +370,60 @@ const pauseGame = async() => {
   changeIntervals();
   numbersUpdate();
   visualUpdate();
-};
+}
+
+function hangleToggle(number: number, type: 'MD' | 'SR', reload = false) {
+  let state = false;
+  if (!reload) {
+    const support = localStorage.getItem('support') ?? '';
+    state = support[number + 1] === 'F';
+    localStorage.setItem('support', `${support.slice(0, number + 1)}${state ?
+      'T' :
+      'F'}${support.slice(number + 2, support.length)}`);
+  }
+  if (type === 'SR' && number === 0) { global.supportSettings[0] = state; }
+
+  const toggleHTML = getId(`${type}Toggle${number}`);
+  if (state) {
+    toggleHTML.style.color = '';
+    toggleHTML.style.borderColor = '';
+    toggleHTML.textContent = 'ON';
+  } else {
+    toggleHTML.style.color = 'var(--red-text)';
+    toggleHTML.style.borderColor = 'crimson';
+    toggleHTML.textContent = 'OFF';
+  }
+  return state;
+}
+function primaryIndex(reload = false) {
+  const newTab = hangleToggle(1, 'SR', reload) ?
+    -1 :
+    0;
+  getId('stageReset').tabIndex = newTab;
+  getId('reset1Button').tabIndex = newTab;
+  for (let i = 1; i < specialHTML.longestBuilding; i++) {
+    getId(`building${i}Btn`).tabIndex = newTab;
+    getId(`toggleBuilding${i}`).tabIndex = newTab;
+  }
+  getId('toggleBuilding0').tabIndex = newTab;
+  for (const tabText of global.tabList.tabs) {
+    getId(`${tabText}TabBtn`).tabIndex = newTab;
+    const tabList = global.tabList[`${tabText}Subtabs`];
+    for (const subtabText of tabList) {
+      getId(`${tabText}SubtabBtn${subtabText}`).tabIndex = newTab;
+    }
+  }
+  for (let i = 1; i < global.stageInfo.word.length; i++) {
+    getId(`${global.stageInfo.word[i]}Switch`).tabIndex = newTab;
+  }
+}
 
 try { // Start everything
   preventImageUnload();
 
   const supportType = localStorage.getItem('support');
   if (supportType !== null) {
-    const hangleToggle = (number: number, type: 'MD' | 'SR', reload = false) => {
-      let state = false;
-      if (!reload) {
-        const support = localStorage.getItem('support') ?? '';
-        state = support[number + 1] === 'F';
-        localStorage.setItem('support', `${support.slice(0, number + 1)}${state ?
-          'T' :
-          'F'}${support.slice(number + 2, support.length)}`);
-      }
-      if (type === 'SR' && number === 0) { global.supportSettings[0] = state; }
-
-      const toggleHTML = getId(`${type}Toggle${number}`);
-      if (state) {
-        toggleHTML.style.color = '';
-        toggleHTML.style.borderColor = '';
-        toggleHTML.textContent = 'ON';
-      } else {
-        toggleHTML.style.color = 'var(--red-text)';
-        toggleHTML.style.borderColor = 'crimson';
-        toggleHTML.textContent = 'OFF';
-      }
-      return state;
-    };
+    
 
     if (supportType.startsWith('M')) {
       const MDToggle = getId('MDMainToggle');
@@ -458,28 +482,7 @@ try { // Start everything
       });
       if (supportType[1] === 'F') { hangleToggle(0, 'SR', true); }
 
-      const primaryIndex = (reload = false) => {
-        const newTab = hangleToggle(1, 'SR', reload) ?
-          -1 :
-          0;
-        getId('stageReset').tabIndex = newTab;
-        getId('reset1Button').tabIndex = newTab;
-        for (let i = 1; i < specialHTML.longestBuilding; i++) {
-          getId(`building${i}Btn`).tabIndex = newTab;
-          getId(`toggleBuilding${i}`).tabIndex = newTab;
-        }
-        getId('toggleBuilding0').tabIndex = newTab;
-        for (const tabText of global.tabList.tabs) {
-          getId(`${tabText}TabBtn`).tabIndex = newTab;
-          const tabList = global.tabList[`${tabText}Subtabs`];
-          for (const subtabText of tabList) {
-            getId(`${tabText}SubtabBtn${subtabText}`).tabIndex = newTab;
-          }
-        }
-        for (let i = 1; i < global.stageInfo.word.length; i++) {
-          getId(`${global.stageInfo.word[i]}Switch`).tabIndex = newTab;
-        }
-      };
+      
       getId('SRToggle1').addEventListener('click', () => { primaryIndex(); });
       if (supportType[2] === 'F') { primaryIndex(true); }
     }
