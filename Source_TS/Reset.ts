@@ -3,7 +3,7 @@ import {  global, player, playerStart } from './Player';
 import { autoResearchesSet, autoUpgradesSet, calculateMaxLevel, calculateResearchCost, assignBuildingInformation, autoElementsSet, assignEnergy, calculateMilestoneInformation, assignStrangeBoost } from './Stage';
 import { numbersUpdate, stageUpdate, visualUpdate, visualUpdateResearches, visualUpdateUpgrades } from './Update';
 
-export function reset(type: 'discharge' | 'vaporization' | 'rank' | 'collapse' | 'galaxy', stageIndex: number[]) {
+export function reset(type: 'collapse' | 'discharge' | 'galaxy' | 'rank' | 'vaporization', stageIndex: number[]) {
   if (type === 'galaxy') {
     const { elements } = player;
 
@@ -87,7 +87,7 @@ export function reset(type: 'discharge' | 'vaporization' | 'rank' | 'collapse' |
   visualUpdate();
 }
 
-export function resetStage(stageIndex: number[], update = 'normal' as false | 'normal' | 'soft') {
+export function resetStage(stageIndex: number[], update = 'normal' as 'normal' | 'soft' | false) {
   for (const s of stageIndex) {
     const buildings = player.buildings[s];
     const buildingsStart = playerStart.buildings[s];

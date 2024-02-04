@@ -2,12 +2,12 @@ import { player } from './Player';
 
 /* This is version has all settings (and other stuff) removed (for better speed) */
 export const overlimit = {
-  Limit: (number: string | number | [number, number]) => {
+  Limit: (number: number | string | [number, number]) => {
     const { technical } = overlimit;
     let result = technical.convert(number);
 
     return {
-      plus: function(...numbers: Array<string | number | [number, number]>) {
+      plus: function(...numbers: Array<number | string | [number, number]>) {
         if (numbers.length === 0) { return this; }
         const array = technical.convertAll(numbers);
 
@@ -17,7 +17,7 @@ export const overlimit = {
 
         return this;
       },
-      minus: function(...numbers: Array<string | number | [number, number]>) {
+      minus: function(...numbers: Array<number | string | [number, number]>) {
         if (numbers.length === 0) { return this; }
         const array = technical.convertAll(numbers);
 
@@ -27,7 +27,7 @@ export const overlimit = {
 
         return this;
       },
-      multiply: function(...numbers: Array<string | number | [number, number]>) {
+      multiply: function(...numbers: Array<number | string | [number, number]>) {
         if (numbers.length === 0) { return this; }
         const array = technical.convertAll(numbers);
 
@@ -37,7 +37,7 @@ export const overlimit = {
 
         return this;
       },
-      divide: function(...numbers: Array<string | number | [number, number]>) {
+      divide: function(...numbers: Array<number | string | [number, number]>) {
         if (numbers.length === 0) { return this; }
         const array = technical.convertAll(numbers);
 
@@ -77,12 +77,12 @@ export const overlimit = {
       },
       isNaN: (): boolean => Number.isNaN(result[0]) || Number.isNaN(result[1]),
       isFinite: (): boolean => Number.isFinite(result[0]) && Number.isFinite(result[1]),
-      lessThan: (compare: string | number | [number, number]): boolean => technical.less(result, technical.convert(compare)),
-      lessOrEqual: (compare: string | number | [number, number]): boolean => technical.lessOrEqual(result, technical.convert(compare)),
-      moreThan: (compare: string | number | [number, number]): boolean => technical.more(result, technical.convert(compare)),
-      moreOrEqual: (compare: string | number | [number, number]): boolean => technical.moreOrEqual(result, technical.convert(compare)),
-      notEqual: (compare: string | number | [number, number]): boolean => technical.notEqual(result, technical.convert(compare)),
-      equal: (...compare: Array<string | number | [number, number]>): boolean => {
+      lessThan: (compare: number | string | [number, number]): boolean => technical.less(result, technical.convert(compare)),
+      lessOrEqual: (compare: number | string | [number, number]): boolean => technical.lessOrEqual(result, technical.convert(compare)),
+      moreThan: (compare: number | string | [number, number]): boolean => technical.more(result, technical.convert(compare)),
+      moreOrEqual: (compare: number | string | [number, number]): boolean => technical.moreOrEqual(result, technical.convert(compare)),
+      notEqual: (compare: number | string | [number, number]): boolean => technical.notEqual(result, technical.convert(compare)),
+      equal: (...compare: Array<number | string | [number, number]>): boolean => {
         if (compare.length === 0) { return true; }
         const array = technical.convertAll(compare);
 
@@ -94,7 +94,7 @@ export const overlimit = {
 
         return allEqual;
       },
-      max: function(...compare: Array<string | number | [number, number]>) {
+      max: function(...compare: Array<number | string | [number, number]>) {
         if (compare.length === 0) { return this; }
         const array = technical.convertAll(compare);
 
@@ -109,7 +109,7 @@ export const overlimit = {
 
         return this;
       },
-      min: function(...compare: Array<string | number | [number, number]>) {
+      min: function(...compare: Array<number | string | [number, number]>) {
         if (compare.length === 0) { return this; }
         const array = technical.convertAll(compare);
 
@@ -124,7 +124,7 @@ export const overlimit = {
 
         return this;
       },
-      format: (settings = {} as { digits?: number; type?: 'number' | 'input'; padding?: boolean }): string => technical.format(result, settings),
+      format: (settings = {} as { digits?: number; type?: 'input' | 'number'; padding?: boolean }): string => technical.format(result, settings),
       toNumber: (): number => Number(technical.convertBack(result)),
       toString: (): string => technical.convertBack(result),
       toArray: (): [number, number] => technical.prepare(result),
@@ -138,7 +138,7 @@ export const overlimit = {
     isFinite: (number: string): boolean => !number.includes('Infinity') && !number.includes('NaN'),
     clone: (number: [number, number]): [number, number] => [number[0], number[1]],
     /* Sort is WIP, need to figure out how to add easy to use return function instead of 'descend' (also maybe some optimization) */
-    sort: <sortType extends Array<string | number | [number, number]>>(toSort: sortType, descend = false) => {
+    sort: <sortType extends Array<number | string | [number, number]>>(toSort: sortType, descend = false) => {
       if (toSort.length < 2) { return; }
       const numbers = overlimit.technical.convertAll(toSort);
       const compare = descend ?
@@ -493,7 +493,7 @@ export const overlimit = {
 
       return left;
     },
-    format: (left: [number, number], settings: { digits?: number; type?: 'number' | 'input'; padding?: boolean }): string => {
+    format: (left: [number, number], settings: { digits?: number; type?: 'input' | 'number'; padding?: boolean }): string => {
       const [base, power] = left;
       if (!Number.isFinite(base) || !Number.isFinite(power)) { return overlimit.technical.convertBack(left); }
 
@@ -544,7 +544,7 @@ export const overlimit = {
           formated.replace('.', player.separator[1]).replace(/\B(?=(\d{3})+(?!\d))/, player.separator[0]) :
           formated.replace('.', player.separator[1]));
     },
-    convert: (number: string | number | [number, number]): [number, number] => {
+    convert: (number: number | string | [number, number]): [number, number] => {
       let result: [number, number];
       if (typeof number === 'object') { result = [number[0], number[1]]; } else { // Not an Array
         if (typeof number !== 'string') { number = `${number}`; } // Using log10 could cause floating point error
@@ -583,7 +583,7 @@ export const overlimit = {
 
       return result;
     },
-    convertAll: (numbers: Array<string | number | [number, number]>): Array<[number, number]> => {
+    convertAll: (numbers: Array<number | string | [number, number]>): Array<[number, number]> => {
       const result = [];
       const { convert } = overlimit.technical;
       for (const [i, number_] of numbers.entries()) {

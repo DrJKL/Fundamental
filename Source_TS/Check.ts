@@ -71,7 +71,7 @@ export function checkBuilding(index: number, stageIndex: number): boolean {
   return false;
 }
 
-export function checkUpgrade(upgrade: number, stageIndex: number, type: 'upgrades' | 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'elements' | 'strangeness'): boolean {
+export function checkUpgrade(upgrade: number, stageIndex: number, type: 'ASR' | 'elements' | 'researches' | 'researchesAuto' | 'researchesExtra' | 'strangeness' | 'upgrades'): boolean {
   if (upgrade < 0) { return false; }
   switch (type) { // Some cases are handled by max level being 0
   case 'upgrades':
@@ -242,7 +242,7 @@ export function checkUpgrade(upgrade: number, stageIndex: number, type: 'upgrade
   return false;
 }
 
-export function allowedToBeReset(check: number, stageIndex: number, type: 'structures' | 'upgrades' | 'researches' | 'researchesExtra' | 'elements'): boolean {
+export function allowedToBeReset(check: number, stageIndex: number, type: 'elements' | 'researches' | 'researchesExtra' | 'structures' | 'upgrades'): boolean {
   switch (type) {
   case 'structures':
     if (stageIndex === 5 && check === 3) { return false; }

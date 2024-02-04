@@ -237,7 +237,7 @@ export function numbersUpdate() {
         }
 
         let costName: string;
-        let currency: number | overlimit;
+        let currency: overlimit | number;
         let free = false;
         if (active === 5 && i === 3) { // Galaxy
           costName = 'Mass';
@@ -1388,7 +1388,7 @@ function stageToCostName(stageIndex: number) {
   }
 }
 
-export function getUpgradeDescription(index: number, type: 'upgrades' | 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'elements') {
+export function getUpgradeDescription(index: number, type: 'ASR' | 'elements' | 'researches' | 'researchesAuto' | 'researchesExtra' | 'upgrades') {
   if (type === 'elements') {
     const pointer = global.elementsInfo;
 
@@ -1496,7 +1496,7 @@ export function getUpgradeDescription(index: number, type: 'upgrades' | 'researc
   }
 }
 
-export function getStrangenessDescription(index: number, stageIndex: number, type: 'strangeness' | 'milestones') {
+export function getStrangenessDescription(index: number, stageIndex: number, type: 'milestones' | 'strangeness') {
   const stageText = getId(`${type}Stage`);
   stageText.style.color = `var(--${global.stageInfo.textColor[stageIndex]}-text)`;
   stageText.textContent = `${global.stageInfo.word[stageIndex]}. `;
@@ -1578,7 +1578,7 @@ export function getChallengeReward(index: number) {
   getId('voidRewardsDivText').innerHTML = text;
 }
 
-export function visualUpdateUpgrades(index: number, stageIndex: number, type: 'upgrades' | 'elements') {
+export function visualUpdateUpgrades(index: number, stageIndex: number, type: 'elements' | 'upgrades') {
   if (type === 'upgrades') {
     if (stageIndex !== player.stage.active) { return; }
 
@@ -1638,7 +1638,7 @@ export function visualUpdateUpgrades(index: number, stageIndex: number, type: 'u
   }
 }
 
-export function visualUpdateResearches(index: number, stageIndex: number, type: 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'strangeness') {
+export function visualUpdateResearches(index: number, stageIndex: number, type: 'ASR' | 'researches' | 'researchesAuto' | 'researchesExtra' | 'strangeness') {
   let max: number;
   let level: number;
   let upgradeHTML: HTMLElement;
@@ -1751,7 +1751,7 @@ function updateHistory( /* type: 'stage'*/) {
   global.debug.historyStage = player.stage.resets;
 }
 
-type FormatType = 'number' | 'input' | 'time' | 'income';
+type FormatType = 'income' | 'input' | 'number' | 'time';
 interface FormatSettings { digits?: number; type?: FormatType; padding?: boolean }
 
 export function format(input: number /* | overlimit*/, settings: FormatSettings = {}): string {
@@ -1865,7 +1865,7 @@ export function format(input: number /* | overlimit*/, settings: FormatSettings 
     `${formated} ${extra}`;
 }
 
-type UpdateExtra = 'normal' | 'soft' | 'reload';
+type UpdateExtra = 'normal' | 'reload' | 'soft';
 // Soft means that Stage wasn't changed
 export function stageUpdate(extra: UpdateExtra = 'normal') {
   const { stageInfo, buildingsInfo } = global;

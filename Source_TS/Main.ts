@@ -270,14 +270,14 @@ function getDate(type: 'dateDMY' | 'timeHMS'): string {
   }
 }
 
-function hoverUpgrades(index: number, type: 'upgrades' | 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'elements') {
+function hoverUpgrades(index: number, type: 'ASR' | 'elements' | 'researches' | 'researchesAuto' | 'researchesExtra' | 'upgrades') {
   if (player.toggles.hover[0] && player.strangeness[1][7] >= 2) { buyUpgrades(index, player.stage.active, type); }
   if (type === 'elements') {
     global.lastElement = index;
   } else { global.lastUpgrade[player.stage.active] = [index, type]; }
   getUpgradeDescription(index, type);
 }
-function hoverStrangeness(index: number, stageIndex: number, type: 'strangeness' | 'milestones') {
+function hoverStrangeness(index: number, stageIndex: number, type: 'milestones' | 'strangeness') {
   if (type === 'strangeness') {
     global.lastStrangeness = [index, stageIndex];
   } else { global.lastMilestone = [index, stageIndex]; }

@@ -50,6 +50,7 @@
         "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_.*$" }],
         "@typescript-eslint/prefer-namespace-keyword": "warn",
         "@typescript-eslint/restrict-plus-operands": "warn",
+        "@typescript-eslint/sort-type-constituents": ["warn"],
 
         "@stylistic/brace-style": ["error", "1tbs", {"allowSingleLine": true}],
         "@stylistic/comma-dangle": ["warn", "always-multiline"],

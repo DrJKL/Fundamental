@@ -52,7 +52,7 @@ export const calculateEffects = {
   S2Upgrade6: (): number => 1 + player.researches[2][5],
   S2Extra1_2: (post = false): [number, number] => {
     if (player.researchesExtra[2][1] < 1) { return [1, 1]; }
-    let effect = player.vaporization.clouds as number | overlimit;
+    let effect = player.vaporization.clouds as overlimit | number;
     if (post) { effect = Limit(effect).plus(global.vaporizationInfo.get).toArray(); }
     if (player.researchesExtra[2][2] < 1) { return [Limit(effect).max('1').power(0.1).toNumber(), 1]; }
     effect = Limit(effect).max('1').power(0.11).toNumber();
@@ -449,7 +449,7 @@ export function assignBuildingInformation() {
   }
 }
 
-type SpecialOption = '' | 'Moles' | 'Mass' | 'Galaxy';
+type SpecialOption = '' | 'Galaxy' | 'Mass' | 'Moles';
 
 export function buyBuilding(index: number, stageIndex = player.stage.active, auto = false) {
   if (!checkBuilding(index, stageIndex)) { return; }
@@ -822,11 +822,11 @@ export function gainStrange(get: number, time: number) {
   if (get === 0) { assignStrangeBoost(); }
 }
 
-export function buyUpgrades(upgrade: number, stageIndex: number, type: 'upgrades' | 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'elements', auto = false): boolean {
+export function buyUpgrades(upgrade: number, stageIndex: number, type: 'ASR' | 'elements' | 'researches' | 'researchesAuto' | 'researchesExtra' | 'upgrades', auto = false): boolean {
   if (!auto && !checkUpgrade(upgrade, stageIndex, type)) { return false; } // Auto should already checked if allowed, also allows for delayed purchase of Elements
 
   let free = false;
-  let currency: number | overlimit;
+  let currency: overlimit | number;
   switch (stageIndex) {
   case 1: {
     currency = player.discharge.energy;
@@ -1273,7 +1273,7 @@ export function calculateResearchCost(research: number, stageIndex: number, type
   }
 }
 
-export function calculateMaxLevel(research: number, stageIndex: number, type: 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR' | 'strangeness', addAuto = false) {
+export function calculateMaxLevel(research: number, stageIndex: number, type: 'ASR' | 'researches' | 'researchesAuto' | 'researchesExtra' | 'strangeness', addAuto = false) {
   let max: number | undefined;
   switch (type) {
   case 'ASR': {
@@ -1595,7 +1595,7 @@ export function calculateMaxLevel(research: number, stageIndex: number, type: 'r
   if (addAuto && (type === 'researches' || type === 'researchesExtra')) { autoResearchesSet(type, [stageIndex, research]); }
 }
 
-export function autoUpgradesSet(which: 'all' | number) {
+export function autoUpgradesSet(which: number | 'all') {
   if (!player.toggles.auto[5]) { return; }
   const auto = global.automatization.autoU;
   const level = player.upgrades;
@@ -1642,7 +1642,7 @@ export function autoUpgradesBuy(stageIndex: number) {
 }
 
 // All = reset all of current active stages; As number means reset that stage only; As array means add [1] into stage [0] if it's not already inside
-export function autoResearchesSet(type: 'researches' | 'researchesExtra', which: 'all' | number | number[]) {
+export function autoResearchesSet(type: 'researches' | 'researchesExtra', which: number[] | number | 'all') {
   if (!player.toggles.auto[type === 'researches' ?
     6 :
     7]) { return; }
@@ -1742,7 +1742,7 @@ export function autoElementsBuy() {
   }
 }
 
-export function toggleSwap(number: number, type: 'normal' | 'buildings' | 'hover' | 'max' | 'auto', change = false) {
+export function toggleSwap(number: number, type: 'auto' | 'buildings' | 'hover' | 'max' | 'normal', change = false) {
   const toggles = type === 'buildings' ?
     player.toggles.buildings[player.stage.active] :
     player.toggles[type];
@@ -1844,7 +1844,7 @@ export function toggleConfirm(number: number, change = false) {
   }
 }
 
-type BuyingOption = 'none' | '1' | 'max' | 'any';
+type BuyingOption = '1' | 'any' | 'max' | 'none';
 
 export function toggleBuy(type: BuyingOption = 'none') {
   const input = getId('buyAnyInput') as HTMLInputElement;
@@ -1972,7 +1972,7 @@ function stageResetReward(stageIndex: number) {
   const time = player.time.stage;
 
   stage.resets++;
-  let update: false | 'normal' | 'soft' = 'normal';
+  let update: 'normal' | 'soft' | false = 'normal';
   const resetThese = player.inflation.vacuum ?
     [1, 2, 3, 4, 5] :
     [stageIndex];

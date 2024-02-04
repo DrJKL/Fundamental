@@ -1,8 +1,8 @@
 
-type ConfirmationMode = 'All' | 'Safe' | 'None';
+type ConfirmationMode = 'All' | 'None' | 'Safe';
 
-type BuildingEffect = 'producing' | 'improving' | 'delaying';
-type UpgradeThingy = 'upgrades' | 'researches' | 'researchesExtra' | 'researchesAuto' | 'ASR';
+type BuildingEffect = 'delaying' | 'improving' | 'producing';
+type UpgradeThingy = 'ASR' | 'researches' | 'researchesAuto' | 'researchesExtra' | 'upgrades';
 
 export type overlimit = [number, number];
 
@@ -208,9 +208,9 @@ type SubTabInfo = {
   
 };
 type TabList = {
-  tabs: Tab[];
-} & {
   [K in Tab as `${K}Subtabs`]: Mutable<typeof VALID_SUBTABS[`${K}Subtabs`]> | string[];
+} & {
+  tabs: Tab[];
 };
 
 interface Debug {
