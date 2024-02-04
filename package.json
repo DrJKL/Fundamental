@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/awWhy/Fundamental#readme",
   "scripts": {
-    "lint": "npx eslint Source_TS/*.ts",
+    "lint": "npx eslint --cache Source_TS/*.ts",
     "fix": "pnpm lint --fix",
     "build": "npx esbuild Source_TS/Main.ts --bundle --minify --target=chrome63,firefox57,safari14,edge41,opera50 --outfile=Code.js",
     "watch": "pnpm build --watch",
